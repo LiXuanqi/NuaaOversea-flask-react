@@ -5,7 +5,6 @@ from flask_migrate import Migrate
 
 from config import Config
 
-from app.resources.index import Index
 
 app = Flask(__name__)
 api = Api(app)
@@ -15,6 +14,10 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+from app.resources.index import Index
+from app.resources.application import Applications, Application
+
 api.add_resource(Index, '/')
 
-
+api.add_resource(Applications, '/applications')
+api.add_resource(Application, '/applications/<application_id>')
