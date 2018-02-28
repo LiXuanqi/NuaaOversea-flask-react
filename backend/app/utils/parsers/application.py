@@ -55,8 +55,8 @@ application_post_parser.add_argument(
 )
 
 application_post_parser.add_argument(
-    'user_id',
-    dest='user_id',
+    'applicant_id',
+    dest='applicant_id',
     type=str,
     location='args',
     required=True,

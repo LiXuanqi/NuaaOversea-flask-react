@@ -2,7 +2,7 @@ from app import db
 
 # When you use firstly, you should import your models and use 'db.create_all()' in your python shell.
 
-class User(db.Model):
+class Applicant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, nullable=False)
     student_id = db.Column(db.String(16), unique=True, nullable=False)
@@ -19,9 +19,10 @@ class User(db.Model):
     project = db.Column(db.Text)
     recommendation = db.Column(db.Text)
     applications = db.relationship('Application', backref='applicant', lazy='dynamic')
-
+    email = db.Column(db.String(128), nullable=True)
+    user_id = db.relationship('User', backref='applicant', uselist=False)
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return '<Applicant {}>'.format(self.username)
 
 class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -32,16 +33,15 @@ class Application(db.Model):
     result = db.Column(db.Enum('ad', 'offer', 'rej'))
     apply_time = db.Column(db.DateTime)
     result_time = db.Column(db.DateTime)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'), nullable=False)
 
     def __repr__(self):
         return '<Application #{}>'.format(self.id)
 
-class Account(db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, nullable=False)
-    token = db.Column(db.String(128))
-    created = db.Column(db.DateTime)
-
+    role = db.Column(db.Enum('root', 'admin', 'stuff', 'student'))
+    applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'))
     def __repr__(self):
         return '<Account {}>'.format(self.username)

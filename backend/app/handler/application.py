@@ -17,7 +17,7 @@ def get_all_applications():
     applications = Application.query.all()
     return applications
 
-def create_application(country, university, major, term, result, user_id, apply_time=None, result_time=None):
+def create_application(country, university, major, term, result, applicant_id, apply_time=None, result_time=None):
     # TODO: add the authentication of power.
     # TODO: verify the repeation of datas.
     application = Application(
@@ -26,7 +26,7 @@ def create_application(country, university, major, term, result, user_id, apply_
         major=major,
         term=term,
         result=result,
-        user_id=user_id,
+        applicant_id=applicant_id,
         apply_time=apply_time,
         result_time=result_time
     )
