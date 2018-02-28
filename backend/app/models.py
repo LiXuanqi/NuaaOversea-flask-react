@@ -36,3 +36,12 @@ class Application(db.Model):
 
     def __repr__(self):
         return '<Application #{}>'.format(self.id)
+
+class Account(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), index=True, nullable=False)
+    token = db.Column(db.String(128))
+    created = db.Column(db.DateTime)
+
+    def __repr__(self):
+        return '<Account {}>'.format(self.username)

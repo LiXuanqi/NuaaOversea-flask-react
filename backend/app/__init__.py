@@ -16,8 +16,11 @@ migrate = Migrate(app, db)
 
 from app.resources.index import Index
 from app.resources.application import Applications, Application
+from app.resources.session import Session
 
 api.add_resource(Index, '/')
 
 api.add_resource(Applications, '/applications')
 api.add_resource(Application, '/applications/<application_id>')
+
+api.add_resource(Session, '/session')
