@@ -4,15 +4,12 @@ import styles from './CaseList.css';
 import Frame from '../components/Frame';
 
 import { Input } from 'antd';
-import { Row, Col } from 'antd';
 import CaseCard from '../components/CaseCard';
-
 import { Tag } from 'antd';
-
+import { Card } from 'antd';
+import { Divider } from 'antd';
 const CheckableTag = Tag.CheckableTag;
-
 const tagsFromServer = ['Movies', 'Books', 'Music', 'Sports'];
-
 const Search = Input.Search;
 
 class CaseList extends React.Component {
@@ -34,10 +31,13 @@ class CaseList extends React.Component {
         const { selectedTags } = this.state;
         return (
             <Frame>
-                <Row>
-                    <Col span={4}></Col>
-                    <Col span={16}>                
+                <div className={styles.container}>
+                    <div className={styles.empty}/>
+                    <div className={styles.contentContainer}>
                         <div style={{ backgroundColor: '#fff' }}>
+                            <div>
+                                <img src="../../public/pic-1.jpg" alt="pic-1" width="100%" height="368px"/>
+                            </div>
                             <div className={styles.filterContainer}>
                                 <Search
                                     placeholder="input search text"
@@ -58,7 +58,9 @@ class CaseList extends React.Component {
                                     ))}
                                 
                                 </div>
+                                <Divider />
                             </div>
+                            
                             <div className={styles.cardListContainer}>
                                 <CaseCard
                                     major="Computer Science"
@@ -87,9 +89,20 @@ class CaseList extends React.Component {
 
                             </div>   
                         </div>
-                    </Col>
-                    <Col span={4}></Col>
-                </Row>
+                    </div>
+                    <div className={styles.sidebarContainer}>
+                        <Card title="信息栏" bordered={false} style={{ width: '100%' }}>
+                            <p>最近申请季, 祝拿到心仪Offer的同学能在海外得到想要的生活, 也祝没能拿到心仪Offer的同学不用灰心. 祝大家 天宽地广, 大有前程</p>
+                        </Card>
+                        <Card title="推广" bordered={false} style={{ width: '100%' }}>
+                            <p>最近申请季, 祝拿到心仪Offer的同学能在海外得到想要的生活, 也祝没能拿到心仪Offer的同学不用灰心. 祝大家 天宽地广, 大有前程</p>
+                        </Card>
+                    </div>
+
+                    <div className={styles.empty}/>
+                    
+                </div>
+                        
             </Frame>
         );
     }

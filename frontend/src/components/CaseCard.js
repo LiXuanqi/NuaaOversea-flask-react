@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './CaseCard.css';
 import { Tag } from 'antd';
+import { Divider } from 'antd';
 
 const CaseCard = ({major, degree, year, GPA, TOEFL, GRE}) => {
     return (
@@ -25,7 +26,7 @@ const CaseCard = ({major, degree, year, GPA, TOEFL, GRE}) => {
                     <span className={styles.mark}>{GRE}</span>
                 </div>       
             </div>
-
+            <Divider />
         </div>
     );
 };

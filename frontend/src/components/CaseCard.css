@@ -1,7 +1,7 @@
 .cardContainer{
     width: 100%;
     margin-top: 16px;
-    border-bottom: 1px solid #e4e4e4;
+    /* border-bottom: 1px solid #e4e4e4; */
 }
 .title{
     font-size: 18px;
