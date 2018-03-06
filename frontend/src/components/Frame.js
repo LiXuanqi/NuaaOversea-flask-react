@@ -2,10 +2,10 @@ import React from 'react';
 import styles from './Frame.css';
 import { Layout } from 'antd';
 import { Button } from 'antd';
-import Cover from './Cover';
+// import Cover from './Cover';
 import { Input } from 'antd';
 const Search = Input.Search;
-const { Header, Content, Footer } = Layout;
+const { Content, Footer } = Layout;
 
 class Frame extends React.Component {
     render() {

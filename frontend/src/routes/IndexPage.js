@@ -4,14 +4,8 @@ import styles from './IndexPage.css';
 
 import Frame from '../components/Frame';
 
-import { Layout } from 'antd';
-
-import Cover from '../components/Cover';
-
 import { Card, Col, Row } from 'antd';
 const { Meta } = Card;
-
-const { Header, Content, Footer } = Layout;
 
 function IndexPage() {
     return (
