@@ -1,0 +1,14 @@
+.filterContainer{
+    padding-top: 24px;
+    margin: 0 20px;
+    border-bottom: 1px solid rgb(228, 228, 228);
+}
+
+.tagFilterContainer{
+    padding-top: 16px;
+    margin-bottom: 16px;
+}
+
+.cardListContainer{
+    margin: 0 20px;
+}
