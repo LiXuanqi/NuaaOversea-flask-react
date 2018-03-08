@@ -1,11 +1,10 @@
 import React from 'react';
-import { Form, Input, Tooltip, Icon, Cascader, Select, Checkbox, Button, AutoComplete, Radio, InputNumber, DatePicker } from 'antd';
+import { Form, Input, Cascader, Checkbox, Button, Radio, InputNumber, DatePicker } from 'antd';
 
 const FormItem = Form.Item;
-const Option = Select.Option;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
-const AutoCompleteOption = AutoComplete.Option;
+
 const { TextArea } = Input;
 // TODO: 收集学校的所有专业名
 const majors = [{
@@ -70,8 +69,6 @@ class CaseReportForm extends React.Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
-
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -94,18 +91,6 @@ class CaseReportForm extends React.Component {
         },
       },
     };
-    const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '86',
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    );
-
-    const websiteOptions = autoCompleteResult.map(website => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    ));
 
     return (
       <Form onSubmit={this.handleSubmit}>
