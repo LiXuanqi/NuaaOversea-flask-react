@@ -3,9 +3,9 @@ import { connect } from 'dva';
 import styles from './UserReport.css';
 
 import Frame from '../components/Frame';
-import WrappedCaseReportForm from '../components/CaseReportForm';
+import WrappedUserReportForm from '../components/UserReportForm';
 
-class CaseReport extends React.Component {
+class UserReport extends React.Component {
     
     
     render() {
@@ -14,7 +14,7 @@ class CaseReport extends React.Component {
                 <div className={styles.container}>
                     <div className={styles.empty}/>
                     <div className={styles.contentContainer}> 
-                    <WrappedCaseReportForm />
+                    <WrappedUserReportForm />
                     </div>        
                     <div className={styles.sidebarContainer}>
                     </div>
@@ -25,7 +25,7 @@ class CaseReport extends React.Component {
     }
 }
 
-CaseReport.propTypes = {
+UserReport.propTypes = {
 };
 
-export default connect()(CaseReport);
+export default connect()(UserReport);
