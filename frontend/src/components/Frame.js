@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Frame.css';
 import { Layout } from 'antd';
 import { Button } from 'antd';
-// import Cover from './Cover';
+import Cover from './Cover';
 import { Input } from 'antd';
 const Search = Input.Search;
 const { Content, Footer } = Layout;
@@ -31,7 +31,7 @@ class Frame extends React.Component {
                         <Button size="large" type="primary" >Login</Button>
                     </div>
                 </div>
-                {/* <Cover /> */}
+                <Cover />
                 <Content className={styles.content}>
                     <div style={{ minHeight: 1280 }}>
                         { this.props.children }

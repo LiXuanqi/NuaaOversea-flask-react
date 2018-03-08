@@ -1,0 +1,19 @@
+.container{
+    display: flex;
+}
+.empty{
+    width:10%;
+}
+.contentContainer{
+    width: 60%;
+    background-color: #fff; 
+    margin-top: 48px;
+    padding-top: 32px;
+    padding-right: 48px;
+}
+.sidebarContainer{
+    width: 20%;
+    min-height: 1280px;
+    margin-left: 32px;
+    background-color: #fff;
+}
