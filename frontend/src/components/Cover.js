@@ -8,12 +8,14 @@ const Cover = () => {
                 <div className={styles.coverPicMask}/>
                 <div className={styles.textLayer}>
                     <div className={styles.maskContent}>
+                        <div className={styles.empty} />
                         <div className={styles.contentText}>
                             <span className={styles.title}>Unsplash</span>
                             <span className={styles.intro1}>Beautiful, free photos.</span>
                             <span className={styles.intro2}>Gifted by the world’s most generous community of photographers.</span>
                             <div className={styles.searchContainer}></div>
                         </div>
+                        <div className={styles.empty} />
                     </div>         
                     
                 </div>

@@ -22,6 +22,10 @@ application_single_fields = {
     'major': fields.String,
     'term': fields.String,
     'result': fields.String,
+    'apply_time': fields.DateTime,
+    'result_time': fields.DateTime,
+    'name': fields.String(attribute='applicant.name'),
+    # TODO: format the remaining data of applicant to user.
 }
 
 applications_fields = {
@@ -37,4 +41,6 @@ application_detail_fields = {
     'major': fields.String,
     'term': fields.String,
     'result': fields.String,
+    'apply_time': fields.DateTime,
+    'result_time': fields.DateTime,
 }

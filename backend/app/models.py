@@ -34,7 +34,6 @@ class Application(db.Model):
     apply_time = db.Column(db.DateTime)
     result_time = db.Column(db.DateTime)
     applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'), nullable=False)
-
     def __repr__(self):
         return '<Application #{}>'.format(self.id)
 

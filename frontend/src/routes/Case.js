@@ -6,9 +6,7 @@ import Frame from '../components/Frame';
 import CaseCard from '../components/CaseCard';
 import { Divider } from 'antd';
 import ResultCard from '../components/ResultCard';
-class Case extends React.Component {
-    
-    
+class Case extends React.Component {   
     render() {
         return (
             <Frame>
