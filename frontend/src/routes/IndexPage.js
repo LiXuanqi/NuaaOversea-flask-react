@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'dva';
-import styles from './IndexPage.css';
 
 import Frame from '../components/Frame';
 
@@ -10,8 +9,7 @@ const { Meta } = Card;
 
 function IndexPage() {
     return (
-        <Frame cover={true}> 
-             
+        <Frame cover={true}>        
             <div style={{ padding: 24, minHeight: 1280 }}>
                 {/* <span className={styles.bbsName}>论坛</span> */}
                 <Row gutter={16} type="flex" justify="space-around">

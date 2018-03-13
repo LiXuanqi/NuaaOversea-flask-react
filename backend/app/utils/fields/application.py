@@ -21,10 +21,19 @@ application_single_fields = {
     'university': fields.String,
     'major': fields.String,
     'term': fields.String,
+    'degree': fields.String,
     'result': fields.String,
     'apply_time': fields.DateTime,
     'result_time': fields.DateTime,
-    'name': fields.String(attribute='applicant.name'),
+    'gpa': fields.Integer(attribute='applicant.gpa'),
+    'language_type': fields.String(attribute='applicant.language_type'),
+    'language_reading': fields.Integer(attribute='applicant.language_reading'),
+    'language_listening': fields.Integer(attribute='applicant.language_listening'),
+    'language_speaking': fields.Integer(attribute='applicant.language_speaking'),
+    'language_writing': fields.Integer(attribute='applicant.language_writing'),
+    'gre_verbal': fields.Integer(attribute='applicant.gre_verbal'),
+    'gre_quantitative': fields.Integer(attribute='applicant.gre_quantitative'),
+    'gre_writing': fields.Float(attribute='applicant.gre_writing'),
     # TODO: format the remaining data of applicant to user.
 }
 

@@ -17,7 +17,6 @@ export default {
         // get all posts.
         *fetchAllCasesList(action, { call, put }) {
             const data = yield call(casesService.fetch);
-            console.log(data);
             yield put({
                 type: 'save',
                 payload: {
