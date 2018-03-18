@@ -1,8 +1,13 @@
 import dva from 'dva';
 import './index.css';
-
+import createHistory from 'history/createBrowserHistory';
 // 1. Initialize
-const app = dva();
+const app = dva({
+    history: createHistory()
+    // It's a workaround way.
+    // It should be 'history: browserHistory'(import from dva/router)
+    // but the bug is not fixed in the dva^2.1.0
+});
 
 // 2. Plugins
 // app.use({});

@@ -10,7 +10,25 @@
 
 """
 
+
 from flask_restful import reqparse
+# -------- applications get parser --------
+applications_get_parser = reqparse.RequestParser()
+
+applications_get_parser.add_argument(
+    'applicant_id',
+    dest='applicant_id',
+    type=str,
+    location='args',
+    required=False,
+)
+applications_get_parser.add_argument(
+    'university',
+    dest='university',
+    type=str,
+    location='args',
+    required=False,
+)
 # -------- application add parser --------
 application_post_parser = reqparse.RequestParser()
 

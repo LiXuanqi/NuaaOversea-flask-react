@@ -5,10 +5,41 @@ import { Button } from 'antd';
 import Cover from './Cover';
 import { Input } from 'antd';
 import { Link } from 'react-router-dom'
+import request from '../utils/request';
+import axios from 'axios';
+
 const Search = Input.Search;
 const { Content, Footer } = Layout;
 
 class Frame extends React.Component {
+
+    handleLogin(){
+        // const res = request('/api/session');
+        // console.log(res);
+        axios.get('/api/session')
+            .then((response) => {
+                // console.log(response);
+                const res = response.data;
+                // console.log(res);
+                if (res.href){
+                    // redirect to sso-v2 to get code.
+                    // const data = request(res.href);
+                    // console.log(data);
+                    // TODO: location to href.
+                    window.location.href = res.href;
+                } else {
+                    // TODO: store the information to redux.
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        // 'Current' api (judge 'user' session)
+        // if no user 
+        // firstly redirect to 'sso-v2/oauth/<appId>' to get code
+        // and then getSsoOauthInfo with code to get access_token.
+    };
     render() {
         return (
             <Layout>
@@ -33,9 +64,7 @@ class Frame extends React.Component {
                         <Link to="/case_report">
                             <Button size="large" type="primary" ghost>Submit a Case</Button>
                         </Link>
-                        <Link to="/login">
-                            <Button size="large" type="primary" >Login</Button>
-                        </Link>
+                            <Button size="large" type="primary" onClick={this.handleLogin}>Login</Button>
                     </div>
                 </div>
                 {this.props.cover === true ? <Cover />: null}
