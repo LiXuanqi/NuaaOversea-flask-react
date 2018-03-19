@@ -10,7 +10,9 @@
     "antd": "^3.2.2",
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.6.5",
+    "babel-polyfill": "^6.26.0",
     "dva": "^2.1.0",
+    "dva-loading": "^1.0.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   },

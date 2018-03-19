@@ -68,111 +68,105 @@ class CaseList extends React.Component {
     render() {
         const { selectedTags } = this.state;
         return (
-            <Frame>
-                <div className={styles.container}>
-                    <div className={styles.empty}/>
-                    <div className={styles.contentContainer}>
-                        <div style={{ backgroundColor: '#fff' }}>
-                            <div>
-                                <img src="../../public/pic-1.jpg" alt="pic-1" width="100%" height="368px"/>
-                            </div>
-                            <div className={styles.filterContainer}>
-                                <Search
-                                    placeholder="input search text"
-                                    onSearch={value => console.log(value)}
-                                    style={{ width: '100%' }}
-                                />
-                                <div className={styles.tagFilterContainer}>
-                                
-                                    <h6 style={{ marginRight: 8, display: 'inline' }}>特色筛选:</h6>
-
-                                    {tagsFromServer.map(tag => (
-                                    <CheckableTag
-                                        key={tag}
-                                        checked={selectedTags.indexOf(tag) > -1}
-                                        onChange={checked => this.handleChange(tag, checked)}
-                                    >
-                                        {tag}
-                                    </CheckableTag>
-                                    ))}
-
-                                    <Select
-                                        showSearch
-                                        style={{ width: 200 }}
-                                        placeholder="选择专业"
-                                        optionFilterProp="children"
-                                        onChange={handleChange}
-                                        onFocus={handleFocus}
-                                        onBlur={handleBlur}
-                                        filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                                    >
-                                        <Option value="cs">CS</Option>
-                                        <Option value="mis">MIS</Option>
-                                        <Option value="ba">BA</Option>
-                                    </Select>
-
-                                    <Select
-                                        showSearch
-                                        style={{ width: 200 }}
-                                        placeholder="选择学期"
-                                        optionFilterProp="children"
-                                        onChange={handleChange}
-                                        onFocus={handleFocus}
-                                        onBlur={handleBlur}
-                                        filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                                    >
-                                        <Option value="2018fall">2018FALL</Option>
-                                        <Option value="2017fall">2017FALL</Option>
-                                        <Option value="2017spring">2017SPRING</Option>
-                                    </Select>
-                                
-                                </div>
-                                <Divider />
-                            </div>
-                            
-                            <div className={styles.cardListContainer}>
-                                
-                                {
-                                    this.props.cases_list.map((item, index)=>{
-                                        console.log(item);
-                                        return this.renderCaseCard(
-                                            index,
-                                            item.id,
-                                            item.university,
-                                            item.result,
-                                            item.major,
-                                            item.term,
-                                            item.degree,
-                                            item.gpa,
-                                            item.language_type,
-                                            item.language_reading,
-                                            item.language_listening,
-                                            item.language_speaking,
-                                            item.language_writing,
-                                            item.gre_verbal,
-                                            item.gre_quantitative,
-                                            item.gre_writing
-                                        );
-                                    })
-                                }
-                              
-                            </div>   
+            <div className={styles.container}>
+                <div className={styles.contentContainer}>
+                    <div style={{ backgroundColor: '#fff' }}>
+                        <div>
+                            <img src="../../public/pic-1.jpg" alt="pic-1" width="100%" height="368px"/>
                         </div>
-                    </div>
-                    <div className={styles.sidebarContainer}>
-                        <Card title="信息栏" bordered={false} style={{ width: '100%' }}>
-                            <p>最近申请季, 祝拿到心仪Offer的同学能在海外得到想要的生活, 也祝没能拿到心仪Offer的同学不用灰心. 祝大家 天宽地广, 大有前程</p>
-                        </Card>
-                        <Card title="推广" bordered={false} style={{ width: '100%' }}>
-                            <p>最近申请季, 祝拿到心仪Offer的同学能在海外得到想要的生活, 也祝没能拿到心仪Offer的同学不用灰心. 祝大家 天宽地广, 大有前程</p>
-                        </Card>
-                    </div>
+                        <div className={styles.filterContainer}>
+                            <Search
+                                placeholder="input search text"
+                                onSearch={value => console.log(value)}
+                                style={{ width: '100%' }}
+                            />
+                            <div className={styles.tagFilterContainer}>
+                            
+                                <h6 style={{ marginRight: 8, display: 'inline' }}>特色筛选:</h6>
 
-                    <div className={styles.empty}/>
-                    
-                </div>
+                                {tagsFromServer.map(tag => (
+                                <CheckableTag
+                                    key={tag}
+                                    checked={selectedTags.indexOf(tag) > -1}
+                                    onChange={checked => this.handleChange(tag, checked)}
+                                >
+                                    {tag}
+                                </CheckableTag>
+                                ))}
+
+                                <Select
+                                    showSearch
+                                    style={{ width: 200 }}
+                                    placeholder="选择专业"
+                                    optionFilterProp="children"
+                                    onChange={handleChange}
+                                    onFocus={handleFocus}
+                                    onBlur={handleBlur}
+                                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                                >
+                                    <Option value="cs">CS</Option>
+                                    <Option value="mis">MIS</Option>
+                                    <Option value="ba">BA</Option>
+                                </Select>
+
+                                <Select
+                                    showSearch
+                                    style={{ width: 200 }}
+                                    placeholder="选择学期"
+                                    optionFilterProp="children"
+                                    onChange={handleChange}
+                                    onFocus={handleFocus}
+                                    onBlur={handleBlur}
+                                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                                >
+                                    <Option value="2018fall">2018FALL</Option>
+                                    <Option value="2017fall">2017FALL</Option>
+                                    <Option value="2017spring">2017SPRING</Option>
+                                </Select>
+                            
+                            </div>
+                            <Divider />
+                        </div>
                         
-            </Frame>
+                        <div className={styles.cardListContainer}>
+                            
+                            {
+                                this.props.cases_list.map((item, index)=>{
+                                    console.log(item);
+                                    return this.renderCaseCard(
+                                        index,
+                                        item.id,
+                                        item.university,
+                                        item.result,
+                                        item.major,
+                                        item.term,
+                                        item.degree,
+                                        item.gpa,
+                                        item.language_type,
+                                        item.language_reading,
+                                        item.language_listening,
+                                        item.language_speaking,
+                                        item.language_writing,
+                                        item.gre_verbal,
+                                        item.gre_quantitative,
+                                        item.gre_writing
+                                    );
+                                })
+                            }
+                            
+                        </div>   
+                    </div>
+                </div>
+                <div className={styles.sidebarContainer}>
+                    <Card title="信息栏" bordered={false} style={{ width: '100%' }}>
+                        <p>最近申请季, 祝拿到心仪Offer的同学能在海外得到想要的生活, 也祝没能拿到心仪Offer的同学不用灰心. 祝大家 天宽地广, 大有前程</p>
+                    </Card>
+                    <Card title="推广" bordered={false} style={{ width: '100%' }}>
+                        <p>最近申请季, 祝拿到心仪Offer的同学能在海外得到想要的生活, 也祝没能拿到心仪Offer的同学不用灰心. 祝大家 天宽地广, 大有前程</p>
+                    </Card>
+                </div>
+               
+            </div>
         );
     }
 }

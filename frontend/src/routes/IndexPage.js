@@ -1,15 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
-
-import Frame from '../components/Frame';
-
 import { Card, Col, Row } from 'antd';
 import { Link } from 'react-router-dom'
 const { Meta } = Card;
 
-function IndexPage() {
-    return (
-        <Frame cover={true}>        
+class IndexPage extends React.Component {   
+    render() {
+        return (
+
             <div style={{ padding: 24, minHeight: 1280 }}>
                 {/* <span className={styles.bbsName}>论坛</span> */}
                 <Row gutter={16} type="flex" justify="space-around">
@@ -49,11 +47,10 @@ function IndexPage() {
                         </Card>
                     </Col>
                 </Row>
-
             </div>
 
-        </Frame>
-    );
+        );
+    }
 }
 
 IndexPage.propTypes = {

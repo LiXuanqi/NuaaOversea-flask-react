@@ -1,12 +1,18 @@
 import dva from 'dva';
 import './index.css';
 import createHistory from 'history/createBrowserHistory';
+import { message } from 'antd';
+import "babel-polyfill";
+
 // 1. Initialize
 const app = dva({
-    history: createHistory()
+    history: createHistory(),
     // It's a workaround way.
     // It should be 'history: browserHistory'(import from dva/router)
     // but the bug is not fixed in the dva^2.1.0
+    onError (error) {
+        message.error(error.message)
+    },
 });
 
 // 2. Plugins
@@ -14,7 +20,8 @@ const app = dva({
 
 // 3. Model
 // app.model(require('./models/example').default);
-app.model(require('./models/cases').default);
+// app.model(require('./models/cases').default);
+// TODO: app model.
 // 4. Router
 app.router(require('./router').default);
 
