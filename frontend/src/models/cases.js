@@ -15,7 +15,7 @@ export default {
                 cases_list: newData.data.applications,
             }
         },
-        saveRelatedCasesList(state, { payload: { data: newData } }) {
+        saveRelatedCasesList(state, { payload: { relatedData: newData } }) {
             // console.log(newData.data.posts_list[0].body);
             return { ...state,
                 related_cases_list: newData.data.applications,
@@ -48,14 +48,27 @@ export default {
             });
         },
         *fetchOneCase({ payload: response }, { call, put }){
-            const data = yield call(casesService.fetch, '/api/applications/'+response.caseId);
-            console.log(data);
+            // FIXME: this is a workaround, it would be better if I can split it into 2 methods.
+            const data = yield call(casesService.fetch, '/api/applications/'+response.caseId);            
+
+            const applicant_id = data.data.applicant_id;
+            console.log(applicant_id);
+            const relatedData = yield call(casesService.fetch, '/api/applications?applicant_id='+applicant_id);
+
             yield put({
                 type: 'saveOneCase',
                 payload: {
                     data,
                 },
             });
+
+            yield put({
+                type: 'saveRelatedCasesList',
+                payload: {
+                    relatedData,
+                },
+            });
+
         },
     },
     subscriptions: {

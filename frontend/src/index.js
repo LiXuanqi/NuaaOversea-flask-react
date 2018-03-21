@@ -2,7 +2,6 @@ import dva from 'dva';
 import './index.css';
 import createHistory from 'history/createBrowserHistory';
 import { message } from 'antd';
-import "babel-polyfill";
 
 // 1. Initialize
 const app = dva({
@@ -20,7 +19,7 @@ const app = dva({
 
 // 3. Model
 // app.model(require('./models/example').default);
-// app.model(require('./models/cases').default);
+app.model(require('./models/app').default);
 // TODO: app model.
 // 4. Router
 app.router(require('./router').default);

@@ -12,11 +12,31 @@
 
 from flask_restful import reqparse
 
-login_parser = reqparse.RequestParser()
+# post
+login_post_parser = reqparse.RequestParser()
 
-login_parser.add_argument(
+login_post_parser.add_argument(
+    'redirect_uri',
+    dest='redirect_uri',
+    required=False,
+    help='This is code to get access_token',
+)
+
+# get
+login_get_parser = reqparse.RequestParser()
+
+login_get_parser.add_argument(
     'code',
     dest='code',
+    type=str,
+    location='args',
+    required=False,
+    help='This is code to get access_token',
+)
+
+login_get_parser.add_argument(
+    'redirect_uri',
+    dest='redirect_uri',
     type=str,
     location='args',
     required=False,

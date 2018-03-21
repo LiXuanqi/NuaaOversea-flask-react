@@ -8,6 +8,7 @@ class Case extends React.Component {
     renderResultCard(key, university, major, result){
         return (
             <ResultCard
+                key={key}
                 university={university}
                 major={major}
                 result={result}

@@ -46,6 +46,7 @@ class CaseList extends React.Component {
     renderCaseCard(key, id, university, result, major, term, degree, gpa, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing){
         return(
             <CaseCard
+                key={key}
                 id={id}
                 result={result}
                 university={university}

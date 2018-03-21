@@ -5,7 +5,6 @@ import { Button } from 'antd';
 import Cover from './Cover';
 import { Input } from 'antd';
 import { Link } from 'react-router-dom'
-import request from '../utils/request';
 import axios from 'axios';
 
 const Search = Input.Search;

@@ -10,69 +10,45 @@
 
 """
 
-from flask_restful import Resource, marshal_with
-from flask import session, redirect
+from flask_restful import Resource
+from flask import session
 
 import requests
 
-from app.utils.parsers.session import login_parser
+from app.utils.parsers.session import login_post_parser, login_get_parser
 
 class Session(Resource):
+    def post(self):
+        # get code from 'sso-v2'
+        args = login_post_parser.parse_args()
+        redirect_uri = args['redirect_uri']
+        return {'href': '/sso-v2/oauth/12345678?redirect_uri=' + redirect_uri}
+
+
     def get(self):
-        login_args = login_parser.parse_args()
-        code = login_args['code']
+        # code => session
+        args = login_get_parser.parse_args()
+        code = args['code']
+        redirect_uri = args['redirect_uri']
 
-        if code is not None:
-            print(code)
-            response = requests.post('http://127.0.0.1/sso-v2/api/', data={
-                'service': 'App.Oauth.GetAccessToken',
-                'appid': '12345678',
-                'appsecret': '12345678',
-                'code': code
-            })
-            response_data = response.json()['data']
-            access_token = response_data['access_token']
-            expires_in = response_data['expires_in']
-            session['access_token'] = access_token
-            session['expires_in'] = expires_in
-            return {
-                'access_token': access_token,
-                'expires_in': expires_in
-            }
-        if 'user_info' in session:
-            # TODO: get the info from session.
-            return "User Information. "
-        else:
-            return {'href': '/sso-v2/oauth/12345678?redirect_uri=/api/session'}
-            # href: /sso-v2/oauth/12345678?redirect_uri=/office-v2/login
+        response = requests.post('http://127.0.0.1/sso-v2/api/', data={
+            'service': 'App.Oauth.GetAccessToken',
+            'appid': '12345678',
+            'appsecret': '12345678',
+            'code': code
+        })
+        response_data = response.json()['data']
+        access_token = response_data['access_token']
+        expires_in = response_data['expires_in']
+        session['access_token'] = access_token
+        session['expires_in'] = expires_in
 
-            # User
-            # response = requests.post('http://127.0.0.1/sso-v2/api/', data={
-            #     'service': 'App.User.Login',
-            #     'type': 'nuaa',
-            #     'username': '041500914',
-            #     'password': 'St241319'
-            # })
-            # print(response.json())
-            #
-            # response = requests.post('http://127.0.0.1/sso-v2/api/', data={
-            #     'service': 'App.Oauth.Authorize',
-            #     'appid': '12345678'
-            # })
-            # print(response.json())
-        # response = requests.post('http://127.0.0.1/sso-v2/api/', data={
-        #     'service': 'App.Oauth.GetAccessToken',
-        #     'appid': '12345678',
-        #     'appsecret': '12345678',
-        #     'code': code
-        # })
-        # response_data = response.json()['data']
-        # access_token = response_data['access_token']
-        # expires_in = response_data['expires_in']
-        session['access_token'] = '123'
-        # session['expires_in'] = expires_in
-        # TODO: control the expire time of session.
-        # TODO: should return the matched user info.
+        return {
+            'success': 'true',
+            'href': redirect_uri,
+            'access_token': access_token,
+            'expires_in': expires_in
+        }
 
     def delete(self):
         if 'access_token' in session:
