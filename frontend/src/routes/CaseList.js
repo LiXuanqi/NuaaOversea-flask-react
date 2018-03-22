@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './CaseList.css';
-import Frame from '../components/Frame';
+
 
 import { Input } from 'antd';
 import CaseCard from '../components/CaseCard';

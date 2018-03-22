@@ -1,4 +1,3 @@
-import * as casesService from '../services/cases';
 import pathToRegexp from 'path-to-regexp';
 import request from '../utils/request';
 export default {

@@ -7,7 +7,6 @@ import Cover from '../components/Cover';
 import { Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
-import axios from 'axios';
 
 import fetch from 'dva/fetch';
 
@@ -18,25 +17,6 @@ const { Content, Footer } = Layout;
 const App = ({ children, history }) => {
 
     const handleLogin = () => {
-        // const res = request('/api/session');
-
-        // axios.post('/api/session', {
-        //     redirect_uri: history.location.pathname
-        // })
-        // .then(function (response) {
-        //     const res = response.data;
-        //     console.log(res);
-        //     if (res.href){
-        //         // redirect to sso-v2 to get code.
-        //         window.location.href = res.href;
-        //     } else {
-        //         // TODO: store the information to redux.
-        //     }
-        // })
-        // .catch(function (error) {
-        //     console.log(error);
-        // });
-
         fetch('/api/session', {
             method: 'POST',
             headers: {
@@ -60,11 +40,20 @@ const App = ({ children, history }) => {
           }).catch(function(ex) {
             console.log('parsing failed', ex)
           })
-          
-        // 'Current' api (judge 'user' session)
-        // if no user 
-        // firstly redirect to 'sso-v2/oauth/<appId>' to get code
-        // and then getSsoOauthInfo with code to get access_token.
+    };
+
+    const handleLogout = () => {
+        fetch('/api/session', {
+            method: 'DELETE',
+            credentials: 'include'
+        })
+        .then(function(response) {
+        return response.json()
+        }).then(function(json) {
+        console.log('parsed json', json)
+        }).catch(function(ex) {
+        console.log('parsing failed', ex)
+        })
     };
 
     return(
@@ -91,6 +80,7 @@ const App = ({ children, history }) => {
                         <Button size="large" type="primary" ghost>Submit a Case</Button>
                     </Link>
                         <Button size="large" type="primary" onClick={handleLogin}>Login</Button>
+                        <Button size="large" type="primary" onClick={handleLogout}>Logout</Button>
                 </div>
             </div>
             { history.location.pathname === '/' ? <Cover />: null}
