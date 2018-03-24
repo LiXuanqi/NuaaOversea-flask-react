@@ -10,7 +10,7 @@
 
 """
 
-from flask_restful import Resource, request, marshal_with
+from flask_restful import Resource, marshal_with
 
 from app.handler.application import get_all_applications, create_application, get_applications_by_applicantid, get_applications_by_university
 from app.handler.application import get_application_by_id, update_application, rm_application
