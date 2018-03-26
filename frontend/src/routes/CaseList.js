@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './CaseList.css';
 
+import UserInfoCard from '../components/UserInfoCard';
 
 import { Input } from 'antd';
 import CaseCard from '../components/CaseCard';
@@ -81,10 +82,8 @@ class CaseList extends React.Component {
                                 onSearch={value => console.log(value)}
                                 style={{ width: '100%' }}
                             />
-                            <div className={styles.tagFilterContainer}>
-                            
+                            <div className={styles.tagFilterContainer}>         
                                 <h6 style={{ marginRight: 8, display: 'inline' }}>特色筛选:</h6>
-
                                 {tagsFromServer.map(tag => (
                                 <CheckableTag
                                     key={tag}
@@ -159,12 +158,10 @@ class CaseList extends React.Component {
                     </div>
                 </div>
                 <div className={styles.sidebarContainer}>
-                    <Card title="信息栏" bordered={false} style={{ width: '100%' }}>
+                    <UserInfoCard />
+                    {/* <Card title="推广" bordered={false} style={{ width: '100%' }}>
                         <p>最近申请季, 祝拿到心仪Offer的同学能在海外得到想要的生活, 也祝没能拿到心仪Offer的同学不用灰心. 祝大家 天宽地广, 大有前程</p>
-                    </Card>
-                    <Card title="推广" bordered={false} style={{ width: '100%' }}>
-                        <p>最近申请季, 祝拿到心仪Offer的同学能在海外得到想要的生活, 也祝没能拿到心仪Offer的同学不用灰心. 祝大家 天宽地广, 大有前程</p>
-                    </Card>
+                    </Card> */}
                 </div>
                
             </div>

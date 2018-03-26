@@ -14,7 +14,7 @@ import fetch from 'dva/fetch';
 const Search = Input.Search;
 const { Content, Footer } = Layout;
 
-const App = ({ children, history }) => {
+const App = ({ children, history, dispatch, user_info }) => {
 
     const handleLogin = () => {
         fetch('/api/session', {
@@ -43,17 +43,9 @@ const App = ({ children, history }) => {
     };
 
     const handleLogout = () => {
-        fetch('/api/session', {
-            method: 'DELETE',
-            credentials: 'include'
-        })
-        .then(function(response) {
-        return response.json()
-        }).then(function(json) {
-        console.log('parsed json', json)
-        }).catch(function(ex) {
-        console.log('parsing failed', ex)
-        })
+        dispatch({ type: 'app/logoutUser'});
+        // TODO: delete the user_info from redux.
+
     };
 
     return(
@@ -79,8 +71,17 @@ const App = ({ children, history }) => {
                     <Link to="/case_report">
                         <Button size="large" type="primary" ghost>Submit a Case</Button>
                     </Link>
-                        <Button size="large" type="primary" onClick={handleLogin}>Login</Button>
-                        <Button size="large" type="primary" onClick={handleLogout}>Logout</Button>
+                        {/* FIXME: when the user_info is {}, it still be true. */}
+                        {
+                            JSON.stringify(user_info) == "{}" 
+                                ?
+                            <Button size="large" type="primary" onClick={handleLogin}>Login</Button> 
+                                : 
+                            <div>
+                                <span>{user_info.username}</span>
+                                <Button size="large" type="primary" onClick={handleLogout}>Logout</Button> 
+                            </div>
+                        }
                 </div>
             </div>
             { history.location.pathname === '/' ? <Cover />: null}
@@ -100,4 +101,10 @@ const App = ({ children, history }) => {
     );
 }
 
-export default withRouter(connect()(App));
+function mapStateToProps(state) {
+    return {
+        user_info : state.app.user_info,
+    };
+}
+
+export default withRouter(connect(mapStateToProps)(App));

@@ -45,6 +45,7 @@ const RouterConfig = function ({ history, app }) {
                         />
                         ))
                     }
+                    {/* FIXME: if location to '/case/:id' directly, all components will not be rendered. */}
                     <Route path='/case/:id' exact component={Case}/>
                     {/* <Route component={error} /> */}
                 </Switch>

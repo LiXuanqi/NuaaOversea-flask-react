@@ -54,4 +54,4 @@ class Session(Resource):
         if 'access_token' in session:
             session.pop('access_token')
             session.pop('expires_in')
-            return "Success: logout."
+            return {'success': 'true'}

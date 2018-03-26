@@ -6,7 +6,6 @@ export default {
         user_info: {},
     },
     reducers: {
-
         saveUserInfo(state, { payload: {response}}){
             console.log(response.data);
             if (response.data.success === 'true'){
@@ -15,7 +14,11 @@ export default {
                 }
             }
             return { ...state,
-
+            }
+        },
+        deleteUserInfo(state){
+            return { ...state,
+                user_info: {},
             }
         },
     },
@@ -44,14 +47,32 @@ export default {
             if(response.data.success === 'true'){
                 const redirect_uri = response.data.href;
                 window.location.href = redirect_uri;
+                if (redirect_uri !== '/') {
+                    yield put({
+                        type: 'fetchUserInfo',
+                    });
+                }
+            }
+            // TODO: if redirect_uri is not '/', it should fetchUserInfo.
+        },
+        *logoutUser(action, { call, put }){
+            const response = yield call(request, '/api/session', {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            console.log(response.data);
+            if (response.data.success === 'true') {
+                yield put({
+                    type: 'deleteUserInfo',
+                });
             }
         }
+
 
     },
     subscriptions: {
         setup({ dispatch, history }) {
             return history.listen(({ pathname, search, push })=> {
-    
                 if (pathToRegexp('/').exec(pathname)){
                     dispatch({
                         type: 'fetchUserInfo',
@@ -59,7 +80,7 @@ export default {
                 }     
                 var reg = /(\?code=)([^\s]*)/;
                 if(search.match(reg)){
-                    const code = search.match(reg)[2]
+                    const code = search.match(reg)[2];
                     dispatch({
                         type: 'fetchSession',
                         payload: { code, pathname, push },
