@@ -14,10 +14,10 @@ const UserInfoCard = () => {
                     <span className={styles.username}>1_x7</span>
                     <span className={styles.role}>普通用户</span>
                 </div>
-
             </div>
 
-            <Button>报OFFER</Button>
+            <Button type="primary">报OFFER</Button>
+            <Button type="primary">报三围</Button>
         </div>
     );
 };

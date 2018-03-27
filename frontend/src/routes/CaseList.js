@@ -7,7 +7,6 @@ import UserInfoCard from '../components/UserInfoCard';
 import { Input } from 'antd';
 import CaseCard from '../components/CaseCard';
 import { Tag } from 'antd';
-import { Card } from 'antd';
 import { Divider } from 'antd';
 
 import { Select } from 'antd';
@@ -74,6 +73,9 @@ class CaseList extends React.Component {
                 <div className={styles.contentContainer}>
                     <div style={{ backgroundColor: '#fff' }}>
                         <div>
+                            {/* 
+                                697.5px 303px;
+                            */}
                             <img src="../../public/pic-1.jpg" alt="pic-1" width="100%" height="368px"/>
                         </div>
                         <div className={styles.filterContainer}>

@@ -3,6 +3,8 @@ import { connect } from 'dva';
 import styles from './App.css';
 import { Layout } from 'antd';
 import { Button } from 'antd';
+import { Avatar } from 'antd';
+import { Menu, Dropdown } from 'antd';
 import Cover from '../components/Cover';
 import { Input } from 'antd';
 import { Link } from 'react-router-dom';
@@ -10,11 +12,24 @@ import { withRouter } from 'react-router';
 
 import fetch from 'dva/fetch';
 
-
 const Search = Input.Search;
 const { Content, Footer } = Layout;
 
 const App = ({ children, history, dispatch, user_info }) => {
+
+    const handleUserActionMenuClicked = function ({ key }) {
+        console.log(`Click on item ${key}`);
+        if (key === 'logout') {
+            handleLogout();
+        }
+    };
+    
+    const menu = (
+        <Menu onClick={handleUserActionMenuClicked}>
+          <Menu.Item key="user_info">个人信息</Menu.Item>
+          <Menu.Item key="logout">注销</Menu.Item>
+        </Menu>
+    );
 
     const handleLogin = () => {
         fetch('/api/session', {
@@ -68,20 +83,27 @@ const App = ({ children, history, dispatch, user_info }) => {
                     />
                 </div>
                 <div className={styles.headerRight}>
-                    <Link to="/case_report">
-                        <Button size="large" type="primary" ghost>Submit a Case</Button>
-                    </Link>
+                    <div className={styles.actionContainer}>
+                        <Link to="/case_report">
+                            <Button size="large" type="dashed">报OFFER</Button>
+                        </Link>
+                    </div>
+                    <div className={styles.userInfoContainer}>
                         {/* FIXME: when the user_info is {}, it still be true. */}
                         {
                             JSON.stringify(user_info) == "{}" 
                                 ?
-                            <Button size="large" type="primary" onClick={handleLogin}>Login</Button> 
+                            <Button size="large" type="primary" onClick={handleLogin}>登陆</Button> 
                                 : 
                             <div>
-                                <span>{user_info.username}</span>
-                                <Button size="large" type="primary" onClick={handleLogout}>Logout</Button> 
+                                <Dropdown overlay={menu} placement="bottomCenter">
+                                    <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
+                                </Dropdown>
+                                
+                                {/* <Button size="large" type="primary" onClick={handleLogout}>登出</Button>  */}
                             </div>
                         }
+                    </div>
                 </div>
             </div>
             { history.location.pathname === '/' ? <Cover />: null}

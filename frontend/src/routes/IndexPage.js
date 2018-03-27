@@ -7,15 +7,14 @@ const { Meta } = Card;
 class IndexPage extends React.Component {   
     render() {
         return (
-
-            <div style={{ padding: 24, minHeight: 1280 }}>
+            <div style={{ padding: 24 }}>
                 {/* <span className={styles.bbsName}>论坛</span> */}
                 <Row gutter={16} type="flex" justify="space-around">
                     <Col span={8}>
                         <Link to="/case">
                             <Card
                                 style={{ width: 350 }}
-                                cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
+                                cover={<img alt="example" src="public/card-1.jpg" />}
                             >
                                 <Meta
                                 title="飞跃榜"
@@ -27,7 +26,7 @@ class IndexPage extends React.Component {
                     <Col span={8}>
                         <Card
                             style={{ width: 350 }}
-                            cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
+                            cover={<img alt="example" src="public/card-2.jpg" />}
                         >
                             <Meta
                             title="选校测评"
@@ -38,7 +37,7 @@ class IndexPage extends React.Component {
                     <Col span={8}>
                         <Card
                             style={{ width: 350 }}
-                            cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
+                            cover={<img alt="example" src="public/card-3.jpg" />}
                         >
                             <Meta
                             title="论坛专区"

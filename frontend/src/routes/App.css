@@ -17,7 +17,13 @@
 .headerRight{
     display: flex;
 }
-
+.actionContainer{
+    padding-right: 16px;
+    border-right: 1px solid #EAEAEA;
+}
+.userInfoContainer{
+    padding-left: 16px;
+}
 .brand{
     padding-left: 8px;
 }
@@ -38,8 +44,7 @@
 }
 .body{
     padding: 0 70px;
-    margin-top: 64px;
-    min-height: 1280; 
+    margin-top: 48px;
     width: 100%;
     display: flex;
 }
@@ -50,3 +55,4 @@
 .content{
     width: 80%;
 }
+
