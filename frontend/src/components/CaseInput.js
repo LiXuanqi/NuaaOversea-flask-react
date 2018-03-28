@@ -1,5 +1,6 @@
 import React from 'react';
-import { Input, Select, DatePicker } from 'antd';
+import { Input, Select, Divider } from 'antd';
+
 const Option = Select.Option;
 
 class CaseInput extends React.Component {
@@ -8,13 +9,11 @@ class CaseInput extends React.Component {
 
     const value = this.props.value || {};
     this.state = {
-      university: value.university || 0,
-      country: value.country || 'USA',
-      major: value.major || 'CS',
-      term: value.term || '2018FALL',
+      university: value.university || '',
+      country: value.country || '',
+      major: value.major || '',
+      term: value.term || '',
       result: value.result || 'ad',
-      apply_time: value.apply_time || '',
-      result_time: value.result_time || '',
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -54,18 +53,7 @@ class CaseInput extends React.Component {
     }
     this.triggerChange({ major });
   }
-  handleApplyTimeChange = (apply_time) => {
-    if (!('value' in this.props)) {
-      this.setState({ apply_time });
-    }
-    this.triggerChange({ apply_time });
-  }
-  handleResultTimeChange = (result_time) => {
-    if (!('value' in this.props)) {
-      this.setState({ result_time });
-    }
-    this.triggerChange({ result_time });
-  }
+
   triggerChange = (changedValue) => {
     // Should provide an event to pass value to Form.
     const onChange = this.props.onChange;
@@ -84,21 +72,23 @@ class CaseInput extends React.Component {
           value={state.university}
           onChange={this.handleUniversityChange}
           style={{ width: '65%', marginRight: '3%' }}
+          placeholder="申请学校"
         />
         <Input 
           type="major"
           value={state.major}
           onChange={this.handleMajorChange}
+          placeholder="专业"
         />
         <Input 
           type="term"
           value={state.term}
           onChange={this.handleTermChange}
+          placeholder="入学学期"
         />
         <Select
           value={state.country}
           size={size}
-          style={{ width: '32%' }}
           onChange={this.handleCountryChange}
         >
           <Option value="USA">美国</Option>
@@ -107,15 +97,14 @@ class CaseInput extends React.Component {
         <Select
           value={state.result}
           size={size}
-          style={{ width: '32%' }}
+
           onChange={this.handleResultChange}
         >
           <Option value="ad">ad</Option>
           <Option value="rej">rej</Option>
           <Option value="offer">offer</Option>
         </Select>
-        <DatePicker showTime format="YYYY-MM-DD" value={state.apply_time} onChange={this.handleApplyTimeChange}/>
-        <DatePicker showTime format="YYYY-MM-DD" value={state.result_time} onChange={this.handleResultTimeChange}/>
+        <Divider/>
       </span>
     );
   }

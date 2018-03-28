@@ -44,7 +44,17 @@ class Case extends React.Component {
                     gre_quantitative={case_data.gre_quantitative}
                     gre_writing={case_data.gre_writing}
                 />  
+                <h2>研究经历</h2>
+                <p>发了2篇顶会。</p>
+                <Divider />
+                <h2>实习经历</h2>
+                <p>在BAT实习过3个月。</p>
+                <Divider />
+                <h2>推荐信</h2>
+                <p>一封实验室老师的水推。</p>
+                <Divider />
                 <h2>正文</h2>
+                <p>1st ad,结束失学了，开心。</p>
                 <Divider />
                 <h2>其它录取结果</h2>
                 {/* {this.renderResultCard("CMU", "MS in Marketing", "rej")} */}

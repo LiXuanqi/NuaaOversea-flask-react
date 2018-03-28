@@ -49,10 +49,10 @@
     display: flex;
 }
 .empty{
-    width:10%;
+    width: 12%;
     content: "";
 }
 .content{
-    width: 80%;
+    width: 76%;
 }
 

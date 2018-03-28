@@ -1,10 +1,10 @@
 import React from 'react';
-import { Form, Input, Cascader, Checkbox, Button, Radio, InputNumber } from 'antd';
+import { Form, Input, Cascader, Checkbox, Button, Radio, InputNumber, Rate } from 'antd';
+
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-const { TextArea } = Input;
 // TODO: 收集学校的所有专业名
 const majors = [{
   value: '能源与动力学院',
@@ -67,6 +67,11 @@ class UserReportForm extends React.Component {
     this.setState({ autoCompleteResult });
   }
   render() {
+    const radioStyle = {
+      display: 'block',
+      height: '30px',
+      lineHeight: '30px',
+    };
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: {
@@ -196,20 +201,31 @@ class UserReportForm extends React.Component {
               required: true, message: '请输入你的研究经历!',
             }],
           })(
-
-            <TextArea rows={4} />
+            <RadioGroup>
+              <Radio style={radioStyle} value={'无科研经历'}>无科研经历</Radio>
+              <Radio style={radioStyle} value={'初步的科研经历'}>初步的科研经历</Radio>
+              <Radio style={radioStyle} value={'大学实验室做过较深入的研究'}>大学实验室做过较深入的研究</Radio>
+              <Radio style={radioStyle} value={'1~3个月的海外研究经历'}>1~3个月的海外研究经历</Radio>
+              <Radio style={radioStyle} value={'大于3个月的海外研究'}>大于3个月的海外研究经历</Radio>        
+            </RadioGroup>
           )}
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="项目经历"
+          label="实习经历"
         >
           {getFieldDecorator('project', {
             rules: [{
               required: true, message: '请输入你的项目经历!',
             }],
           })(
-            <TextArea rows={4} />
+            <RadioGroup>
+              <Radio style={radioStyle} value={'无相关实习经历，有个人项目'}>无相关实习经历，有个人项目</Radio>
+              <Radio style={radioStyle} value={'国内小公司实习'}>国内小公司实习</Radio>
+              <Radio style={radioStyle} value={'国内大公司实习'}>国内大公司实习</Radio>
+              <Radio style={radioStyle} value={'BAT实习'}>BAT实习</Radio>
+              <Radio style={radioStyle} value={'外企实习'}>外企实习</Radio>
+            </RadioGroup>
           )}
         </FormItem>
         <FormItem
@@ -221,7 +237,12 @@ class UserReportForm extends React.Component {
               required: true, message: '请输入你的信息!',
             }],
           })(
-            <TextArea rows={4} />
+            <RadioGroup>
+              <Radio style={radioStyle} value={'国内普通推'}>国内普通推</Radio>
+              <Radio style={radioStyle} value={'海外普通推'}>海外普通推</Radio>
+              <Radio style={radioStyle} value={'国内牛推'}>国内牛推</Radio>
+              <Radio style={radioStyle} value={'海外牛推'}>海外牛推</Radio>
+            </RadioGroup>
           )}
         </FormItem>
         <FormItem

@@ -70,7 +70,7 @@ class CaseReportForm extends React.Component {
             return (
             <FormItem
                 {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                label={index === 0 ? 'Passengers' : ''}
+                label={index === 0 ? '案例:' : ''}
                 required={false}
                 key={k}
             >
@@ -80,7 +80,7 @@ class CaseReportForm extends React.Component {
                     type: 'object',
                     required: true,
                     whitespace: true,
-                    message: "Please input passenger's name or delete this field.",
+                    message: "请完善录取结果信息或删除该区域。",
                 }],
                 })(
                 // <Input placeholder="passenger name" style={{ width: '60%', marginRight: 8 }} />
