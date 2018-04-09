@@ -63,10 +63,12 @@ class CaseReportForm extends React.Component {
             sm: { span: 20, offset: 4 },
             },
         };
+
         getFieldDecorator('keys', { initialValue: [] });
         const keys = getFieldValue('keys');
 
         const formItems = keys.map((k, index) => {
+            console.log(k, index);
             return (
             <FormItem
                 {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
@@ -95,8 +97,10 @@ class CaseReportForm extends React.Component {
             );
         });
         return (
-            <Form onSubmit={this.handleSubmit}>
+            <Form >
+
             {formItems}
+
             <FormItem {...formItemLayoutWithOutLabel}>
                 <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
                 <Icon type="plus" /> 添加案例
@@ -110,5 +114,24 @@ class CaseReportForm extends React.Component {
     }
 }
 
-const WrappedCaseReportForm = Form.create()(CaseReportForm);
+const WrappedCaseReportForm = Form.create({
+    onFieldsChange(props, changedFields) {
+      props.onChange(changedFields);
+    },
+    mapPropsToFields(props) {
+      return {
+        cases: Form.createFormField({
+            ...props.cases,
+            value: props.cases.value,
+        }),
+        keys: Form.createFormField({
+            ...props.keys,
+            value: props.keys.value,
+        }),
+      };
+    },
+    onValuesChange(_, values) {
+      console.log(values);
+    },
+  })(CaseReportForm);
 export default WrappedCaseReportForm;

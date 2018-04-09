@@ -4,6 +4,7 @@ import styles from './UserReport.css';
 import { Steps, Icon, Button} from 'antd';
 
 import WrappedCaseReportForm from '../components/CaseReportForm';
+import CustomizedForm from '../components/Test';
 
 const Step = Steps.Step;
 
@@ -14,8 +15,33 @@ class CaseReport extends React.Component {
         super(props);
         this.state = {
           current: 0,
+          fields: {
+            keys: {
+                value: [],
+            },
+            cases: {
+                value: [],
+            },
+          },
         };
     }
+
+    handleFormChange = (changedFields) => {
+        // if (changedFields.keys.name === "keys") {
+        //     const prevKeys = [...this.state.fields.keys];
+        //     const newKeys = prevKeys.concat(changedFields.keys.value);
+        //     this.setState({
+        //         fields: {
+        //             ...this.state.fields,
+        //             keys: newKeys
+        //         }
+        //     });
+        // }
+        this.setState(({ fields }) => ({
+          fields: { ...fields, ...changedFields},
+        }));
+      }
+
     next() {
         const current = this.state.current + 1;
         this.setState({ current });
@@ -27,7 +53,9 @@ class CaseReport extends React.Component {
 
     render() {
         const { current } = this.state;
-       
+
+        const fields = this.state.fields;
+
         return (
                 <div className={styles.container}>
 
@@ -42,14 +70,17 @@ class CaseReport extends React.Component {
                         {
                             current === 0 ? 
                                 <div>
-
+                                    
                                 </div>
                                 : null
                         }
                         {
                             current === 1 ? 
                                 <div>
-                                    <WrappedCaseReportForm/>
+                                    <WrappedCaseReportForm {...fields} keys={this.state.fields.keys} onChange={this.handleFormChange} />
+                                    <pre className="language-bash">
+                                        {JSON.stringify(fields, null, 2)}
+                                    </pre>
                                 </div>
                                 : null
                         }
