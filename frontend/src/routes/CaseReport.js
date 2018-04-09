@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './UserReport.css';
-import { Steps, Icon } from 'antd';
+import { Steps, Icon, Button} from 'antd';
+
 import WrappedCaseReportForm from '../components/CaseReportForm';
 
 const Step = Steps.Step;
-  
+
+
 class CaseReport extends React.Component {
 
     constructor(props) {
@@ -13,19 +15,19 @@ class CaseReport extends React.Component {
         this.state = {
           current: 0,
         };
-      }
-      next() {
+    }
+    next() {
         const current = this.state.current + 1;
         this.setState({ current });
-      }
-      prev() {
+    }
+    prev() {
         const current = this.state.current - 1;
         this.setState({ current });
-      }
-    
+    }
+
     render() {
         const { current } = this.state;
-
+       
         return (
                 <div className={styles.container}>
 
@@ -37,10 +39,46 @@ class CaseReport extends React.Component {
                             <Step status="wait" title="完成" icon={<Icon type="smile-o" />} />
                         </Steps>
                         {/* <div className="steps-content">{steps[this.state.current].content}</div> */}
-                        <div className="steps-content">
-                            <WrappedCaseReportForm/>
+                        {
+                            current === 0 ? 
+                                <div>
+
+                                </div>
+                                : null
+                        }
+                        {
+                            current === 1 ? 
+                                <div>
+                                    <WrappedCaseReportForm/>
+                                </div>
+                                : null
+                        }
+                        {
+                            current === 2 ? 
+                                <div>
+                                    <h1>信息确认</h1>
+                                </div>
+                                : null
+                        }
+                        <div className="steps-action">
+                            {
+                                this.state.current < 2
+                                &&
+                                <Button type="primary" onClick={() => this.next()}>Next</Button>
+                            }
+                            {
+                                this.state.current === 2
+                                &&
+                                <Button type="primary" onClick={() => console.log('Processing complete!')}>Done</Button>
+                            }
+                            {
+                                this.state.current > 0
+                                &&
+                                <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
+                                Previous
+                                </Button>
+                            }
                         </div>
-                        
                       
                     
                     </div>        

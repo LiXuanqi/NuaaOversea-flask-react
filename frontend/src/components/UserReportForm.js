@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Cascader, Checkbox, Button, Radio, InputNumber, Rate } from 'antd';
+import { Form, Input, Cascader, Checkbox, Button, Radio, InputNumber } from 'antd';
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
@@ -42,30 +42,7 @@ class UserReportForm extends React.Component {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   }
-  compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
-    } else {
-      callback();
-    }
-  }
-  validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-    }
-    callback();
-  }
-  handleWebsiteChange = (value) => {
-    let autoCompleteResult;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-    }
-    this.setState({ autoCompleteResult });
-  }
+
   render() {
     const radioStyle = {
       display: 'block',

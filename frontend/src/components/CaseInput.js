@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Select, Divider } from 'antd';
+import { Input, Select } from 'antd';
 
 const Option = Select.Option;
 
@@ -9,11 +9,11 @@ class CaseInput extends React.Component {
     const value = this.props.value || {};
     this.state = {
       university: value.university || '',
-      country: value.country || '',
+      country: value.country ,
       major: value.major || '',
-      term: value.term || '',
-      result: value.result || 'ad',
-      degree: value.degree || '',
+      term: value.term ,
+      result: value.result ,
+      degree: value.degree ,
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -75,13 +75,13 @@ class CaseInput extends React.Component {
     const { size } = this.props;
     const state = this.state;
     return (
-      <span>
+      <div>
         <Input
           type="text"
           value={state.university}
           onChange={this.handleUniversityChange}
           placeholder="申请学校"
-        />
+        />    
         <Input 
           type="text"
           value={state.major}
@@ -92,6 +92,7 @@ class CaseInput extends React.Component {
           value={state.degree}
           size={size}
           onChange={this.handleDegreeChange}
+          placeholder="学位"
         >
           <Option value="master">Master</Option>
           <Option value="phd">PhD</Option>
@@ -101,6 +102,7 @@ class CaseInput extends React.Component {
           value={state.term}
           size={size}
           onChange={this.handleTermChange}
+          placeholder="入学日期"
         >
           <Option value="2018fall">2018FALL</Option>
           <Option value="2018spring">2018SPING</Option>
@@ -109,6 +111,7 @@ class CaseInput extends React.Component {
           value={state.country}
           size={size}
           onChange={this.handleCountryChange}
+          placeholder="国家"
         >
           <Option value="USA">美国</Option>
           <Option value="CHINA">中国</Option>
@@ -116,15 +119,14 @@ class CaseInput extends React.Component {
         <Select
           value={state.result}
           size={size}
-
           onChange={this.handleResultChange}
+          placeholder="录取结果"
         >
           <Option value="ad">ad</Option>
           <Option value="rej">rej</Option>
           <Option value="offer">offer</Option>
         </Select>
-        <Divider/>
-      </span>
+      </div>
     );
   }
 }

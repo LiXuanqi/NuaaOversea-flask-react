@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Button } from 'antd';
+import { Form, Icon, Button, Divider } from 'antd';
 import CaseInput from './CaseInput';
 
 const FormItem = Form.Item;
@@ -83,18 +83,15 @@ class CaseReportForm extends React.Component {
                     message: "请完善录取结果信息或删除该区域。",
                 }],
                 })(
-                // <Input placeholder="passenger name" style={{ width: '60%', marginRight: 8 }} />
                 <CaseInput/>
                 )}
                 {keys.length > 1 ? (
-                <Icon
-                    className="dynamic-delete-button"
-                    type="minus-circle-o"
-                    disabled={keys.length === 1}
-                    onClick={() => this.remove(k)}
-                />
+
+                <Button type="danger" onClick={() => this.remove(k)}>删除该案例</Button>
                 ) : null}
+                <Divider />
             </FormItem>
+            
             );
         });
         return (
@@ -102,7 +99,7 @@ class CaseReportForm extends React.Component {
             {formItems}
             <FormItem {...formItemLayoutWithOutLabel}>
                 <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
-                <Icon type="plus" /> Add field
+                <Icon type="plus" /> 添加案例
                 </Button>
             </FormItem>
             <FormItem {...formItemLayoutWithOutLabel}>
