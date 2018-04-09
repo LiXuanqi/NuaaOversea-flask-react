@@ -14,7 +14,7 @@ import { Select } from 'antd';
 const Option = Select.Option;
 
 const CheckableTag = Tag.CheckableTag;
-const tagsFromServer = ['Movies', 'Books', 'Music', 'Sports'];
+const tagsFromServer = ['MS', 'PHD', '高GT', '高GPA', '渣三维', '转专业'];
 const Search = Input.Search;
 
 function handleChange(value) {
@@ -91,48 +91,60 @@ class CaseList extends React.Component {
                                     onSearch={value => console.log(value)}
                                     style={{ width: '100%' }}
                                 />
-                                <div className={styles.tagFilterContainer}>         
-                                    <h6 style={{ marginRight: 8, display: 'inline' }}>特色筛选:</h6>
-                                    {tagsFromServer.map(tag => (
-                                    <CheckableTag
-                                        key={tag}
-                                        checked={selectedTags.indexOf(tag) > -1}
-                                        onChange={checked => this.handleChange(tag, checked)}
-                                    >
-                                        {tag}
-                                    </CheckableTag>
-                                    ))}
-                                    <div>
-                                        <Select
-                                            showSearch
-                                            style={{ width: 200 }}
-                                            placeholder="选择专业"
-                                            optionFilterProp="children"
-                                            onChange={handleChange}
-                                            onFocus={handleFocus}
-                                            onBlur={handleBlur}
-                                            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                                        >
-                                            <Option value="cs">CS</Option>
-                                            <Option value="mis">MIS</Option>
-                                            <Option value="ba">BA</Option>
-                                        </Select>
 
-                                        <Select
-                                            showSearch
-                                            style={{ width: 200 }}
-                                            placeholder="选择学期"
-                                            optionFilterProp="children"
-                                            onChange={handleChange}
-                                            onFocus={handleFocus}
-                                            onBlur={handleBlur}
-                                            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                                        >
-                                            <Option value="2018fall">2018FALL</Option>
-                                            <Option value="2017fall">2017FALL</Option>
-                                            <Option value="2017spring">2017SPRING</Option>
-                                        </Select>
+                                <Divider />
+
+                                <div className={styles.tagFilterContainer}>                                 
+
+                                    <div className={styles.searchSelectContainer}> 
+                                        <div className={styles.searchSelect}>
+                                            <Select
+                                                showSearch
+                                                style={{ width: 200 }}
+                                                placeholder="选择专业"
+                                                optionFilterProp="children"
+                                                onChange={handleChange}
+                                                onFocus={handleFocus}
+                                                onBlur={handleBlur}
+                                                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                                            >
+                                                <Option value="cs">CS</Option>
+                                                <Option value="mis">MIS</Option>
+                                                <Option value="ba">BA</Option>
+                                            </Select>
+                                        </div>
+                                        <div className={styles.searchSelect}>
+                                            <Select
+                                                showSearch
+                                                style={{ width: 200 }}
+                                                placeholder="选择学期"
+                                                optionFilterProp="children"
+                                                onChange={handleChange}
+                                                onFocus={handleFocus}
+                                                onBlur={handleBlur}
+                                                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                                            >
+                                                <Option value="2018fall">2018FALL</Option>
+                                                <Option value="2017fall">2017FALL</Option>
+                                                <Option value="2017spring">2017SPRING</Option>
+                                            </Select>
+                                        </div>                                       
                                     </div>
+                                    
+                                    <div>
+                                        <h6 className={styles.tagSelectTitle}>特色筛选:</h6>
+                                        {tagsFromServer.map(tag => (
+                                            <CheckableTag
+                                                key={tag}
+                                                checked={selectedTags.indexOf(tag) > -1}
+                                                onChange={checked => this.handleChange(tag, checked)}
+                                            >
+                                                {tag}
+                                            </CheckableTag>
+                                        ))}
+                                    </div>
+
+                                    
                                    
                                 
                                 </div>

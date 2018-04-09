@@ -44,10 +44,24 @@
 }
 
 .tagFilterContainer{
-    padding-top: 16px;
+    /* padding-top: 16px; */
     margin-bottom: 16px;
 }
 
 .cardListContainer{
     margin: 0 20px;
+}
+
+.searchSelectContainer{
+    margin-bottom: 16px;
+}
+
+.searchSelect {
+    margin-right: 8px;
+    display: inline-block;
+}
+
+.tagSelectTitle {
+    margin-right: 8px;
+    display: inline;
 }

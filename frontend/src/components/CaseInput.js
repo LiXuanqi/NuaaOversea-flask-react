@@ -6,7 +6,6 @@ const Option = Select.Option;
 class CaseInput extends React.Component {
   constructor(props) {
     super(props);
-
     const value = this.props.value || {};
     this.state = {
       university: value.university || '',
@@ -14,6 +13,7 @@ class CaseInput extends React.Component {
       major: value.major || '',
       term: value.term || '',
       result: value.result || 'ad',
+      degree: value.degree || '',
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -23,7 +23,9 @@ class CaseInput extends React.Component {
       this.setState(value);
     }
   }
-  handleUniversityChange = (university) => {
+  handleUniversityChange = (e) => {
+
+    const university = e.target.value;
     if (!('value' in this.props)) {
       this.setState({ university });
     }
@@ -34,6 +36,12 @@ class CaseInput extends React.Component {
       this.setState({ country });
     }
     this.triggerChange({ country });
+  }
+  handleDegreeChange = (degree) => {
+    if (!('value' in this.props)) {
+      this.setState({ degree });
+    }
+    this.triggerChange({ degree });
   }
   handleTermChange = (term) => {
     if (!('value' in this.props)) {
@@ -47,7 +55,8 @@ class CaseInput extends React.Component {
     }
     this.triggerChange({ result });
   }
-  handleMajorChange = (major) => {
+  handleMajorChange = (e) => {
+    const major = e.target.value;
     if (!('value' in this.props)) {
       this.setState({ major });
     }
@@ -58,6 +67,7 @@ class CaseInput extends React.Component {
     // Should provide an event to pass value to Form.
     const onChange = this.props.onChange;
     if (onChange) {
+
       onChange(Object.assign({}, this.state, changedValue));
     }
   }
@@ -67,25 +77,34 @@ class CaseInput extends React.Component {
     return (
       <span>
         <Input
-          type="university"
-          size={size}
+          type="text"
           value={state.university}
           onChange={this.handleUniversityChange}
-          style={{ width: '65%', marginRight: '3%' }}
           placeholder="申请学校"
         />
         <Input 
-          type="major"
+          type="text"
           value={state.major}
           onChange={this.handleMajorChange}
           placeholder="专业"
         />
-        <Input 
-          type="term"
+        <Select
+          value={state.degree}
+          size={size}
+          onChange={this.handleDegreeChange}
+        >
+          <Option value="master">Master</Option>
+          <Option value="phd">PhD</Option>
+        </Select>
+
+        <Select
           value={state.term}
+          size={size}
           onChange={this.handleTermChange}
-          placeholder="入学学期"
-        />
+        >
+          <Option value="2018fall">2018FALL</Option>
+          <Option value="2018spring">2018SPING</Option>
+        </Select>
         <Select
           value={state.country}
           size={size}
