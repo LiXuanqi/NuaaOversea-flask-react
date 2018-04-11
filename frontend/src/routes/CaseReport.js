@@ -4,7 +4,7 @@ import styles from './UserReport.css';
 import { Steps, Icon, Button} from 'antd';
 
 import WrappedCaseReportForm from '../components/CaseReportForm';
-import CustomizedForm from '../components/Test';
+
 
 const Step = Steps.Step;
 
@@ -19,9 +19,12 @@ class CaseReport extends React.Component {
             keys: {
                 value: [],
             },
-            cases: {
-                value: [],
-            },
+            cases: [{
+                // name: 'case[0]',
+                value: {
+                   university: 'CMU',
+               }
+            }],
           },
         };
     }
@@ -37,6 +40,7 @@ class CaseReport extends React.Component {
         //         }
         //     });
         // }
+        
         this.setState(({ fields }) => ({
           fields: { ...fields, ...changedFields},
         }));

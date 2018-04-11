@@ -66,9 +66,8 @@ class CaseReportForm extends React.Component {
 
         getFieldDecorator('keys', { initialValue: [] });
         const keys = getFieldValue('keys');
-
         const formItems = keys.map((k, index) => {
-            console.log(k, index);
+
             return (
             <FormItem
                 {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
@@ -119,19 +118,18 @@ const WrappedCaseReportForm = Form.create({
       props.onChange(changedFields);
     },
     mapPropsToFields(props) {
-      return {
-        cases: Form.createFormField({
-            ...props.cases,
-            value: props.cases.value,
-        }),
-        keys: Form.createFormField({
-            ...props.keys,
-            value: props.keys.value,
-        }),
-      };
+        console.log(props.cases);
+
+        return {
+            'cases[0]': Form.createFormField({...props.cases[0]}),
+            keys: Form.createFormField({
+                ...props.keys,
+                value: props.keys.value,
+            }),
+        }; 
     },
     onValuesChange(_, values) {
-      console.log(values);
+    //   console.log(values);
     },
   })(CaseReportForm);
 export default WrappedCaseReportForm;
