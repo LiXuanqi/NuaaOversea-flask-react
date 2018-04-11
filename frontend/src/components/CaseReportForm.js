@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Button, Divider } from 'antd';
+import { Form, Icon, Button, Divider, Checkbox } from 'antd';
 import CaseInput from './CaseInput';
 
 const FormItem = Form.Item;
@@ -45,6 +45,37 @@ class CaseReportForm extends React.Component {
     });
     }
 
+    onInfoRepeatChanged = (e) => {
+        const isChecked = e.target.checked;
+        const checkedValue = e.target.value;
+        
+        const keys = this.props.form.getFieldValue('keys');
+
+
+        const index = keys.indexOf(checkedValue);
+
+
+        const lastNameIndex = keys[index - 1];
+        const lastCase = this.props.form.getFieldValue(`cases[${lastNameIndex}]`);
+        console.log(this.props.cases);
+        console.log('checkedValue:' + checkedValue);
+        console.log('keys:');
+        console.log(keys);   
+        console.log('index:' + index);
+        console.log(lastCase);
+
+        const university = '';
+        const result = '';
+        let newCase = {...lastCase, university, result};
+        // console.log(newCase);
+        
+        let caseName = 'cases[' + checkedValue + ']';
+        this.props.form.setFieldsValue({
+            [caseName]: newCase,
+        });
+
+    }
+
     render() {
         const { getFieldDecorator, getFieldValue } = this.props.form;
         const formItemLayout = {
@@ -75,6 +106,12 @@ class CaseReportForm extends React.Component {
                 required={false}
                 key={k}
             >
+                {
+                    index !== 0 ? (
+                        <Checkbox value={k} onChange={this.onInfoRepeatChanged}>与上个案例一致</Checkbox>
+                    ) : null
+                }
+
                 {getFieldDecorator(`cases[${k}]`, {
                 validateTrigger: ['onChange', 'onBlur'],
                 rules: [{
@@ -86,28 +123,31 @@ class CaseReportForm extends React.Component {
                 })(
                 <CaseInput/>
                 )}
-                {keys.length > 1 ? (
 
-                <Button type="danger" onClick={() => this.remove(k)}>删除该案例</Button>
-                ) : null}
+                {
+                    keys.length > 1 ? (
+                        <Button type="danger" onClick={() => this.remove(k)}>删除该案例</Button>
+                    ) : null
+                }
                 <Divider />
             </FormItem>
             
             );
         });
+
         return (
             <Form >
 
-            {formItems}
+                {formItems}
 
-            <FormItem {...formItemLayoutWithOutLabel}>
-                <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
-                <Icon type="plus" /> 添加案例
-                </Button>
-            </FormItem>
-            <FormItem {...formItemLayoutWithOutLabel}>
-                <Button type="primary" htmlType="submit">Submit</Button>
-            </FormItem>
+                <FormItem {...formItemLayoutWithOutLabel}>
+                    <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
+                    <Icon type="plus" /> 添加案例
+                    </Button>
+                </FormItem>
+                <FormItem {...formItemLayoutWithOutLabel}>
+                    <Button type="primary" htmlType="submit">Submit</Button>
+                </FormItem>
             </Form>
         );
     }

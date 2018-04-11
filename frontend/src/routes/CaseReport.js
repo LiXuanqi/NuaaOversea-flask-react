@@ -33,11 +33,9 @@ class CaseReport extends React.Component {
         
         if (changedFields.cases !== undefined) {
             changedFields.cases.map((key, index) => {
-                console.log(key);
-                console.log(index);
+
                 let cases = [...this.state.fields.cases];
                 cases[index] = key;
-                console.log(cases);
                 this.setState(({ fields }) => ({
                     fields: {
                         ...fields,
