@@ -48,31 +48,48 @@ class CaseReportForm extends React.Component {
     onInfoRepeatChanged = (e) => {
         const isChecked = e.target.checked;
         const checkedValue = e.target.value;
-        
-        const keys = this.props.form.getFieldValue('keys');
+        if (isChecked === true) {
+            // auto repeated form's last field.
+            
+            
+            const keys = this.props.form.getFieldValue('keys');
 
+            const index = keys.indexOf(checkedValue);
 
-        const index = keys.indexOf(checkedValue);
+            const lastNameIndex = keys[index - 1];
+            const lastCase = this.props.form.getFieldValue(`cases[${lastNameIndex}]`);
+            // console.log(this.props.cases);
+            // console.log('checkedValue:' + checkedValue);
+            // console.log('keys:');
+            // console.log(keys);   
+            // console.log('index:' + index);
+            // console.log(lastCase);
 
+            const university = '';
+            const result = undefined;
 
-        const lastNameIndex = keys[index - 1];
-        const lastCase = this.props.form.getFieldValue(`cases[${lastNameIndex}]`);
-        console.log(this.props.cases);
-        console.log('checkedValue:' + checkedValue);
-        console.log('keys:');
-        console.log(keys);   
-        console.log('index:' + index);
-        console.log(lastCase);
+            let newCase = {...lastCase, university, result};
+            
+            let caseName = 'cases[' + checkedValue + ']';
+            this.props.form.setFieldsValue({
+                [caseName]: newCase,
+            });
+        } else {
+            const oldCase = this.props.form.getFieldValue(`cases[${checkedValue}]`);
 
-        const university = '';
-        const result = '';
-        let newCase = {...lastCase, university, result};
-        // console.log(newCase);
-        
-        let caseName = 'cases[' + checkedValue + ']';
-        this.props.form.setFieldsValue({
-            [caseName]: newCase,
-        });
+            const university = '';
+            const result = undefined;
+            const degree = undefined;
+            const major = '';
+            const country = undefined;
+            const term = undefined;
+            let newCase = {...oldCase, university, result, degree, major, country, term};
+
+            let caseName = 'cases[' + checkedValue + ']';
+            this.props.form.setFieldsValue({
+                [caseName]: newCase,
+            });
+        }  
 
     }
 
