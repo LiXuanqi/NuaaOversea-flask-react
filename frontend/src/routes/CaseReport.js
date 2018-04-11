@@ -20,30 +20,39 @@ class CaseReport extends React.Component {
                 value: [],
             },
             cases: [{
-                // name: 'case[0]',
-                value: {
-                   university: 'CMU',
-               }
+                value: {},
             }],
           },
         };
     }
 
     handleFormChange = (changedFields) => {
-        // if (changedFields.keys.name === "keys") {
-        //     const prevKeys = [...this.state.fields.keys];
-        //     const newKeys = prevKeys.concat(changedFields.keys.value);
-        //     this.setState({
-        //         fields: {
-        //             ...this.state.fields,
-        //             keys: newKeys
-        //         }
-        //     });
-        // }
+        // this is a wordaround, notice just the data that name index equal to value is valid.
+        // it will happen when you delete the form field, the data will not be deleted meanwhile.
+        // validate it before submit form.
         
-        this.setState(({ fields }) => ({
-          fields: { ...fields, ...changedFields},
-        }));
+        if (changedFields.cases !== undefined) {
+            changedFields.cases.map((key, index) => {
+                console.log(key);
+                console.log(index);
+                let cases = [...this.state.fields.cases];
+                cases[index] = key;
+                console.log(cases);
+                this.setState(({ fields }) => ({
+                    fields: {
+                        ...fields,
+                        cases
+                    }
+                }));
+                
+            });
+        } else {
+            this.setState(({ fields }) => ({
+                fields: { ...fields, ...changedFields},
+            }));
+        }
+
+
       }
 
     next() {

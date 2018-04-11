@@ -118,15 +118,25 @@ const WrappedCaseReportForm = Form.create({
       props.onChange(changedFields);
     },
     mapPropsToFields(props) {
-        console.log(props.cases);
-
-        return {
-            'cases[0]': Form.createFormField({...props.cases[0]}),
+        let formField = {
             keys: Form.createFormField({
                 ...props.keys,
                 value: props.keys.value,
             }),
-        }; 
+        };
+
+        props.cases.map((key, index) => {
+            let name = 'cases[' + index + ']';
+            let newCase ={
+                [name] : Form.createFormField({...props.cases[index]}),
+            };
+            formField = {
+                ...formField,
+                ...newCase
+            }
+        })
+
+        return formField;
     },
     onValuesChange(_, values) {
     //   console.log(values);
