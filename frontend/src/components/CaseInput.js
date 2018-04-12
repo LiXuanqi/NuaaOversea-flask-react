@@ -1,5 +1,6 @@
 import React from 'react';
-import { Input, Select } from 'antd';
+import { Input, Select, Checkbox } from 'antd';
+import { width } from 'window-size';
 
 const Option = Select.Option;
 
@@ -77,18 +78,41 @@ class CaseInput extends React.Component {
     return (
       <div>
         <Input
+          style={{ width: '40%', marginRight: '16px' }}
           type="text"
           value={state.university}
           onChange={this.handleUniversityChange}
           placeholder="申请学校"
-        />    
+        />   
+        <Select
+          style={{ width: '40%' }}
+          value={state.result}
+          size={size}
+          onChange={this.handleResultChange}
+          placeholder="录取结果"
+        >
+          <Option value="ad">ad</Option>
+          <Option value="rej">rej</Option>
+          <Option value="offer">offer</Option>
+        </Select> 
+
+        {
+  
+          React.Children.map(this.props.children, function (child) {
+            return <div>{child}</div>;
+          })
+
+        }
+
         <Input 
+          style={{ width: '40%', marginRight: '16px' }}
           type="text"
           value={state.major}
           onChange={this.handleMajorChange}
           placeholder="专业"
         />
         <Select
+          style={{ width: '40%' }}
           value={state.degree}
           size={size}
           onChange={this.handleDegreeChange}
@@ -99,15 +123,7 @@ class CaseInput extends React.Component {
         </Select>
 
         <Select
-          value={state.term}
-          size={size}
-          onChange={this.handleTermChange}
-          placeholder="入学日期"
-        >
-          <Option value="2018fall">2018FALL</Option>
-          <Option value="2018spring">2018SPING</Option>
-        </Select>
-        <Select
+          style={{ width: '40%', marginRight: '16px' }}
           value={state.country}
           size={size}
           onChange={this.handleCountryChange}
@@ -116,16 +132,19 @@ class CaseInput extends React.Component {
           <Option value="USA">美国</Option>
           <Option value="CHINA">中国</Option>
         </Select>
+
         <Select
-          value={state.result}
+          style={{ width: '40%'}}
+          value={state.term}
           size={size}
-          onChange={this.handleResultChange}
-          placeholder="录取结果"
+          onChange={this.handleTermChange}
+          placeholder="入学日期"
         >
-          <Option value="ad">ad</Option>
-          <Option value="rej">rej</Option>
-          <Option value="offer">offer</Option>
+          <Option value="2018fall">2018FALL</Option>
+          <Option value="2018spring">2018SPING</Option>
         </Select>
+
+        
       </div>
     );
   }

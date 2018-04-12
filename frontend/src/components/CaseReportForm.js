@@ -48,6 +48,12 @@ class CaseReportForm extends React.Component {
     onInfoRepeatChanged = (e) => {
         const isChecked = e.target.checked;
         const checkedValue = e.target.value;
+
+        const oldCase = this.props.form.getFieldValue(`cases[${checkedValue}]`);
+        console.log(oldCase);
+        const university = oldCase === undefined ? undefined : oldCase.university ;
+        const result = oldCase === undefined ? undefined : oldCase.result;
+        
         if (isChecked === true) {
             // auto repeated form's last field.
             
@@ -65,8 +71,6 @@ class CaseReportForm extends React.Component {
             // console.log('index:' + index);
             // console.log(lastCase);
 
-            const university = '';
-            const result = undefined;
 
             let newCase = {...lastCase, university, result};
             
@@ -75,10 +79,8 @@ class CaseReportForm extends React.Component {
                 [caseName]: newCase,
             });
         } else {
-            const oldCase = this.props.form.getFieldValue(`cases[${checkedValue}]`);
 
-            const university = '';
-            const result = undefined;
+
             const degree = undefined;
             const major = '';
             const country = undefined;
@@ -123,11 +125,6 @@ class CaseReportForm extends React.Component {
                 required={false}
                 key={k}
             >
-                {
-                    index !== 0 ? (
-                        <Checkbox value={k} onChange={this.onInfoRepeatChanged}>与上个案例一致</Checkbox>
-                    ) : null
-                }
 
                 {getFieldDecorator(`cases[${k}]`, {
                 validateTrigger: ['onChange', 'onBlur'],
@@ -138,7 +135,13 @@ class CaseReportForm extends React.Component {
                     message: "请完善录取结果信息或删除该区域。",
                 }],
                 })(
-                <CaseInput/>
+                    <CaseInput>
+                        {
+                            index !== 0 ? (
+                                <Checkbox value={k} onChange={this.onInfoRepeatChanged}>与上个案例一致</Checkbox>
+                            ) : null
+                        }
+                    </CaseInput>
                 )}
 
                 {
