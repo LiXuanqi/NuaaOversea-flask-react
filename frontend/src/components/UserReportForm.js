@@ -102,7 +102,7 @@ class UserReportForm extends React.Component {
           {...formItemLayout}
           label="语言考试类型"
         >
-          {getFieldDecorator('language-type', {
+          {getFieldDecorator('language_type', {
               rules: [{
                   required: true, message: '请选择你的语言考试类型!',
               }],
@@ -242,14 +242,93 @@ class UserReportForm extends React.Component {
             <Checkbox>I have read the <a href="">agreement</a></Checkbox>
           )}
         </FormItem>
-        <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">Register</Button>
-        </FormItem>
+        {
+            this.props.hasSubmitButton === 'true' ?
+            (
+                <FormItem {...tailFormItemLayout}>
+                    <Button type="primary" htmlType="submit">Register</Button>
+                </FormItem>
+            ) : null
+        }
       </Form>
     );
   }
 }
 
+const WrappedUserComplementReportForm = Form.create({
+    onFieldsChange(props, changedFields) {
+        props.onChange(changedFields);
+    },
+    mapPropsToFields(props) {
+        console.log(props);
+            return {
+                major: Form.createFormField({
+                    ...props.major,
+                    value: props.major.value,
+                }),
+                gpa: Form.createFormField({
+                    ...props.gpa,
+                    value: props.gpa.value,
+                }),
+                language_type: Form.createFormField({
+                    ...props.language_type,
+                    value: props.language_type.value,
+                }),
+                language_reading: Form.createFormField({
+                    ...props.language_reading,
+                    value: props.language_reading.value,
+                }),
+                language_listening: Form.createFormField({
+                    ...props.language_listening,
+                    value: props.language_listening.value,
+                }),
+                language_speaking: Form.createFormField({
+                    ...props.language_speaking,
+                    value: props.language_speaking.value,
+                }),
+                language_writing: Form.createFormField({
+                    ...props.language_writing,
+                    value: props.language_writing.value,
+                }),
+                gre_verbal: Form.createFormField({
+                    ...props.gre_verbal,
+                    value: props.gre_verbal.value,
+                }),
+                gre_quantitative: Form.createFormField({
+                    ...props.gre_quantitative,
+                    value: props.gre_quantitative.value,
+                }),
+                gre_writing: Form.createFormField({
+                    ...props.gre_writing,
+                    value: props.gre_writing.value,
+                }),
+                research: Form.createFormField({
+                    ...props.research,
+                    value: props.research.value,
+                }),
+                project: Form.createFormField({
+                    ...props.project,
+                    value: props.project.value,
+                }),
+                recommendation: Form.createFormField({
+                    ...props.recommendation,
+                    value: props.recommendation.value,
+                }),
+                email: Form.createFormField({
+                    ...props.email,
+                    value: props.email.value,
+                }),
+                agreement: Form.createFormField({
+                    ...props.agreement,
+                    value: props.agreement.value,
+                }),
+            };
+    },
+    onValuesChange(_, values) {
+    //   console.log(values);
+    },
+})(UserReportForm);
+
 const WrappedUserReportForm = Form.create()(UserReportForm);
 
-export default WrappedUserReportForm;
+export {WrappedUserComplementReportForm, WrappedUserReportForm};

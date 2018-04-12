@@ -4,7 +4,7 @@ import styles from './UserReport.css';
 import { Steps, Icon, Button} from 'antd';
 
 import WrappedCaseReportForm from '../components/CaseReportForm';
-
+import { WrappedUserComplementReportForm } from '../components/UserReportForm';
 
 const Step = Steps.Step;
 
@@ -14,19 +14,72 @@ class CaseReport extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          current: 0,
-          fields: {
+        current: 0,
+        userInfoFields: {
+            major: {
+                value: undefined
+            },
+            gpa: {
+               value: undefined
+            },
+            language_type: {
+                value: undefined
+            },
+            language_reading: {
+                value: undefined
+            },
+            language_listening: {
+                value: undefined
+            },
+            language_speaking: {
+                value: undefined
+            },
+            language_writing: {
+                value: undefined
+            },
+            gre_verbal: {
+                value: undefined
+            },
+            gre_quantitative: {
+                value: undefined
+            },
+            gre_writing: {
+                value: undefined
+            },
+            research: {
+                value: undefined
+            },
+            project: {
+                value: undefined
+            },
+            recommendation: {
+                value: undefined
+            },
+            email: {
+                value: undefined
+            },
+            agreement: {
+                value: undefined
+            }
+        },
+        casesFields: {
             keys: {
                 value: [],
             },
             cases: [{
                 value: {},
             }],
-          },
+        },
         };
     }
 
-    handleFormChange = (changedFields) => {
+    handleUserFormChange = (changedFields) => {
+        this.setState(({ userInfoFields }) => ({
+            userInfoFields: { ...userInfoFields, ...changedFields },
+        }));
+    }
+
+    handleCasesFormChange = (changedFields) => {
         // this is a wordaround, notice just the data that name index equal to value is valid.
         // it will happen when you delete the form field, the data will not be deleted meanwhile.
         // validate it before submit form.
@@ -34,19 +87,19 @@ class CaseReport extends React.Component {
         if (changedFields.cases !== undefined) {
             changedFields.cases.map((key, index) => {
 
-                let cases = [...this.state.fields.cases];
+                let cases = [...this.state.casesFields.cases];
                 cases[index] = key;
-                this.setState(({ fields }) => ({
-                    fields: {
-                        ...fields,
+                this.setState(({ casesFields }) => ({
+                    casesFields: {
+                        ...casesFields,
                         cases
                     }
                 }));
                 
             });
         } else {
-            this.setState(({ fields }) => ({
-                fields: { ...fields, ...changedFields},
+            this.setState(({ casesFields }) => ({
+                casesFields: { ...casesFields, ...changedFields},
             }));
         }
 
@@ -65,8 +118,8 @@ class CaseReport extends React.Component {
     render() {
         const { current } = this.state;
 
-        const fields = this.state.fields;
-
+        const casesFields = this.state.casesFields;
+        const userInfoFields = this.state.userInfoFields;
         return (
                 <div className={styles.container}>
 
@@ -81,16 +134,19 @@ class CaseReport extends React.Component {
                         {
                             current === 0 ? 
                                 <div>
-                                    
+                                    <WrappedUserComplementReportForm {...userInfoFields} onChange={this.handleUserFormChange}/>
+                                    <pre className="language-bash">
+                                        {JSON.stringify(userInfoFields, null, 2)}
+                                    </pre>
                                 </div>
                                 : null
                         }
                         {
                             current === 1 ? 
                                 <div>
-                                    <WrappedCaseReportForm {...fields} keys={this.state.fields.keys} onChange={this.handleFormChange} />
+                                    <WrappedCaseReportForm {...casesFields} keys={this.state.casesFields.keys} onChange={this.handleCasesFormChange} />
                                     <pre className="language-bash">
-                                        {JSON.stringify(fields, null, 2)}
+                                        {JSON.stringify(casesFields, null, 2)}
                                     </pre>
                                 </div>
                                 : null
