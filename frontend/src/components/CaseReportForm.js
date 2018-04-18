@@ -165,9 +165,9 @@ class CaseReportForm extends React.Component {
                     <Icon type="plus" /> 添加案例
                     </Button>
                 </FormItem>
-                <FormItem {...formItemLayoutWithOutLabel}>
+                {/* <FormItem {...formItemLayoutWithOutLabel}>
                     <Button type="primary" htmlType="submit">Submit</Button>
-                </FormItem>
+                </FormItem> */}
             </Form>
         );
     }

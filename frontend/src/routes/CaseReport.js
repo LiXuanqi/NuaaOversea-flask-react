@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import styles from './UserReport.css';
-import { Steps, Icon, Button} from 'antd';
+import styles from './CaseReport.css';
+import { Steps, Icon, Button, Divider} from 'antd';
 
 import WrappedCaseReportForm from '../components/CaseReportForm';
 import { WrappedUserComplementReportForm } from '../components/UserReportForm';
@@ -124,20 +124,47 @@ class CaseReport extends React.Component {
                 <div className={styles.container}>
 
                     <div className={styles.contentContainer}> 
-                        <Steps>
-                            <Step status="finish" title="三维汇报" icon={<Icon type="user" />} />
-                            <Step status="finish" title="录取结果汇报" icon={<Icon type="solution" />} />
-                            <Step status="process" title="信息确认" icon={<Icon type="loading" />} />
-                            <Step status="wait" title="完成" icon={<Icon type="smile-o" />} />
-                        </Steps>
+                        
+                            {
+                                current === 0 ?
+                                <Steps>
+                                <Step status="process" title="三维汇报" icon={<Icon type="loading" />} />
+                                <Step status="wait" title="录取结果汇报" icon={<Icon type="solution" />} />
+                                <Step status="wait" title="信息确认" icon={<Icon type="check-circle-o" />} />
+                                <Step status="wait" title="完成" icon={<Icon type="smile-o" />} />
+                                </Steps>
+                                : null
+                            }
+
+                            {
+                                current === 1 ?
+                                <Steps>
+                                <Step status="finish" title="三维汇报" icon={<Icon type="user" />} />
+                                <Step status="process" title="录取结果汇报" icon={<Icon type="loading" />} />
+                                <Step status="wait" title="信息确认" icon={<Icon type="check-circle-o" />} />
+                                <Step status="wait" title="完成" icon={<Icon type="smile-o" />} />
+                                </Steps>
+                                : null
+                            }
+
+                            {
+                                current === 2 ?
+                                <Steps>
+                                <Step status="finish" title="三维汇报" icon={<Icon type="user" />} />
+                                <Step status="finish" title="录取结果汇报" icon={<Icon type="solution" />} />
+                                <Step status="process" title="信息确认" icon={<Icon type="loading" />} />
+                                <Step status="wait" title="完成" icon={<Icon type="smile-o" />} />
+                                </Steps>
+                                : null
+                            }
+                        
+                        <Divider />
                         {/* <div className="steps-content">{steps[this.state.current].content}</div> */}
                         {
                             current === 0 ? 
                                 <div>
                                     <WrappedUserComplementReportForm {...userInfoFields} onChange={this.handleUserFormChange}/>
-                                    <pre className="language-bash">
-                                        {JSON.stringify(userInfoFields, null, 2)}
-                                    </pre>
+                                  
                                 </div>
                                 : null
                         }
@@ -145,9 +172,7 @@ class CaseReport extends React.Component {
                             current === 1 ? 
                                 <div>
                                     <WrappedCaseReportForm {...casesFields} keys={this.state.casesFields.keys} onChange={this.handleCasesFormChange} />
-                                    <pre className="language-bash">
-                                        {JSON.stringify(casesFields, null, 2)}
-                                    </pre>
+                             
                                 </div>
                                 : null
                         }
@@ -155,6 +180,12 @@ class CaseReport extends React.Component {
                             current === 2 ? 
                                 <div>
                                     <h1>信息确认</h1>
+                                    <pre className="language-bash">
+                                        {JSON.stringify(userInfoFields, null, 2)}
+                                    </pre>
+                                    <pre className="language-bash">
+                                        {JSON.stringify(casesFields, null, 2)}
+                                    </pre>
                                 </div>
                                 : null
                         }
