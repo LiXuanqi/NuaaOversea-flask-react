@@ -5,7 +5,7 @@ import { Steps, Icon, Button, Divider} from 'antd';
 
 import WrappedCaseReportForm from '../components/CaseReportForm';
 import { WrappedUserComplementReportForm } from '../components/UserReportForm';
-
+import CaseReportCheckCard from '../components/CaseReportCheckCard';
 const Step = Steps.Step;
 
 
@@ -120,6 +120,43 @@ class CaseReport extends React.Component {
 
         const casesFields = this.state.casesFields;
         const userInfoFields = this.state.userInfoFields;
+
+        const userFormData = () => {
+            const userInfoFields = this.state.userInfoFields;
+            let data = {
+                college: userInfoFields.major.value ? userInfoFields.major.value[0] : "",
+                major: userInfoFields.major.value ? userInfoFields.major.value[1] : "",
+                gpa: userInfoFields.gpa.value ? userInfoFields.gpa.value : "",
+                language_type: userInfoFields.language_type.value ? userInfoFields.language_type.value : "",
+                language_reading: userInfoFields.language_reading.value ? userInfoFields.language_reading.value : "",
+                language_listening: userInfoFields.language_listening.value ? userInfoFields.language_listening.value : "",
+                language_speaking: userInfoFields.language_speaking.value ? userInfoFields.language_speaking.value : "",
+                language_writing: userInfoFields.language_writing.value ? userInfoFields.language_writing.value : "",
+                gre_verbal: userInfoFields.gre_verbal.value ? userInfoFields.gre_verbal.value : "",
+                gre_quantitative: userInfoFields.gre_quantitative.value ? userInfoFields.gre_quantitative.value : "",
+                gre_writing: userInfoFields.gre_writing.value ? userInfoFields.gre_writing.value : "",
+                research: userInfoFields.research.value ? userInfoFields.research.value : "",
+                project: userInfoFields.project.value ? userInfoFields.project.value : "",
+                recommendation: userInfoFields.recommendation.value ? userInfoFields.recommendation.value : "",
+                email: userInfoFields.email.value ? userInfoFields.email.value : ""
+            }
+            return data;
+        }
+
+        const casesFormData = () => {
+            const casesFields = this.state.casesFields;
+            const keys = casesFields.keys.value;
+            let data = {
+                cases: []
+            }
+            for (let i in keys) {    
+                const index = keys[i];
+                let singleCase = casesFields.cases[index];
+                data.cases.push(singleCase.value);        
+            }
+            return data;
+        }
+
         return (
                 <div className={styles.container}>
 
@@ -180,12 +217,10 @@ class CaseReport extends React.Component {
                             current === 2 ? 
                                 <div>
                                     <h1>信息确认</h1>
-                                    <pre className="language-bash">
-                                        {JSON.stringify(userInfoFields, null, 2)}
-                                    </pre>
-                                    <pre className="language-bash">
-                                        {JSON.stringify(casesFields, null, 2)}
-                                    </pre>
+                                    <CaseReportCheckCard 
+                                        userInfoFields={userFormData()} 
+                                        casesFields={casesFormData()} 
+                                    />
                                 </div>
                                 : null
                         }
