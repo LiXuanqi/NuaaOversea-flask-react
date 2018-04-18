@@ -17,13 +17,29 @@ def get_all_applicants():
     applicants = Applicant.query.all()
     return applicants
 
-def create_applicant(name, student_id, college, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing, research=None, project=None, email=None):
+def create_applicant(name,
+                    student_id,
+                    college,
+                    gpa,
+                    language_type,
+                    language_reading,
+                    language_listening,
+                    language_speaking,
+                    language_writing,
+                    gre_verbal,
+                    gre_quantitative,
+                    gre_writing,
+                    research,
+                    project,
+                    recommendation,
+                    email=None):
     # TODO: add the authentication of power.
     # TODO: verify the repeation of datas.
     applicant = Applicant(
         name=name,
         student_id=student_id,
         college=college,
+        gpa=gpa,
         language_type=language_type,
         language_reading=language_reading,
         language_listening=language_listening,
@@ -34,6 +50,7 @@ def create_applicant(name, student_id, college, language_type, language_reading,
         gre_writing=gre_writing,
         research=research,
         project=project,
+        recommendation=recommendation,
         email=email
     )
     db.session.add(applicant)

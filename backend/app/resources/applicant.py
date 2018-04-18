@@ -30,15 +30,25 @@ class Applicants(Resource):
     @marshal_with(pt_fields)
     def post(self):
         applicant_args = applicant_post_parser.parse_args()
+
+
         result = create_applicant(
-            applicant_args.country,
-            applicant_args.university,
-            applicant_args.major,
-            applicant_args.term,
-            applicant_args.result,
-            applicant_args.applicant_id,
-            applicant_args.apply_time,
-            applicant_args.result_time,
+            applicant_args.name,
+            applicant_args.student_id,
+            applicant_args.college,
+            applicant_args.gpa,
+            applicant_args.language_type,
+            applicant_args.language_reading,
+            applicant_args.language_listening,
+            applicant_args.language_speaking,
+            applicant_args.language_writing,
+            applicant_args.gre_verbal,
+            applicant_args.gre_quantitative,
+            applicant_args.gre_writing,
+            applicant_args.research,
+            applicant_args.project,
+            applicant_args.recommendation,
+            applicant_args.email
         )
         return result
 
