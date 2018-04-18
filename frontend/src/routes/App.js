@@ -91,7 +91,7 @@ const App = ({ children, history, dispatch, user_info }) => {
                     <div className={styles.userInfoContainer}>
                         {/* FIXME: when the user_info is {}, it still be true. */}
                         {
-                            JSON.stringify(user_info) == "{}" 
+                            JSON.stringify(user_info) === "{}" 
                                 ?
                             <Button size="large" type="primary" onClick={handleLogin}>登陆</Button> 
                                 : 

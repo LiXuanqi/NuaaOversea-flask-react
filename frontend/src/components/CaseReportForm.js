@@ -194,6 +194,7 @@ const WrappedCaseReportForm = Form.create({
                 ...formField,
                 ...newCase
             }
+            return null;
         })
 
         return formField;

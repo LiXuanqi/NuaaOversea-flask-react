@@ -95,7 +95,7 @@ class CaseReport extends React.Component {
                         cases
                     }
                 }));
-                
+                return null;
             });
         } else {
             this.setState(({ casesFields }) => ({

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Input, Select, Checkbox } from 'antd';
-import { width } from 'window-size';
+import { Input, Select } from 'antd';
+
 
 const Option = Select.Option;
 
