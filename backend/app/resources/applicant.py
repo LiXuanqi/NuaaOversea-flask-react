@@ -19,7 +19,7 @@ from app.handler.applicant import get_applicant_by_id, update_applicant, rm_appl
 from app.utils.fields.common import pt_fields, deleted_fields
 from app.utils.fields.applicant import applicants_fields, applicant_detail_fields
 
-from app.utils.parsers.applicant import applicant_post_parser
+from app.utils.parsers.applicant import applicant_post_parser, applicant_put_parser
 
 class Applicants(Resource):
     @marshal_with(applicants_fields)
@@ -31,11 +31,12 @@ class Applicants(Resource):
     def post(self):
         applicant_args = applicant_post_parser.parse_args()
 
-
         result = create_applicant(
+            applicant_args.user_id,
             applicant_args.name,
             applicant_args.student_id,
             applicant_args.college,
+            applicant_args.major,
             applicant_args.gpa,
             applicant_args.language_type,
             applicant_args.language_reading,
@@ -61,7 +62,31 @@ class Applicant(Resource):
     # TODO: update the application.
     @marshal_with(pt_fields)
     def put(self, applicant_id):
-        pass
+
+        applicant_args = applicant_put_parser.parse_args()
+
+        result = update_applicant(
+            applicant_id,
+            applicant_args.name,
+            applicant_args.student_id,
+            applicant_args.college,
+            applicant_args.major,
+            applicant_args.gpa,
+            applicant_args.language_type,
+            applicant_args.language_reading,
+            applicant_args.language_listening,
+            applicant_args.language_speaking,
+            applicant_args.language_writing,
+            applicant_args.gre_verbal,
+            applicant_args.gre_quantitative,
+            applicant_args.gre_writing,
+            applicant_args.research,
+            applicant_args.project,
+            applicant_args.recommendation,
+            applicant_args.email
+        )
+
+        return result
 
     @marshal_with(deleted_fields)
     def delete(self, applicant_id):

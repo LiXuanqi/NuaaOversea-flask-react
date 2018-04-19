@@ -7,6 +7,7 @@ class Applicant(db.Model):
     name = db.Column(db.String(64), index=True, nullable=False)
     student_id = db.Column(db.String(16), unique=True, nullable=False)
     college = db.Column(db.String(30))
+    major = db.Column(db.String(30))
     gpa = db.Column(db.Float('2,1'))
     language_type = db.Column(db.Enum('TOEFL', 'IELTS'))
     language_reading = db.Column(db.Integer)
@@ -30,11 +31,10 @@ class Application(db.Model):
     country = db.Column(db.String(30))
     university = db.Column(db.String(64))
     major = db.Column(db.String(64))
-    degree = db.Column(db.String(64))
+    degree = db.Column(db.Enum('Master', 'Ph.D'))
     term = db.Column(db.String(64))
     result = db.Column(db.Enum('ad', 'offer', 'rej'))
-    apply_time = db.Column(db.DateTime)
-    result_time = db.Column(db.DateTime)
+
     applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'), nullable=False)
     def __repr__(self):
         return '<Application #{}>'.format(self.id)

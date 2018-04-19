@@ -45,11 +45,10 @@ class Applications(Resource):
             application_args.country,
             application_args.university,
             application_args.major,
+            application_args.degree,
             application_args.term,
             application_args.result,
-            application_args.applicant_id,
-            application_args.apply_time,
-            application_args.result_time,
+            application_args.applicant_id
         )
         return result
 

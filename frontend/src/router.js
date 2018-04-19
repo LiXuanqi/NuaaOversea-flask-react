@@ -25,6 +25,7 @@ const RouterConfig = function ({ history, app }) {
             component: () => import('./routes/UserReport'),
         }, {
             path: '/case_report',
+            models: () => [import('./models/applicants')],
             component: () => import('./routes/CaseReport'),
         },
     ]

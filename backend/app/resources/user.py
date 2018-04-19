@@ -49,11 +49,12 @@ class Users(Resource):
             # TODO：format the return data by marshal_with().
             return {
                 'success': 'true',
-                'user_id': user_id,
+                'user_id': user.id,
                 'name': name,
-                'username': username,
+                'username': user.username,
                 'stu_num': stu_num,
-                'role': user.role
+                'role': user.role,
+                'applicant_id': user.applicant_id
             }
         else:
             return {

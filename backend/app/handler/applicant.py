@@ -10,16 +10,18 @@
 
 """
 
-from app.models import Applicant
+from app.models import Applicant, User
 from app import db
 
 def get_all_applicants():
     applicants = Applicant.query.all()
     return applicants
 
-def create_applicant(name,
+def create_applicant(user_id,
+                    name,
                     student_id,
                     college,
+                    major,
                     gpa,
                     language_type,
                     language_reading,
@@ -39,6 +41,7 @@ def create_applicant(name,
         name=name,
         student_id=student_id,
         college=college,
+        major=major,
         gpa=gpa,
         language_type=language_type,
         language_reading=language_reading,
@@ -55,6 +58,14 @@ def create_applicant(name,
     )
     db.session.add(applicant)
     db.session.commit()
+
+    user = User.query.filter_by(id=user_id).first()
+    user.applicant_id = applicant.id;
+    db.session.commit()
+
+    db.session.add(applicant)
+    db.session.commit()
+
     return {
         'success': 1,
         'id': applicant.id
@@ -65,9 +76,52 @@ def get_applicant_by_id(applicant_id):
     applicant = Applicant.query.filter_by(id=applicant_id).first()
     return applicant
 
-def update_applicant():
+def update_applicant(applicant_id,
+                    name,
+                    student_id,
+                    college,
+                    major,
+                    gpa,
+                    language_type,
+                    language_reading,
+                    language_listening,
+                    language_speaking,
+                    language_writing,
+                    gre_verbal,
+                    gre_quantitative,
+                    gre_writing,
+                    research,
+                    project,
+                    recommendation,
+                    email=None):
     # TODO: update the applicant(handler)
-    pass
+
+    applicant = Applicant.query.filter_by(id=applicant_id).first();
+
+    applicant.name = name
+    applicant.student_id = student_id
+    applicant.college = college
+    applicant.major = major
+    applicant.gpa = gpa
+    applicant.language_type = language_type
+    applicant.language_reading = language_reading
+    applicant.language_listening = language_listening
+    applicant.language_speaking = language_speaking
+    applicant.language_writing = language_writing
+    applicant.gre_verbal = gre_verbal
+    applicant.gre_quantitative = gre_quantitative
+    applicant.gre_writing = gre_writing
+    applicant.research = research
+    applicant.project = project
+    applicant.recommendation = recommendation
+    applicant.email = email
+
+    db.session.commit()
+
+    return {
+        'success': 1,
+        'id': applicant.id
+    }
 
 def rm_applicant(applicant_id):
     applicant = Applicant.query.filter_by(id=applicant_id).first()

@@ -45,6 +45,8 @@ applicant_detail_fields = {
     'name': fields.String,
     'student_id': fields.String,
     'college': fields.String,
+    'major': fields.String,
+    'gpa': fields.Float,
     'language_type': fields.String,
     'language_reading': fields.Integer,
     'language_listening': fields.Integer,

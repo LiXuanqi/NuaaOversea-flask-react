@@ -50,7 +50,8 @@ class UserReportForm extends React.Component {
                         college: values.major[0],
                         major: values.major[1],
                         name: this.props.user_info.name,
-                        student_id: this.props.user_info.stu_num
+                        student_id: this.props.user_info.stu_num,
+                        user_id: this.props.user_info.user_id
                     })
                   })
                   .then(function(response) {

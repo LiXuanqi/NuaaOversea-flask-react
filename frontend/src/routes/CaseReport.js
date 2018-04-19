@@ -3,6 +3,8 @@ import { connect } from 'dva';
 import styles from './CaseReport.css';
 import { Steps, Icon, Button, Divider} from 'antd';
 
+import fetch from 'dva/fetch';
+
 import WrappedCaseReportForm from '../components/CaseReportForm';
 import { WrappedUserComplementReportForm } from '../components/UserReportForm';
 import CaseReportCheckCard from '../components/CaseReportCheckCard';
@@ -73,6 +75,78 @@ class CaseReport extends React.Component {
         };
     }
 
+    componentDidMount() {
+        const applicant_id = this.props.user_info.applicant_id;
+
+        if (applicant_id) {
+            fetch('/api/applicants/' + applicant_id, {
+                method: 'GET',
+            })
+            .then(function(response) {
+                return response.json()
+            }).then((json) => {
+                console.log('parsed json', json)
+                let newMajor = [json.college, json.major];
+                const newUserInfoFields = {
+                    major: {
+                        value: newMajor
+                    },
+                    gpa: {
+                       value: json.gpa
+                    },
+                    language_type: {
+                        value: json.language_type
+                    },
+                    language_reading: {
+                        value: json.language_type
+                    },
+                    language_listening: {
+                        value: json.language_listening
+                    },
+                    language_speaking: {
+                        value: json.language_speaking
+                    },
+                    language_writing: {
+                        value: json.language_writing
+                    },
+                    gre_verbal: {
+                        value: json.gre_verbal
+                    },
+                    gre_quantitative: {
+                        value: json.gre_quantitative
+                    },
+                    gre_writing: {
+                        value: json.gre_writing
+                    },
+                    research: {
+                        value: json.research
+                    },
+                    project: {
+                        value: json.project
+                    },
+                    recommendation: {
+                        value: json.recommendation
+                    },
+                    email: {
+                        value: json.email
+                    },
+                    agreement: {
+                        value: true
+                    }
+                }
+                this.setState({
+                    userInfoFields: newUserInfoFields, 
+                    current: 1
+                });
+                console.log(this.state);
+            }).catch(function(ex) {
+                console.log('parsing failed', ex)
+            })
+        }
+        
+
+    }
+
     handleUserFormChange = (changedFields) => {
         this.setState(({ userInfoFields }) => ({
             userInfoFields: { ...userInfoFields, ...changedFields },
@@ -115,47 +189,78 @@ class CaseReport extends React.Component {
         this.setState({ current });
     }
 
+    handleSubmit() {
+        const userInfoFields = this.userFormData();
+        const casesFields = this.casesFormData();
+        console.log(userInfoFields);
+        // console.log(casesFields);
+        casesFields.cases.forEach((item, index) => {
+            console.log(item);
+
+            fetch('/api/applications', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    ...item,
+                    applicant_id: this.props.user_info.applicant_id
+                })
+            })
+            .then(function(response) {
+                return response.json()
+            }).then(function(json) {
+                console.log('parsed json', json)
+            }).catch(function(ex) {
+                console.log('parsing failed', ex)
+            })
+        })
+       
+    }
+
+    userFormData = () => {
+        const userInfoFields = this.state.userInfoFields;
+        let data = {
+            college: userInfoFields.major.value ? userInfoFields.major.value[0] : "",
+            major: userInfoFields.major.value ? userInfoFields.major.value[1] : "",
+            gpa: userInfoFields.gpa.value ? userInfoFields.gpa.value : "",
+            language_type: userInfoFields.language_type.value ? userInfoFields.language_type.value : "",
+            language_reading: userInfoFields.language_reading.value ? userInfoFields.language_reading.value : "",
+            language_listening: userInfoFields.language_listening.value ? userInfoFields.language_listening.value : "",
+            language_speaking: userInfoFields.language_speaking.value ? userInfoFields.language_speaking.value : "",
+            language_writing: userInfoFields.language_writing.value ? userInfoFields.language_writing.value : "",
+            gre_verbal: userInfoFields.gre_verbal.value ? userInfoFields.gre_verbal.value : "",
+            gre_quantitative: userInfoFields.gre_quantitative.value ? userInfoFields.gre_quantitative.value : "",
+            gre_writing: userInfoFields.gre_writing.value ? userInfoFields.gre_writing.value : "",
+            research: userInfoFields.research.value ? userInfoFields.research.value : "",
+            project: userInfoFields.project.value ? userInfoFields.project.value : "",
+            recommendation: userInfoFields.recommendation.value ? userInfoFields.recommendation.value : "",
+            email: userInfoFields.email.value ? userInfoFields.email.value : ""
+        }
+        return data;
+    }
+
+    casesFormData = () => {
+        const casesFields = this.state.casesFields;
+        const keys = casesFields.keys.value;
+        let data = {
+            cases: []
+        }
+        for (let i in keys) {    
+            const index = keys[i];
+            let singleCase = casesFields.cases[index];
+            data.cases.push(singleCase.value);        
+        }
+        return data;
+    }
+
     render() {
         const { current } = this.state;
 
         const casesFields = this.state.casesFields;
         const userInfoFields = this.state.userInfoFields;
 
-        const userFormData = () => {
-            const userInfoFields = this.state.userInfoFields;
-            let data = {
-                college: userInfoFields.major.value ? userInfoFields.major.value[0] : "",
-                major: userInfoFields.major.value ? userInfoFields.major.value[1] : "",
-                gpa: userInfoFields.gpa.value ? userInfoFields.gpa.value : "",
-                language_type: userInfoFields.language_type.value ? userInfoFields.language_type.value : "",
-                language_reading: userInfoFields.language_reading.value ? userInfoFields.language_reading.value : "",
-                language_listening: userInfoFields.language_listening.value ? userInfoFields.language_listening.value : "",
-                language_speaking: userInfoFields.language_speaking.value ? userInfoFields.language_speaking.value : "",
-                language_writing: userInfoFields.language_writing.value ? userInfoFields.language_writing.value : "",
-                gre_verbal: userInfoFields.gre_verbal.value ? userInfoFields.gre_verbal.value : "",
-                gre_quantitative: userInfoFields.gre_quantitative.value ? userInfoFields.gre_quantitative.value : "",
-                gre_writing: userInfoFields.gre_writing.value ? userInfoFields.gre_writing.value : "",
-                research: userInfoFields.research.value ? userInfoFields.research.value : "",
-                project: userInfoFields.project.value ? userInfoFields.project.value : "",
-                recommendation: userInfoFields.recommendation.value ? userInfoFields.recommendation.value : "",
-                email: userInfoFields.email.value ? userInfoFields.email.value : ""
-            }
-            return data;
-        }
-
-        const casesFormData = () => {
-            const casesFields = this.state.casesFields;
-            const keys = casesFields.keys.value;
-            let data = {
-                cases: []
-            }
-            for (let i in keys) {    
-                const index = keys[i];
-                let singleCase = casesFields.cases[index];
-                data.cases.push(singleCase.value);        
-            }
-            return data;
-        }
+       
 
         return (
                 <div className={styles.container}>
@@ -218,8 +323,8 @@ class CaseReport extends React.Component {
                                 <div>
                                     <h1>信息确认</h1>
                                     <CaseReportCheckCard 
-                                        userInfoFields={userFormData()} 
-                                        casesFields={casesFormData()} 
+                                        userInfoFields={this.userFormData()} 
+                                        casesFields={this.casesFormData()} 
                                     />
                                 </div>
                                 : null
@@ -233,7 +338,7 @@ class CaseReport extends React.Component {
                             {
                                 this.state.current === 2
                                 &&
-                                <Button type="primary" onClick={() => console.log('Processing complete!')}>Done</Button>
+                                <Button type="primary" onClick={() => this.handleSubmit()}>Done</Button>
                             }
                             {
                                 this.state.current > 0
@@ -255,6 +360,13 @@ class CaseReport extends React.Component {
 }
 
 CaseReport.propTypes = {
+    
 };
 
-export default connect()(CaseReport);
+function mapStateToProps(state) {
+    return {
+        user_info : state.app.user_info,
+    };
+}
+
+export default connect(mapStateToProps)(CaseReport);

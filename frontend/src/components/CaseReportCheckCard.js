@@ -10,7 +10,7 @@ const CaseReportCheckCard = ({userInfoFields, casesFields}) => {
             <pre className="language-bash">
                 {JSON.stringify(casesFields, null, 2)}
             </pre>
-            {/* <span>本科专业：{userInfoFields.major.value[0]}</span> */}
+
         </div>
     );
 };
