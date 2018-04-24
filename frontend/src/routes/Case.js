@@ -2,8 +2,15 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './Case.css';
 import CaseCard from '../components/CaseCard';
-import { Divider } from 'antd';
+import { Divider, Rate, Popover } from 'antd';
 import ResultCard from '../components/ResultCard';
+
+const content = (
+    <div>
+      <p>Content</p>
+      <p>Content</p>
+    </div>
+  );
 class Case extends React.Component {  
     renderResultCard(key, university, major, result){
         return (
@@ -22,7 +29,9 @@ class Case extends React.Component {
     //         type: 'cases/fetchRelatedCasesListByApplicantId',
     //         payload: case_data.applicant_id,
     //     });   
-    // }; 
+    // };
+    
+    
     render() {
         const case_data = this.props.case_data;
         return (
@@ -44,17 +53,26 @@ class Case extends React.Component {
                     gre_quantitative={case_data.gre_quantitative}
                     gre_writing={case_data.gre_writing}
                 />  
-                <h2>研究经历</h2>
-                <p>发了2篇顶会。</p>
-                <Divider />
-                <h2>实习经历</h2>
-                <p>在BAT实习过3个月。</p>
-                <Divider />
-                <h2>推荐信</h2>
-                <p>一封实验室老师的水推。</p>
+
+                <div className={styles.rateContainer}>
+                    <span className={styles.rateText}>研究经历</span>
+                    <Rate disabled defaultValue={2} />
+                </div>
+
+                <div className={styles.rateContainer}>
+                    <span className={styles.rateText}>实习经历</span>
+                    <Rate disabled defaultValue={3} />
+                </div>
+
+                <div className={styles.rateContainer}>
+                    <span className={styles.rateText}>推荐信</span>
+                    <Rate disabled defaultValue={4} />
+                </div>
+
+
                 <Divider />
                 <h2>正文</h2>
-                <p>1st ad,结束失学了，开心。</p>
+                <p>Yanyong的房源非常好! 就在BTS天桥下面 周围有很多7-11 还有big c超市 距离siam还有机场转乘站都只有几站的距离 入住时候前台有很认真的登记 入住方便 屋内不大 但设施很齐全 屋顶上的游泳池太赞了 傍晚时候看日落太美啦 物有所值 因为是傍晚时候的航班 yanyong还让他的朋友帮我们照看行李 谢谢 Thanks yangyong for all the help!</p>
                 <Divider />
                 <h2>其它录取结果</h2>
                 {/* {this.renderResultCard("CMU", "MS in Marketing", "rej")} */}

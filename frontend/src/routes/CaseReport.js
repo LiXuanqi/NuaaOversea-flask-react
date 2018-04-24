@@ -192,8 +192,9 @@ class CaseReport extends React.Component {
     handleSubmit() {
         const userInfoFields = this.userFormData();
         const casesFields = this.casesFormData();
+        // TODO: handle user information update.
         console.log(userInfoFields);
-        // console.log(casesFields);
+        
         casesFields.cases.forEach((item, index) => {
             console.log(item);
 
