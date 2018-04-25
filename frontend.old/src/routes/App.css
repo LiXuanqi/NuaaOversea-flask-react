@@ -1,0 +1,14 @@
+.body{
+    padding: 0 70px;
+    margin-top: 48px;
+    width: 100%;
+    display: flex;
+}
+.empty{
+    width: 12%;
+    content: "";
+}
+.content{
+    width: 76%;
+}
+

@@ -2,15 +2,9 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './Case.css';
 import CaseCard from '../components/CaseCard';
-import { Divider, Rate, Popover } from 'antd';
+import { Divider, Rate } from 'antd';
 import ResultCard from '../components/ResultCard';
 
-const content = (
-    <div>
-      <p>Content</p>
-      <p>Content</p>
-    </div>
-  );
 class Case extends React.Component {  
     renderResultCard(key, university, major, result){
         return (
@@ -21,16 +15,7 @@ class Case extends React.Component {
                 result={result}
             />
         );
-    };
-    // componentWillMount(){
-    //     const case_data = this.props.case_data;
-    //     // FIXME: it will call the dispatch endlessly
-    //     this.props.dispatch({
-    //         type: 'cases/fetchRelatedCasesListByApplicantId',
-    //         payload: case_data.applicant_id,
-    //     });   
-    // };
-    
+    };    
     
     render() {
         const case_data = this.props.case_data;
