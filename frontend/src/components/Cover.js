@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Cover.css'
 const Cover = () => {
     return (
-        <div style={{paddingTop: '64px'}}>
+        <div>
             <div className={styles.coverPic}>
                 {/* 
                     h: 457px;
@@ -33,6 +33,9 @@ const Cover = () => {
             
         </div>
     );
+};
+
+Cover.propTypes = {
 };
 
 export default Cover;
