@@ -6,7 +6,7 @@ import { Tag, Divider } from 'antd';
 
 const CaseCard = ({id, result, university, major, degree, term, gpa, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing }) => {
     return (
-        <Link to={"/case/"+id}>
+        <Link to={"/cases/"+id}>
         <div className={styles.cardContainer}>
         {/* {result==="rej"?"#f50":"#87d068"} */}
             <span className={styles.title}><Tag color={result==="rej"?"#f50":"#87d068"}>{result}</Tag>{university}, {term}</span>

@@ -34,13 +34,14 @@ class Application(db.Model):
     degree = db.Column(db.Enum('Master', 'Ph.D'))
     term = db.Column(db.String(64))
     result = db.Column(db.Enum('ad', 'offer', 'rej'))
-
     applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'), nullable=False)
     def __repr__(self):
         return '<Application #{}>'.format(self.id)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    stu_num = db.Column(db.String(32))
     username = db.Column(db.String(64), index=True, nullable=False)
     role = db.Column(db.Enum('root', 'admin', 'stuff', 'student'))
     applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'))

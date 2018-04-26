@@ -9,9 +9,9 @@ const Cover = () => {
                     w: 685.5px; 914px; 1371px; 1828px;
                  */}
                 <picture className={styles.img}>
-                    <source srcset="public/cover-1828px.jpg" media="(min-width: 1828px)" sizes="100vw"/>
-                    <source srcset="public/cover-1371px.jpg" media="(min-width: 1371px)" sizes="100vw"/>
-                    <source srcset="public/cover-914px.jpg" media="(min-width: 914px)" sizes="100vw"/>
+                    <source srcSet="public/cover-1828px.jpg" media="(min-width: 1828px)" sizes="100vw"/>
+                    <source srcSet="public/cover-1371px.jpg" media="(min-width: 1371px)" sizes="100vw"/>
+                    <source srcSet="public/cover-914px.jpg" media="(min-width: 914px)" sizes="100vw"/>
                     <img src="public/cover-914px.jpg" alt="cover" width="100%" height="457px"/>
                 </picture>
                 <div className={styles.coverPicMask}/>

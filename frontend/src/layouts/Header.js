@@ -1,10 +1,13 @@
-import { Button, Dropdown, Avatar, Menu, Input } from 'antd';
+import { connect } from 'dva';
+import withRouter from 'umi/withRouter';
 import Link from 'umi/link';
 import styles from './Header.css';
+import { Button, Dropdown, Avatar, Menu, Input } from 'antd';
+import { isLogin } from '../utils/user.js';
 
 const Search = Input.Search;
 
-function Header({ user_info, history, dispatch }) {
+function Header({ history, dispatch }) {
 
     const handleUserActionMenuClicked = function ({ key }) {
         console.log(`Click on item ${key}`);
@@ -21,29 +24,14 @@ function Header({ user_info, history, dispatch }) {
     );
 
     const handleLogin = () => {
-        fetch('/api/session', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                redirect_uri: history.location.pathname,
-            }),
-            credentials: 'include'
-          })
-          .then(function(response) {
-            return response.json()
-          }).then(function(json) {
-            console.log('parsed json', json)
-            if (json.href){
-                // redirect to sso-v2 to get code.
-                window.location.href = json.href;
-            } else {
-                // TODO: store the information to redux.
-            }
-          }).catch(function(ex) {
-            console.log('parsing failed', ex)
-          })
+        // 1. judge isLogin();
+        // 2. if yes, 
+        // 3. if no, navigate to /sso-v2/oauth/12345678?redirect_uri=' + history.location.pathname
+        if (!isLogin()) {
+            window.location.href = '/sso-v2/oauth/12345678?redirect_uri=' + history.location.pathname;
+        }
+        // will get code.
+  
     };
     
     const handleLogout = () => {
@@ -78,7 +66,7 @@ function Header({ user_info, history, dispatch }) {
                 <div className={styles.userInfoContainer}>
                     {/* FIXME: when the user_info is {}, it still be true. */}
                     {
-                        JSON.stringify(user_info) === "{}" 
+                        true
                             ?
                         <Button size="large" type="primary" onClick={handleLogin}>登陆</Button> 
                             : 
@@ -96,4 +84,10 @@ function Header({ user_info, history, dispatch }) {
   );
 }
 
-export default Header;
+function mapStateToProps(state) {
+    return {
+
+    };
+}
+
+export default connect(mapStateToProps)(withRouter(Header));

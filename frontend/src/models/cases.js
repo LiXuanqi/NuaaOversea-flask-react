@@ -74,12 +74,12 @@ export default {
     subscriptions: {
         setup({ dispatch, history }) {
             return history.listen(({ pathname })=> {
-                if (pathToRegexp('/case').exec(pathname)) {
+                if (pathToRegexp('/cases').exec(pathname)) {
                     dispatch({
                         type: 'fetchAllCasesList',
                     });
                 } 
-                const match = pathToRegexp('/case/:caseId').exec(pathname);
+                const match = pathToRegexp('/cases/:caseId').exec(pathname);
                 if (match) {
                     const caseId = match[1];
                     dispatch({
