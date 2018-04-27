@@ -107,4 +107,12 @@ class Token(Resource):
 
         :return:
         """
-        pass
+        if not redis_store.exists(access_token):
+            return {
+                'message': 'access_token does not exist.'
+            }
+
+        redis_store.delete(access_token)
+        return {
+            'message': access_token + ' is deleted'
+        }

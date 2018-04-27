@@ -2,12 +2,13 @@ import React from 'react';
 import fetch from 'dva/fetch';
 import { connect } from 'dva';
 import { Form, Input, Cascader, Checkbox, Button, Radio, InputNumber } from 'antd';
+import { loginUser, login } from '../utils/user';
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-// TODO: 收集学校的所有专业名
+// TODO: 收集学校的所有专业名,fetch from database.
 const majors = [{
     value: '能源与动力学院',
     label: '能源与动力学院',
@@ -27,17 +28,20 @@ const majors = [{
     }],
 }];
 
+// TODO: if the info exists, should ask user whether update the info?
 class UserReportForm extends React.Component {
     state = {
         confirmDirty: false,
         autoCompleteResult: [],
     };
     handleSubmit = (e) => {
+
+        const user_info = loginUser();
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 // console.log('Received values of form: ', values)
-                console.log(this.props.user_info);
+        
                 fetch('/api/applicants', {
                     method: 'POST',
                     headers: {
@@ -47,15 +51,18 @@ class UserReportForm extends React.Component {
                         ...values,
                         college: values.major[0],
                         major: values.major[1],
-                        name: this.props.user_info.name,
-                        student_id: this.props.user_info.stu_num,
-                        user_id: this.props.user_info.user_id
+                        name: user_info.name,
+                        student_id: user_info.stu_num,
+                        user_id: user_info.id
                     })
                   })
                   .then(function(response) {
                     return response.json()
                   }).then(function(json) {
                     console.log('parsed json', json)
+                    // get new user_info and store in cookie(applicant_id will change)
+                    login();
+           
                   }).catch(function(ex) {
                     console.log('parsing failed', ex)
                   })
@@ -402,7 +409,6 @@ const WrappedUserComplementReportForm = Form.create({
 
 function mapStateToProps(state) {
     return {
-        user_info : state.app.user_info,
     };
 }
 // const WrappedUserReportForm = Form.create()(UserReportForm);

@@ -6,7 +6,7 @@ import { Steps, Icon, Button, Divider} from 'antd';
 import WrappedCaseReportForm from '../../components/CaseReportForm';
 import { WrappedUserComplementReportForm } from '../../components/UserReportForm';
 import CaseReportCheckCard from '../../components/CaseReportCheckCard';
-
+import { loginUser } from '../../utils/user';
 const Step = Steps.Step;
 
 class CaseReport extends React.Component {
@@ -74,8 +74,10 @@ class CaseReport extends React.Component {
     }
 
     componentDidMount() {
-        const applicant_id = this.props.user_info.applicant_id;
 
+        const user_info = loginUser();
+        const applicant_id = user_info.applicant_id;
+      
         if (applicant_id) {
             fetch('/api/applicants/' + applicant_id, {
                 method: 'GET',
@@ -188,6 +190,7 @@ class CaseReport extends React.Component {
     }
 
     handleSubmit() {
+        const user_info = loginUser();
         const userInfoFields = this.userFormData();
         const casesFields = this.casesFormData();
         // TODO: handle user information update.
@@ -203,7 +206,7 @@ class CaseReport extends React.Component {
                 },
                 body: JSON.stringify({
                     ...item,
-                    applicant_id: this.props.user_info.applicant_id
+                    applicant_id: user_info.applicant_id
                 })
             })
             .then(function(response) {
@@ -364,7 +367,7 @@ CaseReport.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        user_info : state.app.user_info,
+
     };
 }
 

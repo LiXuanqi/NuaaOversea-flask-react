@@ -33,7 +33,7 @@ api.add_resource(Application, '/applications/<application_id>')
 api.add_resource(Applicants, '/applicants')
 api.add_resource(Applicant, '/applicants/<applicant_id>')
 
-api.add_resource(Tokens, '/token')
-api.add_resource(Token, '/token/<access_token>')
+api.add_resource(Tokens, '/tokens')
+api.add_resource(Token, '/tokens/<access_token>')
 
 api.add_resource(Users, '/users')

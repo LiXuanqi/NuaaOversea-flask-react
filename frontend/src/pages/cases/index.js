@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './index.css';
 import { Input, Tag, Divider, Row, Col, Select } from 'antd';
+import { loginUser } from '../../utils/user';
 
 import CaseCard from '../../components/CaseCard';
 import UserInfoCard from '../../components/UserInfoCard';
@@ -65,6 +66,7 @@ class CaseList extends React.Component {
    
     render() {
         const { selectedTags } = this.state;
+        const user_info = loginUser();
         return (
             <div className={styles.container}>
                 <Row gutter={32}>
@@ -180,8 +182,8 @@ class CaseList extends React.Component {
                 <Col span={6}>
                 {/* <div className={styles.sidebarContainer}> */}
                     <UserInfoCard
-                        username={this.props.user_info.username}
-                        role={this.props.user_info.role}
+                        username={user_info.username}
+                        role={user_info.role}
                         helpNumber='345'
                     />
                     <BillboardCard />
@@ -202,8 +204,7 @@ CaseList.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        cases_list : state.cases.cases_list,
-        user_info : state.app.user_info,
+        cases_list : state.cases.cases_list
     };
 }
 

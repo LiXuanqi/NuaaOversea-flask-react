@@ -3,7 +3,7 @@ import withRouter from 'umi/withRouter';
 import Link from 'umi/link';
 import styles from './Header.css';
 import { Button, Dropdown, Avatar, Menu, Input } from 'antd';
-import { isLogin } from '../utils/user.js';
+import { isLogin, logout } from '../utils/user.js';
 
 const Search = Input.Search;
 
@@ -35,8 +35,7 @@ function Header({ history, dispatch }) {
     };
     
     const handleLogout = () => {
-        dispatch({ type: 'app/logoutUser'});
-        // TODO: delete the user_info from redux.
+        logout();
     };
 
     return (
@@ -64,19 +63,17 @@ function Header({ history, dispatch }) {
                     </Link>
                 </div>
                 <div className={styles.userInfoContainer}>
-                    {/* FIXME: when the user_info is {}, it still be true. */}
                     {
-                        true
+                        isLogin()
                             ?
-                        <Button size="large" type="primary" onClick={handleLogin}>登陆</Button> 
-                            : 
-                        <div>
-                            <Dropdown overlay={menu} placement="bottomCenter">
-                                <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
-                            </Dropdown>
-                            
-                            {/* <Button size="large" type="primary" onClick={handleLogout}>登出</Button>  */}
-                        </div>
+                            <div>
+                                <Dropdown overlay={menu} placement="bottomCenter">
+                                    <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
+                                </Dropdown>
+
+                            </div>
+                            :
+                            <Button size="large" type="primary" onClick={handleLogin}>登陆</Button> 
                     }
                 </div>
             </div>

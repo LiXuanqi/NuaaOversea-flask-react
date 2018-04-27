@@ -12,7 +12,7 @@ export default {
     effects: {      
         *fetchToken({ payload: args }, { call, put }){
             console.log(args);
-            const response = yield call(request, '/api/token', {
+            const response = yield call(request, '/api/tokens', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

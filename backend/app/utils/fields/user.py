@@ -17,5 +17,6 @@ user_single_fields = {
     'name': fields.String,
     'username': fields.String,
     'stu_num': fields.String,
-    'role': fields.String
+    'role': fields.String,
+    'applicant_id': fields.Integer
 }

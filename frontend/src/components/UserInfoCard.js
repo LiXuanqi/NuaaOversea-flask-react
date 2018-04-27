@@ -1,9 +1,18 @@
 import React from 'react';
 import Link from 'umi/link';
+import withRouter from 'umi/withRouter';
 import styles from './UserInfoCard.css';
 import { Button, Avatar } from 'antd';
+import { isLogin } from '../utils/user';
 
-const UserInfoCard = ({username, role, helpNumber}) => {
+const UserInfoCard = ({ history, username, role, helpNumber }) => {
+
+    const handleLogin = () => {
+        if (!isLogin()) {
+            window.location.href = '/sso-v2/oauth/12345678?redirect_uri=' + history.location.pathname;
+        } 
+    };
+
     return (
         <div className={styles.card}>
             <div className={styles.userInfoContainer}>
@@ -30,7 +39,7 @@ const UserInfoCard = ({username, role, helpNumber}) => {
                     </div>
                 :
                     <div className={styles.actionsContainer}>
-                        <Button className={styles.buttonBlue} type="primary">登陆</Button>
+                        <Button className={styles.buttonBlue} type="primary" onClick={handleLogin}>登陆</Button>
                         <Button className={styles.buttonBlue} type="primary" disabled>报OFFER</Button>
                     </div>
             }
@@ -51,4 +60,4 @@ const UserInfoCard = ({username, role, helpNumber}) => {
 UserInfoCard.propTypes = {
 };
 
-export default UserInfoCard;
+export default withRouter(UserInfoCard);
