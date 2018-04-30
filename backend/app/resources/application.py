@@ -69,3 +69,4 @@ class Application(Resource):
     def delete(self, application_id):
         result = rm_application(application_id)
         return result
+

@@ -54,10 +54,6 @@ class Case extends React.Component {
                     <Rate disabled defaultValue={4} />
                 </div>
 
-
-                <Divider />
-                <h2>正文</h2>
-                <p>Yanyong的房源非常好! 就在BTS天桥下面 周围有很多7-11 还有big c超市 距离siam还有机场转乘站都只有几站的距离 入住时候前台有很认真的登记 入住方便 屋内不大 但设施很齐全 屋顶上的游泳池太赞了 傍晚时候看日落太美啦 物有所值 因为是傍晚时候的航班 yanyong还让他的朋友帮我们照看行李 谢谢 Thanks yangyong for all the help!</p>
                 <Divider />
                 <h2>其它录取结果</h2>
                 {/* {this.renderResultCard("CMU", "MS in Marketing", "rej")} */}
