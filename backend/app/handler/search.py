@@ -10,12 +10,12 @@
 
 """
 from app import db
-from app.models import Application
+from app.models import Application, Tag
 
 def search_application(query_args):
-    
-    applications = Application.query
 
+    applications = Application.query
+    print(query_args)
     if 'university' in query_args:
         applications = applications.filter(Application.university.ilike("%" + query_args['university'] + "%"))
     if 'major' in query_args:
@@ -28,5 +28,15 @@ def search_application(query_args):
         applications = applications.filter_by(degree=query_args['degree'])
     if 'country' in query_args:
         applications = applications.filter_by(country=query_args['country'])
+    if 'tags' in query_args:
+        # find the matched applications' id
+        tags_set = set()
+        for tag in query_args['tags']:
+            target_tags = Tag.query.filter(Tag.name.ilike("%"+tag+"%")).all()
+            for target_tag in target_tags:
+                tags_set.add(target_tag.application_id)
 
+        applications = applications.filter(Application.id.in_(tags_set))
+
+    # TODO: when nothing matched, should return null.
     return applications.all()

@@ -35,6 +35,7 @@ class Application(db.Model):
     term = db.Column(db.String(64))
     result = db.Column(db.Enum('ad', 'offer', 'rej'))
     applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'), nullable=False)
+    tags = db.relationship('Tag', backref='tag', lazy='dynamic')
     def __repr__(self):
         return '<Application #{}>'.format(self.id)
 
@@ -47,3 +48,10 @@ class User(db.Model):
     applicant_id = db.Column(db.Integer, db.ForeignKey('applicant.id'))
     def __repr__(self):
         return '<Account {}>'.format(self.username)
+
+class Tag(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), nullable=False, index=True)
+    application_id = db.Column(db.Integer, db.ForeignKey('application.id'))
+    def __repr__(self):
+        return '<Tag {}>'.format(self.name)

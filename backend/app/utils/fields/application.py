@@ -13,7 +13,10 @@
 from flask_restful import fields
 
 # for get /applications
-
+tag_single_fileds = {
+    'id': fields.String,
+    'name': fields.String
+}
 # TODO: complete the response format for 'get /applications'.
 application_single_fields = {
     'id': fields.String,
@@ -33,6 +36,7 @@ application_single_fields = {
     'gre_verbal': fields.Integer(attribute='applicant.gre_verbal'),
     'gre_quantitative': fields.Integer(attribute='applicant.gre_quantitative'),
     'gre_writing': fields.Float(attribute='applicant.gre_writing'),
+    'tags': fields.List(fields.Nested(tag_single_fileds))
 }
 
 applications_fields = {

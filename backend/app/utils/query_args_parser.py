@@ -16,7 +16,13 @@ def query_args_parser(str):
     for item in list:
         key_value = item.split(':')
         key = key_value[0];
-        value = key_value[1]
+
+        if key == 'tags':
+            tags = key_value[1].split('*')
+            value = tags
+        else:
+            value = key_value[1]
+
         dict.update({
             key: value
         })
