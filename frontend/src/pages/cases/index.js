@@ -49,7 +49,6 @@ class CaseList extends React.Component {
         selectedTerm: [],
     };
     fetchCasesByQueryies = () => {
-        // FIXME: when clicked tag twice, should fetch all cases.
         const query_args = this.state;
         
         this.props.dispatch({

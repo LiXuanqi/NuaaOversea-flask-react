@@ -101,6 +101,15 @@ export default {
                         data,
                     },
                 });
+            } else {
+                const data = yield call(request, '/api/applications');
+                
+                yield put({
+                    type: 'saveAllCasesList',
+                    payload: {
+                        data,
+                    },
+                });
             }
           
         },
