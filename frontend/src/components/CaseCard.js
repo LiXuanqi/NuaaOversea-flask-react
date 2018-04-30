@@ -9,10 +9,8 @@ const CaseCard = ({id, result, university, major, degree, term, gpa, language_ty
         <Link to={"/cases/"+id}>
         <div className={styles.cardContainer}>
         {/* {result==="rej"?"#f50":"#87d068"} */}
-            <span className={styles.title}><Tag color={result==="rej"?"#f50":"#87d068"}>{result}</Tag>{university}, {term}</span>
+            <span className={styles.title}><Tag color={result==="rej"?"#f50":"#87d068"}>{result}</Tag>{university}, {major}, {degree}, {term}</span>
             <div className={styles.tagsContainer}>
-                <Tag color="blue">{degree}</Tag>
-                <Tag color="blue">{major}</Tag>
                 <Tag color="blue">高GT</Tag>
                 <Tag color="blue">高GPA</Tag>
                 <Tag color="blue">渣三维</Tag>

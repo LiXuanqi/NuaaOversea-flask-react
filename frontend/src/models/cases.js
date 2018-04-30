@@ -68,7 +68,41 @@ export default {
                     relatedData,
                 },
             });
-
+        },
+        *fetchCasesByQueries({ payload: query_args}, { call, put }){
+            let queryStr = '';
+            if (query_args.selectedCountry !== "") {
+                queryStr = queryStr + (queryStr === '' ? "" : "+") + "country:" + query_args.selectedCountry;
+            }
+            if (query_args.selectedDegree !== "") {
+                queryStr = queryStr + (queryStr === '' ? "" : "+") + "degree:" + query_args.selectedDegree;
+            }
+            if (query_args.selectedResult !== "") {
+                queryStr = queryStr + (queryStr === '' ? "" : "+") + "result:" + query_args.selectedResult;
+            }
+            if (query_args.selectedTerm.length !== 0) {
+                queryStr = queryStr + (queryStr === '' ? "" : "+") + "term:" + query_args.selectedTerm[0] + query_args.selectedTerm[1];
+            }
+            if (query_args.selectedTags.length !== 0) {
+            
+                let tags = "";
+                for (let i = 0; i < query_args.selectedTags.length; i++) {
+                    tags = tags + (i !== 0 ? "*" : "") + query_args.selectedTags[i]
+                }
+                queryStr = queryStr + (queryStr === '' ? "" : "+") + "tags:" + tags;
+            }
+            console.log(queryStr);
+            if (queryStr !== "" ) {
+                const data = yield call(request, '/api/search/applications?q=' + queryStr);
+                console.log(data);
+                yield put({
+                    type: 'saveAllCasesList',
+                    payload: {
+                        data,
+                    },
+                });
+            }
+          
         },
     },
     subscriptions: {

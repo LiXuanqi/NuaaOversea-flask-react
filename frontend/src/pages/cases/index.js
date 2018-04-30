@@ -1,44 +1,129 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './index.css';
-import { Input, Tag, Divider, Row, Col, Select } from 'antd';
+import { Input, Tag, Divider, Row, Col, Cascader } from 'antd';
 import { loginUser } from '../../utils/user';
 
 import CaseCard from '../../components/CaseCard';
 import UserInfoCard from '../../components/UserInfoCard';
 import BillboardCard from '../../components/BillboardCard';
 
-const Option = Select.Option;
+
 
 const CheckableTag = Tag.CheckableTag;
-const tagsFromServer = ['MS', 'PHD', '高GT', '高GPA', '渣三维', '转专业'];
+const tagsFromServer = ['高GT', '高GPA', '渣三维', '转专业'];
+const degreesFromServer = ['Ph.D', 'Master'];
+const resultsFromServer = ['ad', 'rej', 'offer'];
+const countriesFromServer = ['美国', '中国', '德国', '日本', '澳大利亚'];
+const termOptions = [{
+    value: '2017',
+    label: '2017',
+    children: [{
+        value: 'spring',
+        label: 'spring'   
+    }, {
+        value: 'fall',
+        label: 'fall'   
+    }],
+  }, {
+    value: '2018',
+    label: '2018',
+    children: [{
+        value: 'spring',
+        label: 'spring'   
+    }, {
+        value: 'fall',
+        label: 'fall'   
+    }],
+  }];
 const Search = Input.Search;
 
-function handleChange(value) {
-    console.log(`selected ${value}`);
-}
-  
-function handleBlur() {
-    console.log('blur');
-}
-  
-function handleFocus() {
-    console.log('focus');
-}
 
 class CaseList extends React.Component {
-    
+
     state = {
         selectedTags: [],
+        selectedDegree: '',
+        selectedResult: '',
+        selectedCountry: '',
+        selectedTerm: [],
     };
-
+    fetchCasesByQueryies = () => {
+        const query_args = this.state;
+        console.log(query_args);
+        this.props.dispatch({
+            type: 'cases/fetchCasesByQueries',
+            payload: query_args,
+        });
+    }
+    OnTermChange = (value) => {
+        this.setState({
+            selectedTerm: value
+        }, () => {
+            this.fetchCasesByQueryies();
+        });
+  
+    }
     handleChange(tag, checked) {
+
         const { selectedTags } = this.state;
         const nextSelectedTags = checked ?
                 [...selectedTags, tag] :
                 selectedTags.filter(t => t !== tag);
         console.log('You are interested in: ', nextSelectedTags);
-        this.setState({ selectedTags: nextSelectedTags });
+        this.setState({
+            selectedTags: nextSelectedTags 
+        }, () => {
+            this.fetchCasesByQueryies();
+        });
+    }
+    
+    handleDegreeChange(tag, checked) {
+        if (checked) {
+            this.setState({
+                selectedDegree: tag
+            }, () => {
+                this.fetchCasesByQueryies();
+            });
+        } else {
+            this.setState({
+                selectedDegree: ''
+            }, () => {
+                this.fetchCasesByQueryies();
+            });
+        }
+    }
+
+    handleResultChange(tag, checked) {
+        if (checked) {
+            this.setState({
+                selectedResult: tag
+            }, () => {
+                this.fetchCasesByQueryies();
+            });
+        } else {
+            this.setState({
+                selectedResult: ''
+            }, () => {
+                this.fetchCasesByQueryies();
+            });
+        }
+    }
+
+    handleCountryChange(tag, checked) {
+        if (checked) {
+            this.setState({
+                selectedCountry: tag
+            }, () => {
+                this.fetchCasesByQueryies();
+            });
+        } else {
+            this.setState({
+                selectedCountry: ''
+            }, () => {
+                this.fetchCasesByQueryies();
+            });
+        }
     }
     // render a single CaseCard.
     renderCaseCard(key, id, university, result, major, term, degree, gpa, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing){
@@ -65,7 +150,7 @@ class CaseList extends React.Component {
     }
    
     render() {
-        const { selectedTags } = this.state;
+        const { selectedTags, selectedDegree, selectedCountry, selectedResult } = this.state;
         const user_info = loginUser();
         return (
             <div className={styles.container}>
@@ -85,7 +170,7 @@ class CaseList extends React.Component {
 
                             <div className={styles.filterContainer}>
                                 <Search
-                                    placeholder="input search text"
+                                    placeholder="2018 CMU CS"
                                     onSearch={value => console.log(value)}
                                     style={{ width: '100%' }}
                                 />
@@ -96,39 +181,37 @@ class CaseList extends React.Component {
 
                                     <div className={styles.searchSelectContainer}> 
                                         <div className={styles.searchSelect}>
-                                            <Select
-                                                showSearch
-                                                style={{ width: 200 }}
-                                                placeholder="选择专业"
-                                                optionFilterProp="children"
-                                                onChange={handleChange}
-                                                onFocus={handleFocus}
-                                                onBlur={handleBlur}
-                                                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                                            <Cascader options={termOptions} onChange={(value) => {this.OnTermChange(value)}} placeholder="请选择学期" />
+                                        </div>    
+                      
+                                    </div>
+
+                                    <div>
+                                        <h6 className={styles.tagSelectTitle}>攻读学位:</h6>
+                                        {degreesFromServer.map(tag => (
+                                            <CheckableTag
+                                                key={tag}
+                                                checked={selectedDegree === tag}
+                                                onChange={checked => this.handleDegreeChange(tag, checked)}
                                             >
-                                                <Option value="cs">CS</Option>
-                                                <Option value="mis">MIS</Option>
-                                                <Option value="ba">BA</Option>
-                                            </Select>
-                                        </div>
-                                        <div className={styles.searchSelect}>
-                                            <Select
-                                                showSearch
-                                                style={{ width: 200 }}
-                                                placeholder="选择学期"
-                                                optionFilterProp="children"
-                                                onChange={handleChange}
-                                                onFocus={handleFocus}
-                                                onBlur={handleBlur}
-                                                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                                            >
-                                                <Option value="2018fall">2018FALL</Option>
-                                                <Option value="2017fall">2017FALL</Option>
-                                                <Option value="2017spring">2017SPRING</Option>
-                                            </Select>
-                                        </div>                                       
+                                                {tag}
+                                            </CheckableTag>
+                                        ))}
                                     </div>
                                     
+                                    <div>
+                                        <h6 className={styles.tagSelectTitle}>申请结果:</h6>
+                                        {resultsFromServer.map(tag => (
+                                            <CheckableTag
+                                                key={tag}
+                                                checked={selectedResult === tag}
+                                                onChange={checked => this.handleResultChange(tag, checked)}
+                                            >
+                                                {tag}
+                                            </CheckableTag>
+                                        ))}
+                                    </div>
+
                                     <div>
                                         <h6 className={styles.tagSelectTitle}>特色筛选:</h6>
                                         {tagsFromServer.map(tag => (
@@ -141,7 +224,19 @@ class CaseList extends React.Component {
                                             </CheckableTag>
                                         ))}
                                     </div>
-
+                                    
+                                    <div>
+                                        <h6 className={styles.tagSelectTitle}>申请国家:</h6>
+                                        {countriesFromServer.map(tag => (
+                                            <CheckableTag
+                                                key={tag}
+                                                checked={selectedCountry === tag}
+                                                onChange={checked => this.handleCountryChange(tag, checked)}
+                                            >
+                                                {tag}
+                                            </CheckableTag>
+                                        ))}
+                                    </div>
                                     
                                    
                                 
@@ -153,7 +248,7 @@ class CaseList extends React.Component {
                                 
                                 {
                                     this.props.cases_list.map((item, index)=>{
-                                        console.log(item);
+                               
                                         return this.renderCaseCard(
                                             index,
                                             item.id,
