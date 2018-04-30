@@ -32,10 +32,9 @@ def search_application(query_args):
         # find the matched applications' id
         tags_set = set()
         for tag in query_args['tags']:
-            target_tags = Tag.query.filter(Tag.name.ilike("%"+tag+"%")).all()
-            for target_tag in target_tags:
-                tags_set.add(target_tag.application_id)
-
+            target_tag = Tag.query.filter(Tag.name.ilike("%"+tag+"%")).first()
+            for application in target_tag.applications:
+                tags_set.add(application.id)
         applications = applications.filter(Application.id.in_(tags_set))
 
     # TODO: when nothing matched, should return null.

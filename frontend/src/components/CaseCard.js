@@ -4,17 +4,20 @@ import styles from './CaseCard.css';
 import { Tag, Divider } from 'antd';
 
 
-const CaseCard = ({id, result, university, major, degree, term, gpa, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing }) => {
+const CaseCard = ({id, result, university, major, degree, term, gpa, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing, tags }) => {
+ 
     return (
         <Link to={"/cases/"+id}>
         <div className={styles.cardContainer}>
         {/* {result==="rej"?"#f50":"#87d068"} */}
             <span className={styles.title}><Tag color={result==="rej"?"#f50":"#87d068"}>{result}</Tag>{university}, {major}, {degree}, {term}</span>
             <div className={styles.tagsContainer}>
-                <Tag color="blue">高GT</Tag>
-                <Tag color="blue">高GPA</Tag>
-                <Tag color="blue">渣三维</Tag>
-                <Tag color="blue">转专业</Tag>
+                {
+                    tags.map((item) => {
+                        return (<Tag color="blue">{item.name}</Tag>);
+                    })
+                }
+       
             </div>
             <div className={styles.marksContainer}>
                 <div className={styles.markContainer}>

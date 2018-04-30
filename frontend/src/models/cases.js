@@ -94,7 +94,7 @@ export default {
             console.log(queryStr);
             if (queryStr !== "" ) {
                 const data = yield call(request, '/api/search/applications?q=' + queryStr);
-                console.log(data);
+                
                 yield put({
                     type: 'saveAllCasesList',
                     payload: {

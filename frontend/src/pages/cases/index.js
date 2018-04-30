@@ -49,8 +49,9 @@ class CaseList extends React.Component {
         selectedTerm: [],
     };
     fetchCasesByQueryies = () => {
+        // FIXME: when clicked tag twice, should fetch all cases.
         const query_args = this.state;
-        console.log(query_args);
+        
         this.props.dispatch({
             type: 'cases/fetchCasesByQueries',
             payload: query_args,
@@ -70,7 +71,7 @@ class CaseList extends React.Component {
         const nextSelectedTags = checked ?
                 [...selectedTags, tag] :
                 selectedTags.filter(t => t !== tag);
-        console.log('You are interested in: ', nextSelectedTags);
+        // console.log('You are interested in: ', nextSelectedTags);
         this.setState({
             selectedTags: nextSelectedTags 
         }, () => {
@@ -126,7 +127,7 @@ class CaseList extends React.Component {
         }
     }
     // render a single CaseCard.
-    renderCaseCard(key, id, university, result, major, term, degree, gpa, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing){
+    renderCaseCard(key, id, university, result, major, term, degree, gpa, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing, tags){
         return(
             <CaseCard
                 key={key}
@@ -145,6 +146,7 @@ class CaseList extends React.Component {
                 gre_verbal={gre_verbal}
                 gre_quantitative={gre_quantitative}
                 gre_writing={gre_writing}
+                tags={tags}
             />  
         );
     }
@@ -265,7 +267,8 @@ class CaseList extends React.Component {
                                             item.language_writing,
                                             item.gre_verbal,
                                             item.gre_quantitative,
-                                            item.gre_writing
+                                            item.gre_writing,
+                                            item.tags
                                         );
                                     })
                                 }

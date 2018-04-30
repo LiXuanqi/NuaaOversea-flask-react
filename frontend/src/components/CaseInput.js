@@ -117,8 +117,8 @@ class CaseInput extends React.Component {
           onChange={this.handleDegreeChange}
           placeholder="学位"
         >
-          <Option value="master">Master</Option>
-          <Option value="phd">PhD</Option>
+          <Option value="Master">Master</Option>
+          <Option value="Ph.D">Ph.D</Option>
         </Select>
 
         <Select
