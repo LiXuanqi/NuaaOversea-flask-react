@@ -7,11 +7,11 @@ import { loginUser } from '../../utils/user';
 import CaseCard from '../../components/CaseCard';
 import UserInfoCard from '../../components/UserInfoCard';
 import BillboardCard from '../../components/BillboardCard';
-
-
+import request from '../../utils/request';
 
 const CheckableTag = Tag.CheckableTag;
-const tagsFromServer = ['高GT', '高GPA', '渣三维', '转专业'];
+// TODO: fetch data from server.
+
 const degreesFromServer = ['Ph.D', 'Master'];
 const resultsFromServer = ['ad', 'rej', 'offer'];
 const countriesFromServer = ['美国', '中国', '德国', '日本', '澳大利亚'];
@@ -38,15 +38,24 @@ const termOptions = [{
   }];
 const Search = Input.Search;
 
-
 class CaseList extends React.Component {
-
+    async componentWillMount(){
+        const response = await request('/api/tags');
+        let tagsFromServer = [];
+        response.data.tags.forEach((item)=>{
+            tagsFromServer.push(item.name);
+        })
+        this.setState({
+            tagsItems: [...tagsFromServer]
+        })
+    }
     state = {
         selectedTags: [],
         selectedDegree: '',
         selectedResult: '',
         selectedCountry: '',
         selectedTerm: [],
+        tagsItems: [],
     };
     fetchCasesByQueryies = () => {
         const query_args = this.state;
@@ -151,7 +160,7 @@ class CaseList extends React.Component {
     }
    
     render() {
-        const { selectedTags, selectedDegree, selectedCountry, selectedResult } = this.state;
+        const { selectedTags, selectedDegree, selectedCountry, selectedResult, tagsItems } = this.state;
         const user_info = loginUser();
         return (
             <div className={styles.container}>
@@ -215,7 +224,7 @@ class CaseList extends React.Component {
 
                                     <div>
                                         <h6 className={styles.tagSelectTitle}>特色筛选:</h6>
-                                        {tagsFromServer.map(tag => (
+                                        {tagsItems.map(tag => (
                                             <CheckableTag
                                                 key={tag}
                                                 checked={selectedTags.indexOf(tag) > -1}

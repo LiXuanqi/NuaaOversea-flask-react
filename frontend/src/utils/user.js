@@ -28,6 +28,7 @@ async function logout() {
     const response = await request('/api/tokens/' + access_token, {
         method: 'DELETE'
     })
+    console.log(response);
     // TODO: notice of success.
     Cookies.remove('current-user');
     window.location.reload();

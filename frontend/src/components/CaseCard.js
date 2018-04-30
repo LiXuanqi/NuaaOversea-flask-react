@@ -14,7 +14,7 @@ const CaseCard = ({id, result, university, major, degree, term, gpa, language_ty
             <div className={styles.tagsContainer}>
                 {
                     tags.map((item) => {
-                        return (<Tag color="blue">{item.name}</Tag>);
+                        return (<Tag key={item.id} color="blue">{item.name}</Tag>);
                     })
                 }
        
