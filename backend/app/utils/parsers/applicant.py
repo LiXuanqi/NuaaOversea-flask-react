@@ -114,22 +114,22 @@ applicant_post_parser.add_argument(
 )
 
 applicant_post_parser.add_argument(
-    'research',
-    dest='research',
+    'research_id',
+    dest='research_id',
     type=str,
     required=True,
 )
 
 applicant_post_parser.add_argument(
-    'project',
-    dest='project',
+    'project_id',
+    dest='project_id',
     type=str,
     required=True,
 )
 
 applicant_post_parser.add_argument(
-    'recommendation',
-    dest='recommendation',
+    'recommendation_id',
+    dest='recommendation_id',
     type=str,
     required=True,
 )
@@ -237,22 +237,22 @@ applicant_put_parser.add_argument(
 )
 
 applicant_put_parser.add_argument(
-    'research',
-    dest='research',
+    'research_id',
+    dest='research_id',
     type=str,
     required=True,
 )
 
 applicant_put_parser.add_argument(
-    'project',
-    dest='project',
+    'project_id',
+    dest='project_id',
     type=str,
     required=True,
 )
 
 applicant_put_parser.add_argument(
-    'recommendation',
-    dest='recommendation',
+    'recommendation_id',
+    dest='recommendation_id',
     type=str,
     required=True,
 )

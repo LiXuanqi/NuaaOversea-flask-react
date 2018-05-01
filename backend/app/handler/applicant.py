@@ -31,9 +31,9 @@ def create_applicant(user_id,
                     gre_verbal,
                     gre_quantitative,
                     gre_writing,
-                    research,
-                    project,
-                    recommendation,
+                    research_id,
+                    project_id,
+                    recommendation_id,
                     email=None):
     # TODO: add the authentication of power.
     # TODO: verify the repeation of datas.
@@ -51,9 +51,9 @@ def create_applicant(user_id,
         gre_verbal=gre_verbal,
         gre_quantitative=gre_quantitative,
         gre_writing=gre_writing,
-        research=research,
-        project=project,
-        recommendation=recommendation,
+        research_id=research_id,
+        project_id=project_id,
+        recommendation_id=recommendation_id,
         email=email
     )
     db.session.add(applicant)
@@ -90,9 +90,9 @@ def update_applicant(applicant_id,
                     gre_verbal,
                     gre_quantitative,
                     gre_writing,
-                    research,
-                    project,
-                    recommendation,
+                    research_id,
+                    project_id,
+                    recommendation_id,
                     email=None):
     # TODO: update the applicant(handler)
 
@@ -111,9 +111,9 @@ def update_applicant(applicant_id,
     applicant.gre_verbal = gre_verbal
     applicant.gre_quantitative = gre_quantitative
     applicant.gre_writing = gre_writing
-    applicant.research = research
-    applicant.project = project
-    applicant.recommendation = recommendation
+    applicant.research_id = research_id
+    applicant.project_id = project_id
+    applicant.recommendation_id = recommendation_id
     applicant.email = email
 
     db.session.commit()

@@ -10,9 +10,9 @@
 
 """
 
-from app.models import Application
+from app.models import Application, Tag, Applicant
 from app import db
-
+from app.utils.auto_tags import auto_tags
 def get_all_applications():
     applications = Application.query.all()
     return applications
@@ -25,7 +25,7 @@ def get_applications_by_university(university):
     applications = Application.query.filter_by(university=university).all()
     return applications
 
-def create_application(country_id, university, major, degree, term, result, applicant_id):
+def create_application(country_id, university, major, degree, term, result, applicant_id, is_transfer):
     # TODO: add the authentication of power.
     # TODO: verify the repeation of datas.
     application = Application(
@@ -37,6 +37,16 @@ def create_application(country_id, university, major, degree, term, result, appl
         result=result,
         applicant_id=applicant_id
     )
+    # new_tags = [Tag.query.filter_by(name="渣三维").first(), Tag.query.filter_by(name="转专业").first()];
+    # application.tags.extend(new_tags)
+    # Auto Tag
+    applicant = Applicant.query.filter_by(id=applicant_id).first()
+    # FIXME : if language_type is not toefl.
+    toefl = applicant.language_reading + applicant.language_listening + applicant.language_speaking + applicant.language_writing
+    gre = applicant.gre_quantitative + applicant.gre_verbal
+    gpa = applicant.gpa
+    new_tags = auto_tags(gre, gpa, is_transfer, toefl)
+    application.tags.extend(new_tags)
     db.session.add(application)
     db.session.commit()
     return {
@@ -47,6 +57,7 @@ def create_application(country_id, university, major, degree, term, result, appl
 
 def get_application_by_id(application_id):
     application = Application.query.filter_by(id=application_id).first()
+    print(application.tags)
     return application
 
 def update_application():

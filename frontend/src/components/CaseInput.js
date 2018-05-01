@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Select } from 'antd';
+import { Input, Select, Switch, Icon } from 'antd';
 
 
 const Option = Select.Option;
@@ -15,6 +15,7 @@ class CaseInput extends React.Component {
         term: value.term ,
         result: value.result ,
         degree: value.degree ,
+        is_transfer: value.is_transfer
         };
     }
 
@@ -64,7 +65,13 @@ class CaseInput extends React.Component {
         }
         this.triggerChange({ major });
     }
-
+    handleIsTransferChange = (e) => {
+        console.log(e);
+        this.setState({
+            is_transfer: e
+        })
+        this.triggerChange({ is_transfer: e });
+    }
     triggerChange = (changedValue) => {
         // Should provide an event to pass value to Form.
         const onChange = this.props.onChange;
@@ -113,8 +120,14 @@ class CaseInput extends React.Component {
             onChange={this.handleMajorChange}
             placeholder="专业"
             />
+            <div style={{ width: '40%', display: 'inline-block' }}>
+                <span style={{ marginRight: '8px' }}>转专业</span>
+                <Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="cross" />} checked={state.is_transfer} onChange={this.handleIsTransferChange}/>
+            </div>
+           
+
             <Select
-            style={{ width: '40%' }}
+            style={{ width: '40%', marginRight: '16px' }}
             value={state.degree}
             size={size}
             onChange={this.handleDegreeChange}

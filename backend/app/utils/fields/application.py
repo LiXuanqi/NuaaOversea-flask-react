@@ -17,6 +17,21 @@ tag_single_fileds = {
     'id': fields.String,
     'name': fields.String
 }
+project_single_fileds = {
+    'id': fields.String,
+    'name': fields.String,
+    'value': fields.Integer
+}
+research_single_fileds = {
+    'id': fields.String,
+    'name': fields.String,
+    'value': fields.Integer
+}
+recommendation_single_fileds = {
+    'id': fields.String,
+    'name': fields.String,
+    'value': fields.Integer
+}
 # TODO: complete the response format for 'get /applications'.
 application_single_fields = {
     'id': fields.String,
@@ -63,5 +78,8 @@ application_detail_fields = {
     'gre_verbal': fields.Integer(attribute='applicant.gre_verbal'),
     'gre_quantitative': fields.Integer(attribute='applicant.gre_quantitative'),
     'gre_writing': fields.Float(attribute='applicant.gre_writing'),
-    'tags': fields.List(fields.Nested(tag_single_fileds))
+    'tags': fields.List(fields.Nested(tag_single_fileds)),
+    'project': fields.Nested(project_single_fileds, attribute='applicant.project'),
+    'recommendation': fields.Nested(recommendation_single_fileds, attribute='applicant.recommendation'),
+    'research': fields.Nested(research_single_fileds, attribute='applicant.research'),
 }

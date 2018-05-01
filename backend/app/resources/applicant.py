@@ -46,9 +46,9 @@ class Applicants(Resource):
             applicant_args.gre_verbal,
             applicant_args.gre_quantitative,
             applicant_args.gre_writing,
-            applicant_args.research,
-            applicant_args.project,
-            applicant_args.recommendation,
+            applicant_args.research_id,
+            applicant_args.project_id,
+            applicant_args.recommendation_id,
             applicant_args.email
         )
         return result
@@ -80,9 +80,9 @@ class Applicant(Resource):
             applicant_args.gre_verbal,
             applicant_args.gre_quantitative,
             applicant_args.gre_writing,
-            applicant_args.research,
-            applicant_args.project,
-            applicant_args.recommendation,
+            applicant_args.research_id,
+            applicant_args.project_id,
+            applicant_args.recommendation_id,
             applicant_args.email
         )
 

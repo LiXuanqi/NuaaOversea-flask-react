@@ -17,9 +17,9 @@ class Applicant(db.Model):
     gre_verbal = db.Column(db.Integer)
     gre_quantitative = db.Column(db.Integer)
     gre_writing = db.Column(db.Float('2,1'))
-    research = db.Column(db.Text)
-    project = db.Column(db.Text)
-    recommendation = db.Column(db.Text)
+    research_id = db.Column(db.Integer, db.ForeignKey('research.id'), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    recommendation_id = db.Column(db.Integer, db.ForeignKey('recommendation.id'), nullable=False)
     applications = db.relationship('Application', backref='applicant', lazy='dynamic')
     email = db.Column(db.String(128), nullable=True)
     user_id = db.relationship('User', backref='applicant', uselist=False)
@@ -66,3 +66,21 @@ class Country(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False, index=True)
     applications = db.relationship('Application', backref='country', lazy='dynamic')
+
+class Research(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), nullable=False, index=True)
+    applicants = db.relationship('Applicant', backref='research', lazy='dynamic')
+    value = db.Column(db.Integer)
+
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), nullable=False, index=True)
+    applicants = db.relationship('Applicant', backref='project', lazy='dynamic')
+    value = db.Column(db.Integer)
+
+class Recommendation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), nullable=False, index=True)
+    applicants = db.relationship('Applicant', backref='recommendation', lazy='dynamic')
+    value = db.Column(db.Integer)

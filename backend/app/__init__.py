@@ -25,8 +25,13 @@ from app.resources.applicant import Applicants, Applicant
 from app.resources.user import Users
 from app.resources.token import Tokens, Token
 from app.resources.search import ApplicationSearch
+
 from app.resources.tag import Tags
 from app.resources.country import Countries
+from app.resources.recommendation import Recommendations
+from app.resources.research import Researches
+from app.resources.project import Projects
+
 api.add_resource(Index, '/')
 
 api.add_resource(Applications, '/applications')
@@ -45,4 +50,11 @@ api.add_resource(ApplicationSearch, '/search/applications')
 api.add_resource(Tags, '/tags')
 
 api.add_resource(Countries, '/countries')
+
+api.add_resource(Recommendations, '/recommendations')
+
+api.add_resource(Researches, '/researches')
+
+api.add_resource(Projects, '/projects')
+
 # https://api.github.com/search/repositories?q=tetris+language:assembly&sort=stars&order=desc

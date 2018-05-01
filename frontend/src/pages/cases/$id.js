@@ -25,6 +25,7 @@ class Case extends React.Component {
                 <CaseCard
                     id={case_data.id}
                     result={case_data.result}
+                    country={case_data.country}
                     university={case_data.university}
                     major={case_data.major}
                     degree={case_data.degree}
@@ -43,19 +44,23 @@ class Case extends React.Component {
 
                 <div className={styles.rateContainer}>
                     <span className={styles.rateText}>研究经历</span>
-                    <Rate disabled defaultValue={2} />
+                    <Rate disabled defaultValue={case_data.research !== undefined ? case_data.research.value : null} />
+                    <span>{case_data.research !== undefined ? case_data.research.name : null}</span>
                 </div>
 
                 <div className={styles.rateContainer}>
                     <span className={styles.rateText}>实习经历</span>
-                    <Rate disabled defaultValue={3} />
+                    <Rate disabled defaultValue={case_data.project !== undefined ? case_data.project.value : null} />
+                    <span>{case_data.research !== undefined ? case_data.project.name : null}</span>
                 </div>
 
                 <div className={styles.rateContainer}>
                     <span className={styles.rateText}>推荐信</span>
-                    <Rate disabled defaultValue={4} />
+                    <Rate disabled defaultValue={case_data.recommendation !== undefined ? case_data.recommendation.value : null} />
+                    <span>{case_data.research !== undefined ? case_data.recommendation.name : null}</span>
                 </div>
 
+      
                 <Divider />
                 <h2>其它录取结果</h2>
                 {/* {this.renderResultCard("CMU", "MS in Marketing", "rej")} */}

@@ -48,7 +48,8 @@ class Applications(Resource):
             application_args.degree,
             application_args.term,
             application_args.result,
-            application_args.applicant_id
+            application_args.applicant_id,
+            application_args.is_transfer
         )
         return result
 

@@ -82,7 +82,12 @@ application_post_parser.add_argument(
     required=True,
 )
 
-
+application_post_parser.add_argument(
+    'is_transfer',
+    dest='is_transfer',
+    type=bool,
+    required=True,
+)
 
 
 # -------- application update parser --------
