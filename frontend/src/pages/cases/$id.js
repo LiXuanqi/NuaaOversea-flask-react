@@ -19,6 +19,7 @@ class Case extends React.Component {
     
     render() {
         const case_data = this.props.case_data;
+        console.log(this.props.case_data);
         return (
             <div className={styles.content}>
                 <CaseCard
@@ -37,6 +38,7 @@ class Case extends React.Component {
                     gre_verbal={case_data.gre_verbal}
                     gre_quantitative={case_data.gre_quantitative}
                     gre_writing={case_data.gre_writing}
+                    tags={case_data.tags}
                 />  
 
                 <div className={styles.rateContainer}>

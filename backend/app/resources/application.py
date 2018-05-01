@@ -42,7 +42,7 @@ class Applications(Resource):
     def post(self):
         application_args = application_post_parser.parse_args()
         result = create_application(
-            application_args.country,
+            application_args.country_id,
             application_args.university,
             application_args.major,
             application_args.degree,

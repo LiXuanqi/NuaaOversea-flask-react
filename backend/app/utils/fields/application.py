@@ -20,7 +20,7 @@ tag_single_fileds = {
 # TODO: complete the response format for 'get /applications'.
 application_single_fields = {
     'id': fields.String,
-    'country': fields.String,
+    'country': fields.String(attribute='country.name'),
     'university': fields.String,
     'major': fields.String,
     'term': fields.String,
@@ -47,7 +47,7 @@ applications_fields = {
 # for get /application/<application_id>
 application_detail_fields = {
     'id': fields.String,
-    'country': fields.String,
+    'country': fields.String(attribute='country.name'),
     'university': fields.String,
     'major': fields.String,
     'term': fields.String,
@@ -63,4 +63,5 @@ application_detail_fields = {
     'gre_verbal': fields.Integer(attribute='applicant.gre_verbal'),
     'gre_quantitative': fields.Integer(attribute='applicant.gre_quantitative'),
     'gre_writing': fields.Float(attribute='applicant.gre_writing'),
+    'tags': fields.List(fields.Nested(tag_single_fileds))
 }

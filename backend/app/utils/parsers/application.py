@@ -41,8 +41,8 @@ application_post_parser.add_argument(
 
 
 application_post_parser.add_argument(
-    'country',
-    dest='country',
+    'country_id',
+    dest='country_id',
     type=str,
     required=True,
 )

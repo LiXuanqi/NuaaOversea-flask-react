@@ -10,7 +10,7 @@
 
 """
 from app import db
-from app.models import Application, Tag
+from app.models import Application, Tag, Country
 
 def search_application(query_args):
 
@@ -27,7 +27,8 @@ def search_application(query_args):
     if 'degree' in query_args:
         applications = applications.filter_by(degree=query_args['degree'])
     if 'country' in query_args:
-        applications = applications.filter_by(country=query_args['country'])
+        country_id = Country.query.filter_by(name=query_args['country']).first().id;
+        applications = applications.filter_by(country_id=country_id)
     if 'tags' in query_args:
         # find the matched applications' id
         tags_set = set()

@@ -14,7 +14,7 @@ const CheckableTag = Tag.CheckableTag;
 
 const degreesFromServer = ['Ph.D', 'Master'];
 const resultsFromServer = ['ad', 'rej', 'offer'];
-const countriesFromServer = ['美国', '中国', '德国', '日本', '澳大利亚'];
+
 const termOptions = [{
     value: '2017',
     label: '2017',
@@ -40,14 +40,24 @@ const Search = Input.Search;
 
 class CaseList extends React.Component {
     async componentWillMount(){
-        const response = await request('/api/tags');
+        const tagsResponse = await request('/api/tags');
         let tagsFromServer = [];
-        response.data.tags.forEach((item)=>{
+        tagsResponse.data.tags.forEach((item)=>{
             tagsFromServer.push(item.name);
         })
         this.setState({
             tagsItems: [...tagsFromServer]
         })
+
+        const countriesResponse = await request('/api/countries');
+        let countriesFromServer = [];
+        countriesResponse.data.countries.forEach((item)=>{
+            countriesFromServer.push(item.name);
+        })
+        this.setState({
+            countriesItems: [...countriesFromServer]
+        })
+
     }
     state = {
         selectedTags: [],
@@ -56,6 +66,7 @@ class CaseList extends React.Component {
         selectedCountry: '',
         selectedTerm: [],
         tagsItems: [],
+        countriesItems: [],
     };
     fetchCasesByQueryies = () => {
         const query_args = this.state;
@@ -135,13 +146,14 @@ class CaseList extends React.Component {
         }
     }
     // render a single CaseCard.
-    renderCaseCard(key, id, university, result, major, term, degree, gpa, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing, tags){
+    renderCaseCard(key, id, university, country, result, major, term, degree, gpa, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing, tags){
         return(
             <CaseCard
                 key={key}
                 id={id}
                 result={result}
                 university={university}
+                country={country}
                 major={major}
                 degree={degree}
                 term={term}
@@ -160,7 +172,7 @@ class CaseList extends React.Component {
     }
    
     render() {
-        const { selectedTags, selectedDegree, selectedCountry, selectedResult, tagsItems } = this.state;
+        const { selectedTags, selectedDegree, selectedCountry, selectedResult, tagsItems, countriesItems } = this.state;
         const user_info = loginUser();
         return (
             <div className={styles.container}>
@@ -237,7 +249,7 @@ class CaseList extends React.Component {
                                     
                                     <div>
                                         <h6 className={styles.tagSelectTitle}>申请国家:</h6>
-                                        {countriesFromServer.map(tag => (
+                                        {countriesItems.map(tag => (
                                             <CheckableTag
                                                 key={tag}
                                                 checked={selectedCountry === tag}
@@ -263,6 +275,7 @@ class CaseList extends React.Component {
                                             index,
                                             item.id,
                                             item.university,
+                                            item.country,
                                             item.result,
                                             item.major,
                                             item.term,

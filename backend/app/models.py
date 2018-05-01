@@ -28,7 +28,7 @@ class Applicant(db.Model):
 
 class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    country = db.Column(db.String(30))
+    country_id = db.Column(db.Integer, db.ForeignKey('country.id'), nullable=False)
     university = db.Column(db.String(64))
     major = db.Column(db.String(64))
     degree = db.Column(db.Enum('Master', 'Ph.D'))
@@ -61,3 +61,8 @@ class User(db.Model):
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False, index=True)
+
+class Country(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), nullable=False, index=True)
+    applications = db.relationship('Application', backref='country', lazy='dynamic')

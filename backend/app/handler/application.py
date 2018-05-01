@@ -25,11 +25,11 @@ def get_applications_by_university(university):
     applications = Application.query.filter_by(university=university).all()
     return applications
 
-def create_application(country, university, major, degree, term, result, applicant_id):
+def create_application(country_id, university, major, degree, term, result, applicant_id):
     # TODO: add the authentication of power.
     # TODO: verify the repeation of datas.
     application = Application(
-        country=country,
+        country_id=country_id,
         university=university,
         major=major,
         degree=degree,

@@ -1,11 +1,23 @@
 import React from 'react';
 import { Form, Icon, Button, Divider, Checkbox } from 'antd';
 import CaseInput from './CaseInput';
-
+import request from '../utils/request';
 const FormItem = Form.Item;
 let uuid = 0;
 
 class CaseReportForm extends React.Component {
+    state = {
+        countriesItems: [],
+    }
+    async componentWillMount(){
+        const countriesResponse = await request('/api/countries');
+        const countriesFromServer = countriesResponse.data.countries;
+        this.setState({
+            countriesItems: [...countriesFromServer]
+        })
+
+    }
+
     remove = (k) => {
     const { form } = this.props;
     // can use data-binding to get
@@ -83,9 +95,9 @@ class CaseReportForm extends React.Component {
 
             const degree = undefined;
             const major = '';
-            const country = undefined;
+            const country_id = undefined;
             const term = undefined;
-            let newCase = {...oldCase, university, result, degree, major, country, term};
+            let newCase = {...oldCase, university, result, degree, major, country_id, term};
 
             let caseName = 'cases[' + checkedValue + ']';
             this.props.form.setFieldsValue({
@@ -135,7 +147,9 @@ class CaseReportForm extends React.Component {
                     message: "请完善录取结果信息或删除该区域。",
                 }],
                 })(
-                    <CaseInput>
+                    <CaseInput
+                        countriesItems = {this.state.countriesItems}
+                    >
                         {
                             index !== 0 ? (
                                 <Checkbox value={k} onChange={this.onInfoRepeatChanged}>与上个案例一致</Checkbox>
