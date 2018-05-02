@@ -85,20 +85,23 @@ const termOptions = [{
 
 class CaseList extends React.Component {
     state = {
-        selectedTags: [],
-        selectedDegree: '',
-        selectedResult: '',
-        selectedCountry: '',
-        selectedTerm: [],
+        selectedFilter: {
+            selectedTags: [],
+            selectedDegree: '',
+            selectedResult: '',
+            selectedCountry: '',
+            selectedTerm: [],
+        },
         tagsItems: [],
         countriesItems: [],
-        filterRange: {
+        rangeFilter: {
             type: 'TOEFL',
             gpa: [],
             gre: [],
             language: [80, 110]
         },
-        filterType: 'no-filter',
+        filterByRange: false,
+        filterBySelected: false,
 
     };
 
@@ -123,48 +126,57 @@ class CaseList extends React.Component {
 
     }
 
-    fetchCasesByQueryies = () => {
-        const query_args = this.state;
-        
-        this.props.dispatch({
-            type: 'cases/fetchCasesByQueries',
-            payload: query_args,
-        });
+    filterCasesBySelected = () => {
+        this.setState({
+            filterBySelected: true
+        })
     }
     OnTermChange = (value) => {
         this.setState({
-            selectedTerm: value
+            selectedFilter: {
+                ...this.state.selectedFilter,
+                selectedTerm: value
+            }
         }, () => {
-            this.fetchCasesByQueryies();
+            this.filterCasesBySelected();
         });
   
     }
     handleChange(tag, checked) {
 
-        const { selectedTags } = this.state;
+        const { selectedTags } = this.state.selectedFilter;
         const nextSelectedTags = checked ?
                 [...selectedTags, tag] :
                 selectedTags.filter(t => t !== tag);
         // console.log('You are interested in: ', nextSelectedTags);
         this.setState({
-            selectedTags: nextSelectedTags 
+            selectedFilter: {
+                ...this.state.selectedFilter,
+                selectedTags: nextSelectedTags 
+            }
         }, () => {
-            this.fetchCasesByQueryies();
+            this.filterCasesBySelected();
         });
     }
     
     handleDegreeChange(tag, checked) {
         if (checked) {
             this.setState({
-                selectedDegree: tag
+                selectedFilter: {
+                    ...this.state.selectedFilter,
+                    selectedDegree: tag
+                }
             }, () => {
-                this.fetchCasesByQueryies();
+                this.filterCasesBySelected();
             });
         } else {
             this.setState({
-                selectedDegree: ''
+                selectedFilter: {
+                    ...this.state.selectedFilter,
+                    selectedDegree: ''
+                }
             }, () => {
-                this.fetchCasesByQueryies();
+                this.filterCasesBySelected();
             });
         }
     }
@@ -172,15 +184,21 @@ class CaseList extends React.Component {
     handleResultChange(tag, checked) {
         if (checked) {
             this.setState({
-                selectedResult: tag
+                selectedFilter: {
+                    ...this.state.selectedFilter,
+                    selectedResult: tag
+                }
             }, () => {
-                this.fetchCasesByQueryies();
+                this.filterCasesBySelected();
             });
         } else {
             this.setState({
-                selectedResult: ''
+                selectedFilter: {
+                    ...this.state.selectedFilter,
+                    selectedResult: ''
+                }
             }, () => {
-                this.fetchCasesByQueryies();
+                this.filterCasesBySelected();
             });
         }
     }
@@ -188,23 +206,29 @@ class CaseList extends React.Component {
     handleCountryChange(tag, checked) {
         if (checked) {
             this.setState({
-                selectedCountry: tag
+                selectedFilter: {
+                    ...this.state.selectedFilter,
+                    selectedCountry: tag
+                }
             }, () => {
-                this.fetchCasesByQueryies();
+                this.filterCasesBySelected();
             });
         } else {
             this.setState({
-                selectedCountry: ''
+                selectedFilter: {
+                    ...this.state.selectedFilter,
+                    selectedDegree: ''
+                }
             }, () => {
-                this.fetchCasesByQueryies();
+                this.filterCasesBySelected();
             });
         }
     }
     onGpaSliderChange(value) {
         // console.log(value);
         this.setState({
-            filterRange: {
-                ...this.state.filterRange,
+            rangeFilter: {
+                ...this.state.rangeFilter,
                 gpa: value
             }
         }, () => {this.filterByRange()})
@@ -212,25 +236,25 @@ class CaseList extends React.Component {
     onGreSliderChange(value) {
         // console.log(value);
         this.setState({
-            filterRange: {
-                ...this.state.filterRange,
+            rangeFilter: {
+                ...this.state.rangeFilter,
                 gre: value
             }
         }, () => {this.filterByRange()})
     }
     onToeflSliderChange(value) {
-        console.log(value);
+
         this.setState({
-            filterRange: {
-                ...this.state.filterRange,
+            rangeFilter: {
+                ...this.state.rangeFilter,
                 language: value
             }
         }, () => {this.filterByRange()})
     }
     filterByRange() {
-        console.log(this.state.filterRange);
+      
         this.setState({
-            filterType: 'byLanguage'
+            filterByRange: true
         })
     }
     onFilterTypeSwitchChanged(value) {
@@ -244,12 +268,12 @@ class CaseList extends React.Component {
             range = [5, 8];
         }
         this.setState({
-            filterRange: {
-                ...this.state.filterRange,
+            rangeFilter: {
+                ...this.state.rangeFilter,
                 type: filterType,
                 language: range
             }
-        }, () => {console.log(this.state.filterRange)})
+        }, () => {console.log(this.state.rangeFilter)})
     }
     // render a single CaseCard.
     renderCaseCard(key, id, university, country, result, major, term, degree, gpa, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing, tags){
@@ -278,17 +302,18 @@ class CaseList extends React.Component {
     }
    
     render() {
-        const { selectedTags, selectedDegree, selectedCountry, selectedResult, tagsItems, countriesItems, filterRange, filterType } = this.state;
+        const { selectedFilter, tagsItems, countriesItems, rangeFilter, filterByRange, filterBySelected } = this.state;
+        const { selectedTags, selectedDegree, selectedCountry, selectedResult, selectedTerm } = selectedFilter;
         const user_info = loginUser();
         const checkRangeFilter = (item) => {
-            const minGpa = filterRange.gpa[0];
-            const maxGpa = filterRange.gpa[1];
-            const minGre = filterRange.gre[0];
-            const maxGre = filterRange.gre[1];
-            const minLanguage = filterRange.language[0];
-            const maxLanguage = filterRange.language[1];
+            const minGpa = rangeFilter.gpa[0];
+            const maxGpa = rangeFilter.gpa[1];
+            const minGre = rangeFilter.gre[0];
+            const maxGre = rangeFilter.gre[1];
+            const minLanguage = rangeFilter.language[0];
+            const maxLanguage = rangeFilter.language[1];
             const greTotal = item.gre_quantitative + item.gre_verbal;
-            const type = filterRange.type
+            const type = rangeFilter.type
             if (type === "TOEFL") {
                 const toeflTotal = item.language_reading + item.language_listening + item.language_speaking + item.language_writing;
                 return (item.gpa >= minGpa && item.gpa <= maxGpa) && (greTotal <= maxGre && greTotal >= minGre) && (toeflTotal <= maxLanguage && toeflTotal >= minLanguage);
@@ -300,6 +325,55 @@ class CaseList extends React.Component {
                 }
                 return (item.gpa >= minGpa && item.gpa <= maxGpa) && (greTotal <= maxGre && greTotal >= minGre) && (ieltsMean <= maxLanguage && ieltsMean >= minLanguage);
             }
+        }
+        const checkSelectedFilter = (item) => {
+            console.log(selectedFilter);
+            let isTagFit = false;
+            let isDegreeFit = false;
+            let isCountryFit = false;
+            let isTermFit = false;
+            let isResultFit = false;
+            // TAG
+            if (selectedTags.length === 0) {
+                isTagFit = true;
+            }
+            for (let i = 0; i < item.tags.length; i++) {
+                for (let j = 0; j < selectedTags.length; j++) {
+                    if (item.tags[i].name === selectedTags[j]) {
+                        isTagFit = true;
+                    }
+                }
+            }
+            // Degree
+            if (selectedDegree === "" || selectedDegree === item.degree) {
+                isDegreeFit = true;
+            }
+            // Country
+            if (selectedCountry === "" || selectedCountry === item.country) {
+                isCountryFit = true;
+            }
+            // Result
+            if (selectedResult === "" || selectedResult === item.result) {
+                isResultFit = true;
+            }
+            // Term
+            if (selectedTerm.length !== 2) {
+                isTermFit = true;
+            } else {
+                let date = selectedTerm[0]+selectedTerm[1];
+                if (date === item.term) {
+                    isTermFit = true;
+                }
+            }
+            console.log('----')
+            console.log(isTagFit);
+            console.log(isDegreeFit);
+            console.log(isCountryFit);
+            console.log(isTermFit);
+            console.log(isResultFit);  
+            console.log('----')
+            
+            return isTagFit && isDegreeFit && isCountryFit && isTermFit && isResultFit;
         }
         return (
             <div className={styles.container}>
@@ -404,18 +478,18 @@ class CaseList extends React.Component {
                                         </Col>
 
                                         <Col span={2}>
-                                            <h6 className={styles.tagSelectTitle}>{filterRange.type}:</h6>
+                                            <h6 className={styles.tagSelectTitle}>{rangeFilter.type}:</h6>
                                             <Switch checkedChildren="托" unCheckedChildren="雅" defaultChecked onChange={(value) => {this.onFilterTypeSwitchChanged(value)}}/>
                                         </Col>
                                         <Col span={6}>
                                         {/* FIXME: defalutValue will error, when switch language type */}
                                             <Slider
-                                                marks={filterRange.type === 'TOEFL' ? toeflMarks : ieltsMarks}
+                                                marks={rangeFilter.type === 'TOEFL' ? toeflMarks : ieltsMarks}
                                                 range 
-                                                value = {filterRange.language}
-                                                step={filterRange.type === 'TOEFL' ? 1 : 0.5}
-                                                min={filterRange.type === 'TOEFL' ? 60 : 0}
-                                                max={filterRange.type === 'TOEFL' ? 120 : 9}
+                                                value = {rangeFilter.language}
+                                                step={rangeFilter.type === 'TOEFL' ? 1 : 0.5}
+                                                min={rangeFilter.type === 'TOEFL' ? 60 : 0}
+                                                max={rangeFilter.type === 'TOEFL' ? 120 : 9}
                                                 onChange={value => this.onToeflSliderChange(value)}
                                             />
                                         </Col>
@@ -444,7 +518,7 @@ class CaseList extends React.Component {
                             <div className={styles.cardListContainer}>
                                 
                                 {
-                                    this.props.cases_list.filter(filterType === 'no-filter' ? () => true : checkRangeFilter).map((item, index)=>{
+                                    this.props.cases_list.filter(filterByRange === false ? () => true : checkRangeFilter).filter(filterBySelected === false ? () => true : checkSelectedFilter).map((item, index)=>{
                                
                                         return this.renderCaseCard(
                                             index,
