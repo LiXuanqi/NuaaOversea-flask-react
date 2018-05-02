@@ -69,6 +69,15 @@ export default {
                 },
             });
         },
+        *fetchCasesByTopic({ payload: topic }, { call, put}){
+            const data = yield call(request, '/api/search/applications?q=topic:' + topic);
+            yield put({
+                type: 'saveAllCasesList',
+                payload: {
+                    data,
+                },
+            });
+        },
         *fetchCasesByQueries({ payload: query_args}, { call, put }){
             let queryStr = '';
             if (query_args.selectedCountry !== "") {

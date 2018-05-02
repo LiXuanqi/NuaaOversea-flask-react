@@ -9,13 +9,19 @@
     author: 1_x7 <lixuanqi1995@gmail.com> <http://lixuanqi.github.io>
 
 """
+from sqlalchemy import or_
+
 from app import db
 from app.models import Application, Tag, Country
 
 def search_application(query_args):
-
     applications = Application.query
-    print(query_args)
+    if 'topic' in query_args:
+        applications = applications.filter(or_(
+            *[Application.university.ilike("%" + item + "%") for item in query_args['topic']],
+            *[Application.major.ilike("%" + item + "%") for item in query_args['topic']],
+            *[Application.term.ilike("%" + item + "%") for item in query_args['topic']],
+        ))
     if 'university' in query_args:
         applications = applications.filter(Application.university.ilike("%" + query_args['university'] + "%"))
     if 'major' in query_args:

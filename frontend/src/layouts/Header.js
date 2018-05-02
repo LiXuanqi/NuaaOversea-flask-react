@@ -2,10 +2,11 @@ import { connect } from 'dva';
 import withRouter from 'umi/withRouter';
 import Link from 'umi/link';
 import styles from './Header.css';
-import { Button, Dropdown, Avatar, Menu, Input } from 'antd';
+import { Button, Dropdown, Avatar, Menu } from 'antd';
 import { isLogin, logout } from '../utils/user.js';
+import CaseSearch from '../components/CaseSearch';
 
-const Search = Input.Search;
+
 
 function Header({ history, dispatch }) {
 
@@ -50,11 +51,7 @@ function Header({ history, dispatch }) {
                     <span className={styles.brandName}>Oversea</span>
                     <span className={styles.brandIntro}>Cases for everyone</span>
                 </div>
-                <Search
-                    placeholder="2018 CMU CS"
-                    onSearch={value => console.log(value)}
-                    style={{ width: 400, paddingLeft: '24px' }}
-                />
+                <CaseSearch />
             </div>
             <div className={styles.headerRight}>
                 <div className={styles.actionContainer}>

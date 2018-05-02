@@ -8,6 +8,7 @@ import CaseCard from '../../components/CaseCard';
 import UserInfoCard from '../../components/UserInfoCard';
 import BillboardCard from '../../components/BillboardCard';
 import request from '../../utils/request';
+import CaseSearch from '../../components/CaseSearch';
 
 const CheckableTag = Tag.CheckableTag;
 // TODO: fetch data from server.
@@ -191,11 +192,7 @@ class CaseList extends React.Component {
                             </div>
 
                             <div className={styles.filterContainer}>
-                                <Search
-                                    placeholder="2018 CMU CS"
-                                    onSearch={value => console.log(value)}
-                                    style={{ width: '100%' }}
-                                />
+                                <CaseSearch />
 
                                 <Divider />
 

@@ -17,7 +17,7 @@ def query_args_parser(str):
         key_value = item.split(':')
         key = key_value[0];
 
-        if key == 'tags':
+        if key == 'tags' or key == 'topic':
             tags = key_value[1].split('*')
             value = tags
         else:
