@@ -27,6 +27,7 @@ function IndexPage() {
                         </Link>
                     </Col>
                     <Col span={8}>
+                       
                         <Card
                             style={{ width: 350 }}
                             cover={<img alt="example" src="public/card-2.jpg" />}
@@ -36,6 +37,7 @@ function IndexPage() {
                             description="This is the description"
                             />
                         </Card>
+                    
                     </Col>
                     <Col span={8}>
                         <Card

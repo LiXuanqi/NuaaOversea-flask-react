@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './index.css';
-import { Input, Tag, Divider, Row, Col, Cascader } from 'antd';
+import { Tag, Divider, Row, Col, Cascader, Slider, Switch } from 'antd';
 import { loginUser } from '../../utils/user';
 
 import CaseCard from '../../components/CaseCard';
@@ -15,6 +15,50 @@ const CheckableTag = Tag.CheckableTag;
 
 const degreesFromServer = ['Ph.D', 'Master'];
 const resultsFromServer = ['ad', 'rej', 'offer'];
+
+const gpaMarks = {
+    1: '1.0',
+    3: '3.0',
+    5: {
+      style: {
+        color: '#f50',
+      },
+      label: <strong>5.0</strong>,
+    },
+};
+
+const greMarks = {
+    280: '280',
+    320: '320',
+    340: {
+      style: {
+        color: '#f50',
+      },
+      label: <strong>340</strong>,
+    },
+};
+
+const toeflMarks = {
+    60: '60',
+    100: '100',
+    120: {
+      style: {
+        color: '#f50',
+      },
+      label: <strong>120</strong>,
+    },
+};
+
+const ieltsMarks = {
+    0: '0',
+    7: '7',
+    9: {
+      style: {
+        color: '#f50',
+      },
+      label: <strong>9.0</strong>,
+    },
+};
 
 const termOptions = [{
     value: '2017',
@@ -37,9 +81,27 @@ const termOptions = [{
         label: 'fall'   
     }],
   }];
-const Search = Input.Search;
+
 
 class CaseList extends React.Component {
+    state = {
+        selectedTags: [],
+        selectedDegree: '',
+        selectedResult: '',
+        selectedCountry: '',
+        selectedTerm: [],
+        tagsItems: [],
+        countriesItems: [],
+        filterRange: {
+            type: 'TOEFL',
+            gpa: [],
+            gre: [],
+            language: [80, 110]
+        },
+        filterType: 'no-filter',
+
+    };
+
     async componentWillMount(){
         const tagsResponse = await request('/api/tags');
         let tagsFromServer = [];
@@ -60,15 +122,7 @@ class CaseList extends React.Component {
         })
 
     }
-    state = {
-        selectedTags: [],
-        selectedDegree: '',
-        selectedResult: '',
-        selectedCountry: '',
-        selectedTerm: [],
-        tagsItems: [],
-        countriesItems: [],
-    };
+
     fetchCasesByQueryies = () => {
         const query_args = this.state;
         
@@ -146,6 +200,57 @@ class CaseList extends React.Component {
             });
         }
     }
+    onGpaSliderChange(value) {
+        // console.log(value);
+        this.setState({
+            filterRange: {
+                ...this.state.filterRange,
+                gpa: value
+            }
+        }, () => {this.filterByRange()})
+    }
+    onGreSliderChange(value) {
+        // console.log(value);
+        this.setState({
+            filterRange: {
+                ...this.state.filterRange,
+                gre: value
+            }
+        }, () => {this.filterByRange()})
+    }
+    onToeflSliderChange(value) {
+        console.log(value);
+        this.setState({
+            filterRange: {
+                ...this.state.filterRange,
+                language: value
+            }
+        }, () => {this.filterByRange()})
+    }
+    filterByRange() {
+        console.log(this.state.filterRange);
+        this.setState({
+            filterType: 'byLanguage'
+        })
+    }
+    onFilterTypeSwitchChanged(value) {
+        let filterType = '';
+        let range = [];
+        if (value == true) {
+            filterType = 'TOEFL'
+            range = [80, 110];
+        } else {
+            filterType = 'IELTS'
+            range = [5, 8];
+        }
+        this.setState({
+            filterRange: {
+                ...this.state.filterRange,
+                type: filterType,
+                language: range
+            }
+        }, () => {console.log(this.state.filterRange)})
+    }
     // render a single CaseCard.
     renderCaseCard(key, id, university, country, result, major, term, degree, gpa, language_type, language_reading, language_listening, language_speaking, language_writing, gre_verbal, gre_quantitative, gre_writing, tags){
         return(
@@ -173,8 +278,29 @@ class CaseList extends React.Component {
     }
    
     render() {
-        const { selectedTags, selectedDegree, selectedCountry, selectedResult, tagsItems, countriesItems } = this.state;
+        const { selectedTags, selectedDegree, selectedCountry, selectedResult, tagsItems, countriesItems, filterRange, filterType } = this.state;
         const user_info = loginUser();
+        const checkRangeFilter = (item) => {
+            const minGpa = filterRange.gpa[0];
+            const maxGpa = filterRange.gpa[1];
+            const minGre = filterRange.gre[0];
+            const maxGre = filterRange.gre[1];
+            const minLanguage = filterRange.language[0];
+            const maxLanguage = filterRange.language[1];
+            const greTotal = item.gre_quantitative + item.gre_verbal;
+            const type = filterRange.type
+            if (type === "TOEFL") {
+                const toeflTotal = item.language_reading + item.language_listening + item.language_speaking + item.language_writing;
+                return (item.gpa >= minGpa && item.gpa <= maxGpa) && (greTotal <= maxGre && greTotal >= minGre) && (toeflTotal <= maxLanguage && toeflTotal >= minLanguage);
+            }
+            if (type === "IELTS") {
+                let ieltsMean = (item.language_reading + item.language_listening + item.language_speaking + item.language_writing) / 4;
+                if (ieltsMean % 1 === 0.25 || ieltsMean % 1 === 0.75) {
+                    ieltsMean = ieltsMean + 0.25;
+                }
+                return (item.gpa >= minGpa && item.gpa <= maxGpa) && (greTotal <= maxGre && greTotal >= minGre) && (ieltsMean <= maxLanguage && ieltsMean >= minLanguage);
+            }
+        }
         return (
             <div className={styles.container}>
                 <Row gutter={32}>
@@ -261,12 +387,64 @@ class CaseList extends React.Component {
                                 
                                 </div>
                                 <Divider />
+                                    <Row gutter={16}>
+                                        <Col span={2}>
+                                            <h6 className={styles.tagSelectTitle}>GPA:</h6>
+                                        </Col>
+                                        <Col span={6}>
+                                            <Slider
+                                                marks={gpaMarks}
+                                                range 
+                                                defaultValue={[1.5, 3.5]} 
+                                                step={0.1}
+                                                min={1.0}
+                                                max={5.0}
+                                                onChange={value => this.onGpaSliderChange(value)}
+                                            />
+                                        </Col>
+
+                                        <Col span={2}>
+                                            <h6 className={styles.tagSelectTitle}>{filterRange.type}:</h6>
+                                            <Switch checkedChildren="托" unCheckedChildren="雅" defaultChecked onChange={(value) => {this.onFilterTypeSwitchChanged(value)}}/>
+                                        </Col>
+                                        <Col span={6}>
+                                        {/* FIXME: defalutValue will error, when switch language type */}
+                                            <Slider
+                                                marks={filterRange.type === 'TOEFL' ? toeflMarks : ieltsMarks}
+                                                range 
+                                                value = {filterRange.language}
+                                                step={filterRange.type === 'TOEFL' ? 1 : 0.5}
+                                                min={filterRange.type === 'TOEFL' ? 60 : 0}
+                                                max={filterRange.type === 'TOEFL' ? 120 : 9}
+                                                onChange={value => this.onToeflSliderChange(value)}
+                                            />
+                                        </Col>
+
+                                        <Col span={2}>
+                                            <h6 className={styles.tagSelectTitle}>GRE:</h6>
+                                        </Col>
+                                        <Col span={6}>
+                                            <Slider
+                                                marks={greMarks}
+                                                range 
+                                                defaultValue={[300, 330]} 
+                                                step={1}
+                                                min={280}
+                                                max={340}
+                                                onChange={value => this.onGreSliderChange(value)}
+                                            />
+                                        </Col>
+                          
+                                    </Row>
+                        
+                              
+                                <Divider />
                             
                             
                             <div className={styles.cardListContainer}>
                                 
                                 {
-                                    this.props.cases_list.map((item, index)=>{
+                                    this.props.cases_list.filter(filterType === 'no-filter' ? () => true : checkRangeFilter).map((item, index)=>{
                                
                                         return this.renderCaseCard(
                                             index,
@@ -296,7 +474,7 @@ class CaseList extends React.Component {
                     </div>
                     </Col>
                 <Col span={6}>
-                {/* <div className={styles.sidebarContainer}> */}
+           
                     <UserInfoCard
                         username={user_info.username}
                         role={user_info.role}
@@ -304,10 +482,7 @@ class CaseList extends React.Component {
                     />
                     <BillboardCard />
                     <BillboardCard />
-                    {/* <Card title="推广" bordered={false} style={{ width: '100%' }}>
-                        <p>最近申请季, 祝拿到心仪Offer的同学能在海外得到想要的生活, 也祝没能拿到心仪Offer的同学不用灰心. 祝大家 天宽地广, 大有前程</p>
-                    </Card> */}
-                {/* </div> */}
+ 
                 </Col>
                 </Row>
             </div>

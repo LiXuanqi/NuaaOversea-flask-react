@@ -30,7 +30,19 @@ const CaseCard = ({id, result, university, country, major, degree, term, gpa, la
                 </div>
                 <div className={styles.markContainer}>
                     <span className={styles.intro}>{language_type}</span>
-                    <span className={styles.mark}>{language_reading+language_listening+language_speaking+language_writing}({language_speaking})</span>
+                    <span className={styles.mark}>
+                        {
+                            language_type === "TOEFL" 
+                                ?
+                                language_reading+language_listening+language_speaking+language_writing 
+                                :
+                                // IELTS 0.75 = 1,0.25 = 0.5
+                                (language_reading+language_listening+language_speaking+language_writing) / 4
+                                 + ((language_reading+language_listening+language_speaking+language_writing) / 4 % 1 === 0.25 ? 0.25 : 0)
+                                 + ((language_reading+language_listening+language_speaking+language_writing) / 4 % 1 === 0.75 ? 0.25 : 0)
+                        }
+                        ({language_speaking})
+                    </span>
                 </div>
                 <div className={styles.markContainer}>
                     <span className={styles.intro}>GRE</span>
